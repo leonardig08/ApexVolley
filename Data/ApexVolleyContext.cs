@@ -14,6 +14,6 @@ namespace ApexVolley.Data
         {
         }
 
-        public DbSet<ApexVolley.Models.Match> Match { get; set; } = default!;
+        public DbSet<ApexVolley.Models.Player> Player { get; set; } = default!;
     }
 }
