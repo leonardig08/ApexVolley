@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ApexVolley.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApexVolleyContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ApexVolleyContext") ?? throw new InvalidOperationException("Connection string 'ApexVolleyContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
