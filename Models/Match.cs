@@ -1,14 +1,32 @@
-﻿namespace ApexVolley.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace ApexVolley.Models
 {
     public class Match
     {
         public int Id { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Data della partita")]
         public DateTime Data { get; set; }
-        public string Avversari { get; set; }
-        public string Luogo { get; set; }
-        public string Risultato { get; set; }
-        public string RisultatoSet1 { get; set; }
-        public string RisultatoSet2 { get; set; }
-        public string RisultatoSet3 { get; set; }
+
+        [Display(Name = "Avversari")]
+        public string? Avversari { get; set; }
+
+        [Display(Name = "Luogo")]
+        public string? Luogo { get; set; }
+
+        [Display(Name = "Set 1")]
+        public string? RisultatoSet1 { get; set; }
+
+        [Display(Name = "Set 2")]
+        public string? RisultatoSet2 { get; set; }
+
+        [Display(Name = "Set 3")]
+        public string? RisultatoSet3 { get; set; }
+
+        [Display(Name = "Risultato finale")]
+        public string? Risultato { get; set; }
     }
 }

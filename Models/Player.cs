@@ -12,7 +12,7 @@ namespace ApexVolley.Models
         [DataType(DataType.Date), Display(Name ="Data di Nascita")]
         public DateTime DataNascita { get; set; }
 
-        public string? Ruolo { get; set; } // Es: Palleggiatore, Centrale, Schiacciatore
+        public string? Ruolo { get; set; }
 
         [Display(Name ="Altezza (cm)")]
         public int AltezzaCm { get; set; }

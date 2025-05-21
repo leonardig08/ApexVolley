@@ -4,11 +4,18 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Le nostre partite</h1>
+<br /> 
+@{
+    var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (canCreate)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -22,9 +29,6 @@
                 @Html.DisplayNameFor(model => model.Luogo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Risultato)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.RisultatoSet1)
             </th>
             <th>
@@ -32,6 +36,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RisultatoSet3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Risultato)
             </th>
             <th></th>
         </tr>

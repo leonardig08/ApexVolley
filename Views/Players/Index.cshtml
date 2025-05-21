@@ -5,10 +5,20 @@
 }
 
 <h1>I giocatori della nostra squadra</h1>
+<br />
+@{
+    var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (canCreate)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+
+
 <table class="table">
     <thead>
         <tr>
