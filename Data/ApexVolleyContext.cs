@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ApexVolley.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ApexVolley.Data
 {
-    public class ApexVolleyContext : DbContext
+    public class ApexVolleyContext : IdentityDbContext<ApplicationUser>
     {
         public ApexVolleyContext (DbContextOptions<ApexVolleyContext> options)
             : base(options)
