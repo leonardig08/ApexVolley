@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ApexVolley.Data;
 using ApexVolley.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApexVolley.Controllers
 {
@@ -44,6 +45,7 @@ namespace ApexVolley.Controllers
         }
 
         // GET: Players/Create
+        [Authorize(Roles = "Staff,Admin")]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +54,7 @@ namespace ApexVolley.Controllers
         // POST: Players/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Staff,Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Cognome,DataNascita,Ruolo,AltezzaCm,NumeroMaglia")] Player player)
@@ -66,6 +69,7 @@ namespace ApexVolley.Controllers
         }
 
         // GET: Players/Edit/5
+        [Authorize(Roles = "Staff,Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,6 +88,7 @@ namespace ApexVolley.Controllers
         // POST: Players/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Staff,Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cognome,DataNascita,Ruolo,AltezzaCm,NumeroMaglia")] Player player)
@@ -117,6 +122,7 @@ namespace ApexVolley.Controllers
         }
 
         // GET: Players/Delete/5
+        [Authorize(Roles = "Staff,Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +141,7 @@ namespace ApexVolley.Controllers
         }
 
         // POST: Players/Delete/5
+        [Authorize(Roles = "Staff,Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

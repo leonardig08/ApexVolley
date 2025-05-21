@@ -17,6 +17,9 @@ namespace ApexVolley.Models
         [Display(Name = "Luogo")]
         public string? Luogo { get; set; }
 
+        [Display(Name = "Risultato finale")]
+        public string? Risultato { get; set; }
+
         [Display(Name = "Set 1")]
         public string? RisultatoSet1 { get; set; }
 
@@ -25,8 +28,5 @@ namespace ApexVolley.Models
 
         [Display(Name = "Set 3")]
         public string? RisultatoSet3 { get; set; }
-
-        [Display(Name = "Risultato finale")]
-        public string? Risultato { get; set; }
     }
 }
