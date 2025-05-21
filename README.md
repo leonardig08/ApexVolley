@@ -23,3 +23,11 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
 - SQL Server / SQLite  
 - Bootstrap 5 (per lo stile)  
 - Identity (autenticazione)  
+
+---
+
+## Setup Database
+
+dotnet tool install --global dotnet-ef
+
+dotnet ef database update
