@@ -1,4 +1,5 @@
 html {
+    
   font-size: 14px;
 }
 
@@ -19,4 +20,19 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+    /* Stili dark mode personalizzati */
+    body.dark-mode {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+.navbar.dark-mode {
+    background-color: #1f1f1f;
+}
+
+.card.dark-mode {
+    background-color: #1e1e1e;
+    color: #ccc;
 }

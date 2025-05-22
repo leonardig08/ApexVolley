@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" data-bs-theme="dark" >
 <head>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -7,69 +8,82 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ApexVolley</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+   
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ApexVolley.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom shadow-sm mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">
+<body><header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom shadow-sm mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="/css/favicon.png" width="28" height="28" class="d-inline-block align-text-top" alt="Logo">
+                ApexVolley
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" asp-area="" asp-controller="Players" asp-action="Index">Giocatori</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" asp-area="" asp-controller="Match" asp-action="Index">Partite</a>
+                    </li>
                     
-                    <img src="~/favicon.ico" width="24" height="24" fill="currentColor" class="bi bi-volleyball" viewBox="0 0 16 16"></img>
-                    ApexVolley
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-primary fw-semibold px-3" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-primary fw-semibold px-3" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-primary fw-semibold px-3" asp-area="" asp-controller="Team" asp-action="Roster">Roster</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-primary fw-semibold px-3" asp-area="" asp-controller="Matches" asp-action="Schedule">Matches</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-primary fw-semibold px-3" asp-area="" asp-controller="Contact" asp-action="Index">Contact</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
+                </ul>
+                <partial name="_LoginPartial" />
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <style>
-            .navbar-nav .nav-link {
-                transition: color 0.3s ease, background-color 0.3s ease;
-                border-radius: 0.3rem;
-            }
-            .navbar-nav .nav-link:hover,
-            .navbar-nav .nav-link:focus {
-                color: white !important;
-                background-color: #007bff;
-                text-decoration: none;
-            }
-            .navbar-brand svg {
-                margin-right: 0.5rem;
-                vertical-align: middle;
-                fill: #007bff;
-                transition: fill 0.3s ease;
-            }
-            .navbar-brand:hover svg {
-                fill: #0056b3;
-            }
-        </style>
-    </header>
+    <style>
+        .bg-custom {
+                background-color: #212A37; /* blu navy sportivo */
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #FFFFFF !important;
+            font-weight: 500;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .navbar-brand img {
+            margin-right: 0.5rem;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link:focus {
+            color: #FFD100 !important; /* giallo brillante */
+            border-bottom: 2px solid #FFD100;
+            text-decoration: none;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #FFD100 !important;
+            border-bottom: 2px solid #FFD100;
+        }
+        
+    </style>
+</header>
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -83,11 +97,12 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <!-- Bootstrap Bundle JS (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>
