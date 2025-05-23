@@ -17,19 +17,54 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-
-using (var scope = app.Services.CreateScope())
+async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    string[] roles = { "Tesserato", "Staff", "Admin" };
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
+    // Crea ruoli
+    string[] roles = { "Tesserato", "Staff", "Admin" };
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    // Crea utente admin
+    var adminEmail = "admin@root.com";
+    var adminUserName = "admin";
+    var adminPassword = "Sudoaccount123!";
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        var newAdmin = new ApplicationUser
         {
-             await roleManager.CreateAsync(new IdentityRole(role));
+            UserName = adminUserName,
+            Nome= "Sudo",
+            Cognome="Admin",
+            RuoloCompleto="Amministratore",
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(newAdmin, adminPassword);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(newAdmin, "Admin");
+        }
+        else
+        {
+            throw new Exception("Errore creazione admin: " +
+                string.Join(", ", result.Errors.Select(e => e.Description)));
         }
     }
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedRolesAndAdminAsync(services);
 }
 
 // Configure the HTTP request pipeline.
@@ -47,8 +82,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 
 
