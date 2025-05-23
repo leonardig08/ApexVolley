@@ -29,9 +29,6 @@
                 @Html.DisplayNameFor(model => model.Luogo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Risultato)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.RisultatoSet1)
             </th>
             <th>
@@ -39,6 +36,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.RisultatoSet3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Risultato)
             </th>
             <th></th>
         </tr>
@@ -55,9 +55,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Luogo)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Risultato)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.RisultatoSet1)
             </td>
@@ -67,6 +65,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.RisultatoSet3)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Risultato)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
