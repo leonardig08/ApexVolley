@@ -20,11 +20,16 @@ namespace ApexVolley.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
+                          UserManager<ApplicationUser> userManager,
+                          ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -60,27 +65,15 @@ namespace ApexVolley.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Display(Name = "Email o username")]
+            public string Login { get; set; }  // <-- sostituisce Email
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Remember Me")]
             public bool RememberMe { get; set; }
         }
 
@@ -109,9 +102,26 @@ namespace ApexVolley.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                // Determina se l'input è un'email o uno username
+                IdentityUser user = null;
+
+                if (new EmailAddressAttribute().IsValid(Input.Login))
+                {
+                    user = await _userManager.FindByEmailAsync(Input.Login);
+                }
+                else
+                {
+                    user = await _userManager.FindByNameAsync(Input.Login);
+                }
+
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Tentativo di accesso non valido.");
+                    return Page();
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -128,13 +138,15 @@ namespace ApexVolley.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Tentativo di accesso non valido.");
                     return Page();
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            // Se siamo arrivati qui, qualcosa è andato storto
             return Page();
         }
+
     }
+
 }
