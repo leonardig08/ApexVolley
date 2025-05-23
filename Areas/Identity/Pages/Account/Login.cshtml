@@ -1,66 +1,106 @@
 ﻿@page
 
-
-
 @model LoginModel
 
-
-
 <style>
-    .login{
-        text-align: center; 
-    }
-   
-
+  
     
+
+    .login-container {
+        min-width: 35%;
+        margin-top: 6rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #212A37;
+    }
+
+    h2 {
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #212A37;
+    }
+
+    .btn-primary {
+        background-color: #212A37;
+        border-color: #212A37;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #1a2230;
+            border-color: #1a2230;
+            box-shadow: 0 0 8px rgba(33,42,55,0.6);
+        }
+
+    a {
+        color: #212A37;
+        font-weight: 500;
+    }
+
+        a:hover, a:focus {
+            color: #FFD100;
+            text-decoration: none;
+        }
+
+    .form-label {
+        font-weight: 600;
+        color: #212A37;
+    }
 </style>
 
 <h1>@ViewData["Title"]</h1>
-<div class="row justify-content-center">
-    @{
-        ViewData["Title"] = "Accedi";
-    }
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <h5>Email: </h5>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <h5>Password: </h5>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
+
+<div class="d-flex justify-content-center">
+    <div class="login-container">
+        <form id="account" method="post" novalidate>
+            <h2>Accedi</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" aria-required="true" />
+                <label asp-for="Input.Email">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" type="password" class="form-control" autocomplete="current-password" placeholder="Password" aria-required="true" />
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center">
+                    <input class="form-check-input" asp-for="Input.RememberMe" type="checkbox" id="rememberMeCheck" />
+                    <label class="form-check-label ms-2" for="rememberMeCheck" style="color: #212A37">
                         Ricordami
                     </label>
                 </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Password dimenticata? </a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrati</a>
-                    </p>
-                    
-                </div>
-            </form>
-        </section>
-    </div>
+                <a id="forgot-password" asp-page="./ForgotPassword">Password dimenticata?</a>
+            </div>
 
-    </div>
 
+            <button id="login-submit" type="submit" class="btn btn-primary w-100 btn-lg mb-3">Accedi</button>
+            <div class="flex-column align-items-center">
+
+
+                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Registrati</a>
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
