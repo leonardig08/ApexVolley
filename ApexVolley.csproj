@@ -38,4 +38,9 @@
     <Folder Include="Views\Nuova cartella\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\logoApexVolley.png" />
+    <None Include="wwwroot\images\players\15.jpg" />
+  </ItemGroup>
+
 </Project>

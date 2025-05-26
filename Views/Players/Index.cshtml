@@ -1,75 +1,44 @@
 ﻿@model IEnumerable<ApexVolley.Models.Player>
-
 @{
-    ViewData["Title"] = "Index";
-}
-
-<h1>I giocatori della nostra squadra</h1>
-<br />
-@{
+    ViewData["Title"] = "I giocatori";
     var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
 }
+<h1 class="mb-4">I giocatori della nostra squadra</h1>
 
 @if (canCreate)
 {
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+    <p><a asp-action="Create" class="btn btn-primary mb-4">Aggiungi Nuovo Giocatore</a></p>
 }
 
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cognome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataNascita)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ruolo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AltezzaCm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeroMaglia)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cognome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataNascita)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ruolo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AltezzaCm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeroMaglia)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    @foreach (var player in Model)
+    {
+        var imagePath = $"/images/players/{player.NumeroMaglia}.jpg";
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="@imagePath" class="card-img-top" alt="Numero @player.NumeroMaglia"
+                     onerror="this.onerror=null;this.src='/images/players/default.jpg';" style="object-fit: cover; height: 200px;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">@player.Nome @player.Cognome</h5>
+                    <p class="card-text"><strong>#@player.NumeroMaglia</strong> - @player.Ruolo</p>
+                    <button class="btn btn-outline-secondary mt-auto" type="button" data-bs-toggle="collapse" data-bs-target="#details-@player.Id">
+                        Dettagli
+                    </button>
+                    <div class="collapse mt-2" id="details-@player.Id">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Data di nascita:</strong> @player.DataNascita.ToShortDateString()</li>
+                            <li class="list-group-item"><strong>Altezza:</strong> @player.AltezzaCm cm</li>
+                        </ul>
+                        @if (canCreate)
+                        {
+                            <div class="mt-2">
+                                <a asp-action="Edit" asp-route-id="@player.Id" class="btn btn-sm btn-warning">Modifica</a>
+                                <a asp-action="Delete" asp-route-id="@player.Id" class="btn btn-sm btn-danger">Elimina</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
