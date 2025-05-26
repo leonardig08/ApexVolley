@@ -1,6 +1,403 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿<!DOCTYPE html>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy - ApexVolley</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* ===== HEADER SECTION ===== */
+        .privacy-header {
+            background: var(--apex-dark-gradient);
+            padding: 4rem 0 2rem 0;
+            text-align: center;
+            border-bottom: 1px solid var(--apex-medium-gray);
+            margin-bottom: 3rem;
+        }
+
+            .privacy-header h1 {
+                font-weight: 800;
+                font-size: 3.5rem;
+                margin-bottom: 1rem;
+                background: linear-gradient(135deg, #DEB841 0%, #DE9E36 50%, #DEB841 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .privacy-header .lead {
+                font-size: 1.2rem;
+                color: var(--apex-light-gray);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--apex-dark-gradient);
+            border: 1px solid var(--apex-medium-gray);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(55, 50, 62, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 45px rgba(55, 50, 62, 0.4);
+                border-color: var(--apex-primary-gold);
+            }
+
+        .card-header {
+            background: var(--apex-gold-gradient);
+            color: var(--apex-dark-gray);
+            font-weight: 600;
+            border-bottom: none;
+            border-radius: 16px 16px 0 0 !important;
+            padding: 1.5rem;
+        }
+
+        .card-body {
+            color: var(--apex-light-gray);
+            padding: 2rem;
+            line-height: 1.7;
+        }
+
+        .card-title {
+            color: var(--apex-primary-gold);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .card-text {
+            color: var(--apex-light-gray);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== PRIVACY SPECIFIC STYLES ===== */
+        .privacy-section {
+            margin-bottom: 2rem;
+        }
+
+        .privacy-list {
+            padding-left: 1.5rem;
+        }
+
+            .privacy-list li {
+                margin-bottom: 0.5rem;
+                color: var(--apex-light-gray);
+            }
+
+        .highlight-text {
+            color: var(--apex-primary-gold);
+            font-weight: 600;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, rgba(222, 184, 65, 0.1) 0%, rgba(222, 184, 65, 0.05) 100%);
+            border: 1px solid rgba(222, 184, 65, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .back-button {
+            background: var(--apex-gold-gradient);
+            border: none;
+            color: var(--apex-dark-gray);
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(222, 184, 65, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+            .back-button:hover {
+                background: linear-gradient(135deg, #DE9E36 0%, #DEB841 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(222, 184, 65, 0.4);
+                color: var(--apex-dark-gray);
+                text-decoration: none;
+            }
+
+        /* Footer */
+        footer {
+            background: var(--apex-dark-gradient);
+            color: var(--apex-light-gray);
+            border-top: 2px solid var(--apex-primary-gold);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            box-shadow: 0 -5px 20px rgba(55, 50, 62, 0.3);
+        }
+
+        .text-apex-gold {
+            color: var(--apex-primary-gold) !important;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @@media (max-width: 768px) {
+            .privacy-header
+
+        {
+            padding: 2rem 0 1rem 0;
+        }
+
+        .privacy-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- Header Section -->
+    <div class="privacy-header" style="margin-top: 76px;">
+        <div class="container">
+            <h1><i class="fas fa-shield-alt me-3"></i>Privacy Policy</h1>
+            <p class="lead">La tua privacy è importante per noi. Scopri come proteggiamo i tuoi dati personali.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left me-2"></i>Torna alla Home
+        </a>
+
+        <!-- Informazioni Generali -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Informazioni Generali
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    La presente Privacy Policy descrive le modalità di trattamento dei dati personali degli utenti che consultano il sito web di <span class="highlight-text">ApexVolley</span> (di seguito "Sito").
+                </p>
+                <p class="card-text">
+                    Il Titolare del trattamento è <span class="highlight-text">ApexVolley ASD</span>, con sede in Via dello Sport 10, 00100 Roma, che può essere contattato all'indirizzo email info@apexvolley.it.
+                </p>
+                <p class="card-text">
+                    <strong>Data di ultimo aggiornamento:</strong> <span class="highlight-text">26 Maggio 2025</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Dati Raccolti -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-database me-2"></i>
+                    Tipologie di Dati Raccolti
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Tra i dati personali raccolti da questo Sito, in modo autonomo o tramite terze parti, ci sono:
+                </p>
+                <ul class="privacy-list">
+                    <li>Nome e cognome</li>
+                    <li>Indirizzo email</li>
+                    <li>Numero di telefono</li>
+                    <li>Cookie e dati di utilizzo</li>
+                    <li>Indirizzo IP</li>
+                    <li>Informazioni sul browser e dispositivo</li>
+                </ul>
+                <p class="card-text">
+                    I dati vengono raccolti principalmente attraverso:
+                </p>
+                <ul class="privacy-list">
+                    <li>Moduli di contatto</li>
+                    <li>Iscrizioni alla newsletter</li>
+                    <li>Registrazioni agli eventi</li>
+                    <li>Navigazione del sito web</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Finalità del Trattamento -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-target me-2"></i>
+                    Finalità del Trattamento
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    I dati personali dell'utente sono raccolti per le seguenti finalità:
+                </p>
+                <ul class="privacy-list">
+                    <li><span class="highlight-text">Gestione contatti:</span> Rispondere alle richieste di informazioni</li>
+                    <li><span class="highlight-text">Newsletter:</span> Invio di comunicazioni promozionali e informative</li>
+                    <li><span class="highlight-text">Eventi sportivi:</span> Organizzazione e gestione di tornei e allenamenti</li>
+                    <li><span class="highlight-text">Miglioramento servizi:</span> Analisi statistiche per migliorare l'esperienza utente</li>
+                    <li><span class="highlight-text">Adempimenti legali:</span> Rispetto degli obblighi di legge</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Base Giuridica -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-gavel me-2"></i>
+                    Base Giuridica del Trattamento
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Il trattamento dei dati personali si basa su:
+                </p>
+                <ul class="privacy-list">
+                    <li><span class="highlight-text">Consenso:</span> Per l'invio di newsletter e comunicazioni promozionali</li>
+                    <li><span class="highlight-text">Interesse legittimo:</span> Per migliorare i servizi offerti</li>
+                    <li><span class="highlight-text">Esecuzione di un contratto:</span> Per la partecipazione agli eventi sportivi</li>
+                    <li><span class="highlight-text">Adempimento di obblighi legali:</span> Per rispettare le normative vigenti</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Conservazione dei Dati -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-clock me-2"></i>
+                    Conservazione dei Dati
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    I dati personali sono conservati per il tempo strettamente necessario al conseguimento delle finalità per cui sono stati raccolti:
+                </p>
+                <ul class="privacy-list">
+                    <li><span class="highlight-text">Dati di contatto:</span> 2 anni dall'ultimo contatto</li>
+                    <li><span class="highlight-text">Newsletter:</span> Fino alla cancellazione dell'iscrizione</li>
+                    <li><span class="highlight-text">Eventi sportivi:</span> 5 anni per finalità amministrative</li>
+                    <li><span class="highlight-text">Cookie tecnici:</span> Fino a 12 mesi</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Diritti dell'Interessato -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-user-shield me-2"></i>
+                    I Tuoi Diritti
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    In qualità di interessato, hai diritto a:
+                </p>
+                <ul class="privacy-list">
+                    <li><span class="highlight-text">Accesso:</span> Ottenere informazioni sui tuoi dati trattati</li>
+                    <li><span class="highlight-text">Rettifica:</span> Correggere dati inesatti o incompleti</li>
+                    <li><span class="highlight-text">Cancellazione:</span> Richiedere la rimozione dei tuoi dati</li>
+                    <li><span class="highlight-text">Limitazione:</span> Limitare il trattamento dei tuoi dati</li>
+                    <li><span class="highlight-text">Portabilità:</span> Ottenere i tuoi dati in formato strutturato</li>
+                    <li><span class="highlight-text">Opposizione:</span> Opporti al trattamento per motivi legittimi</li>
+                    <li><span class="highlight-text">Revoca consenso:</span> Revocare il consenso prestato in qualsiasi momento</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Cookie Policy -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-cookie-bite me-2"></i>
+                    Cookie Policy
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Il nostro sito utilizza i seguenti tipi di cookie:
+                </p>
+                <ul class="privacy-list">
+                    <li><span class="highlight-text">Cookie tecnici:</span> Necessari per il funzionamento del sito</li>
+                    <li><span class="highlight-text">Cookie di prestazione:</span> Per analizzare l'utilizzo del sito</li>
+                    <li><span class="highlight-text">Cookie di funzionalità:</span> Per memorizzare le tue preferenze</li>
+                </ul>
+                <p class="card-text">
+                    Puoi gestire le preferenze sui cookie attraverso le impostazioni del tuo browser.
+                </p>
+            </div>
+        </div>
+
+        <!-- Contatti per Privacy -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-envelope me-2"></i>
+                    Contatti per la Privacy
+                </h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Per esercitare i tuoi diritti o per qualsiasi domanda relativa al trattamento dei dati personali, puoi contattarci:
+                </p>
+                <div class="contact-info">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-envelope text-apex-gold me-2"></i>Email:</strong><br>privacy@apexvolley.it</p>
+                            <p><strong><i class="fas fa-phone text-apex-gold me-2"></i>Telefono:</strong><br>+39 333 123 4567</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <strong><i class="fas fa-map-marker-alt text-apex-gold me-2"></i>Indirizzo:</strong><br>
+                                ApexVolley ASD<br>
+                                Via dello Sport 10<br>
+                                00100 Roma, Italia
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <p class="card-text mt-3">
+                    <strong>Garante per la Protezione dei Dati Personali:</strong><br>
+                    Se ritieni che il trattamento dei tuoi dati personali avvenga in violazione della normativa, hai diritto di proporre reclamo al Garante per la Protezione dei Dati Personali (www.gpdp.it).
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            <p>
+                &copy; 2025 - ApexVolley -
+                <a href="/" class="text-apex-gold">Home</a> |
+                <a href="mailto:info@apexvolley.it" class="text-apex-gold">Contatti</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

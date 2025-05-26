@@ -58,37 +58,60 @@ html, body {
     min-height: 100vh;
 }
 
-/* ===== NAVBAR COMPATTA ===== */
+/* ===== APEX VOLLEY - GLOBAL STYLES ===== */
+/* Color Palette Variables */
+:root {
+    --apex-light-gray: #BFBDC1;
+    --apex-medium-gray: #6D6A75;
+    --apex-dark-gray: #37323E;
+    --apex-primary-gold: #DEB841;
+    --apex-secondary-gold: #DE9E36;
+    /* Gradient combinations */
+    --apex-gold-gradient: linear-gradient(135deg, #DEB841 0%, #DE9E36 100%);
+    --apex-dark-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 100%);
+    --apex-bg-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 50%, #BFBDC1 100%);
+}
+
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--apex-bg-gradient);
+    color: var(--apex-light-gray);
+    min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
 .navbar {
     background: var(--apex-dark-gradient) !important;
     border-bottom: 2px solid var(--apex-primary-gold);
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 20px rgba(55, 50, 62, 0.3);
-    padding: 0.25rem 0 !important; /* Ridotto padding verticale */
+    padding: 0.75rem 0 !important;
     min-height: auto;
-}
-
-.bg-custom {
-    background-color: #212A37; /* blu navy sportivo */
 }
 
 .navbar-brand {
     color: var(--apex-primary-gold) !important;
     font-weight: 700;
-    font-size: 1.2rem !important; /* Ridotto da 1.5rem */
+    font-size: 1.5rem !important;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    padding: 0.25rem 0; /* Ridotto padding */
 }
 
     .navbar-brand img {
         vertical-align: middle;
         transition: transform 0.3s ease;
-        width: 35px !important; /* Ridotto da 50px */
-        height: 35px !important; /* Ridotto da 50px */
+        width: 50px !important;
+        height: 50px !important;
     }
 
     .navbar-brand .ms-2 {
-        font-size: 1.2rem; /* Ridotto */
+        font-size: 1.5rem;
         line-height: 1;
         color: #FFFFFF;
     }
@@ -99,11 +122,11 @@ html, body {
 
 .navbar-nav .nav-link {
     color: var(--apex-light-gray) !important;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 0.5rem 0.75rem !important; /* Ridotto padding */
-    font-size: 0.95rem; /* Leggermente più piccolo */
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 1rem !important;
 }
 
     .navbar-nav .nav-link:hover {
@@ -118,7 +141,7 @@ html, body {
     .navbar-nav .nav-link::after {
         content: '';
         position: absolute;
-        bottom: 2px; /* Ridotto da bottom: 0 */
+        bottom: 0;
         left: 50%;
         width: 0;
         height: 2px;
@@ -131,24 +154,6 @@ html, body {
     .navbar-nav .nav-link.active::after {
         width: 100%;
     }
-
-    .navbar-nav .nav-link:hover,
-    .navbar-nav .nav-link:focus {
-        color: #FFD100 !important; /* giallo brillante */
-        border-bottom: 2px solid #FFD100;
-        text-decoration: none;
-    }
-
-    .navbar-nav .nav-link.active {
-        color: #FFD100 !important;
-        border-bottom: 2px solid #FFD100;
-    }
-
-.navbar-toggler {
-    padding: 0.25rem 0.5rem; /* Ridotto */
-    font-size: 0.9rem; /* Ridotto */
-}
-
 /* Hero Section Adjustments */
 .hero-section {
     position: relative;

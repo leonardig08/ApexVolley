@@ -19,11 +19,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom shadow-sm mb-3 py-1">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="/css/favicon.png" width="28" height="28" alt="Logo" />
-                    <div class="ms-2">ApexVolley</div>
+                <a class="navbar-brand" href="/">
+                    <i class="fas fa-volleyball-ball me-2"></i>
+                    <span class="ms-2">ApexVolley</span>
                 </a>
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -62,73 +61,75 @@
                 transition: color 0.3s ease, border-bottom 0.3s ease;
                 border-bottom: 2px solid transparent;
             }
-
+            /* ===== NAVBAR ===== */
             .navbar {
-                max-height: 60px !important; /* o 38px o ciò che vuoi */
-                padding-top: 0.25rem !important;
-                padding-bottom: 0.25rem !important;
-                line-height: 1 !important;
+                background: var(--apex-dark-gradient) !important;
+                border-bottom: 2px solid var(--apex-primary-gold) !important;
+                backdrop-filter: blur(10px) !important;
+                box-shadow: 0 4px 20px rgba(55, 50, 62, 0.3) !important;
+                padding: 0.75rem 0 !important;
+                min-height: auto !important;
             }
 
             .navbar-brand {
-                padding-top: 0 !important;
-                padding-bottom: 0 !important;
-                line-height: 1 !important;
-                font-size: 1rem !important;
-                height: 40px; /* allinea l’altezza */
-                display: flex;
-                align-items: center;
+                color: var(--apex-primary-gold) !important;
+                font-weight: 700;
+                font-size: 1.5rem !important;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
             }
 
                 .navbar-brand img {
-                    height: 28px; /* assicurati sia più piccolo */
-                    width: 28px;
+                    vertical-align: middle;
+                    transition: transform 0.3s ease;
+                    width: 50px !important;
+                    height: 50px !important;
+                }
+
+                .navbar-brand .ms-2 {
+                    font-size: 1.5rem;
+                    line-height: 1;
+                    color: #FFFFFF;
+                }
+
+                .navbar-brand:hover img {
+                    transform: scale(1.1);
                 }
 
             .navbar-nav .nav-link {
-                padding-top: 0.25rem !important;
-                padding-bottom: 0.25rem !important;
-                font-size: 0.9rem !important;
-                line-height: 1 !important;
+                color: var(--apex-light-gray) !important;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+                padding: 0.5rem 1rem !important;
+                font-size: 1rem;
             }
 
-            .navbar-toggler {
-                padding: 0.25rem 0.5rem !important;
-                font-size: 0.9rem !important;
-            }
+                .navbar-nav .nav-link:hover {
+                    color: var(--apex-primary-gold) !important;
+                    transform: translateY(-1px);
+                }
 
-            .navbar-nav .nav-link:hover,
-            .navbar-nav .nav-link:focus {
-                color: #FFD100 !important; /* giallo brillante */
-                border-bottom: 2px solid #FFD100;
-                text-decoration: none;
-            }
+                .navbar-nav .nav-link.active {
+                    color: var(--apex-primary-gold) !important;
+                }
 
-            .navbar-nav .nav-link.active {
-                color: #FFD100 !important;
-                border-bottom: 2px solid #FFD100;
-            }
+                .navbar-nav .nav-link::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    width: 0;
+                    height: 2px;
+                    background: var(--apex-gold-gradient);
+                    transition: all 0.3s ease;
+                    transform: translateX(-50%);
+                }
 
-            .navbar .container-fluid {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
+                .navbar-nav .nav-link:hover::after,
+                .navbar-nav .nav-link.active::after {
+                    width: 100%;
+                }
 
-            .navbar-brand {
-                display: flex;
-                align-items: center;
-            }
-
-            .navbar-nav {
-                display: flex;
-                align-items: center;
-            }
-
-            .nav-link {
-                display: flex;
-                align-items: center;
-            }
         </style>
     </header>
 
