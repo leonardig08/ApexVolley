@@ -1,5 +1,9 @@
 ﻿<!DOCTYPE html>
 
+@{
+    var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
+}
+
 <html lang="en" data-bs-theme="dark" >
 <head>
     <!-- Bootstrap CSS -->
@@ -8,38 +12,45 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ApexVolley</title>
-   
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ApexVolley.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
 
 </head>
 <body><header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom shadow-sm mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
-                <img src="/css/favicon.png" width="28" height="28" class="d-inline-block align-text-top" alt="Logo">
-                ApexVolley
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom shadow-sm mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/css/favicon.png" width="28" height="28" class="d-inline-block align-text-top" alt="Logo">
+                    ApexVolley
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link px-3" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" asp-area="" asp-controller="Players" asp-action="Index">Giocatori</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" asp-area="" asp-controller="Match" asp-action="Index">Partite</a>
-                    </li>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link px-3" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" asp-area="" asp-controller="Players" asp-action="Index">Giocatori</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" asp-area="" asp-controller="Match" asp-action="Index">Partite</a>
+                        </li>
+                        @if(canCreate) {
+                            <li class="nav-item">
+                                <a class="nav-link px-3" asp-area="" asp-controller="UserManagement" asp-action="Index">Gestione utenti</a>
+                            </li>
+                        }
+                        
+
                     
                 </ul>
                 <partial name="_LoginPartial" />
