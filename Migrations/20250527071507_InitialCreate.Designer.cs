@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApexVolley.Migrations
 {
     [DbContext(typeof(ApexVolleyContext))]
-    [Migration("20250526091937_InitialCreate")]
+    [Migration("20250527071507_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -67,8 +67,17 @@ namespace ApexVolley.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AdditionalImagePaths")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AttachmentPaths")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MainImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishedAt")

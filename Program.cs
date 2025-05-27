@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ApexVolley.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApexVolleyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ApexVolleyContext") ?? throw new InvalidOperationException("Connection string 'ApexVolleyContext' not found.")));
@@ -77,6 +78,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.UseRouting();
 

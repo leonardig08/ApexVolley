@@ -9,6 +9,31 @@
 }
 
 <style>
+    .news-hero-flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .news-hero-text {
+        max-width: 600px;
+        flex: 1 1 300px;
+        text-align: left;
+    }
+
+    .news-hero-image {
+        flex: 1 1 300px;
+    }
+
+        .news-hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
     .news-hero {
         background: linear-gradient(135deg, #212A37 0%, #3A4A5C 100%);
         padding: 4rem 0;
@@ -45,6 +70,31 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
+
+        .news-hero h1.headline {
+            display: flex;
+            align-items: center; /* Allinea verticalmente emoji e testo */
+            justify-content: center; /* Centra orizzontalmente */
+            gap: 0.5rem; /* Spazio tra emoji e testo */
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+    .gradient-text {
+        background: linear-gradient(45deg, #FFD100, #FFA500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .emoji {
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: initial;
+        background-clip: initial;
+    }
+
 
     .news-hero p {
         font-size: 1.3rem;
@@ -91,6 +141,9 @@
         transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         position: relative;
         border: 1px solid rgba(255, 209, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        min-height: 400px;
     }
 
         .news-card:hover {
@@ -125,7 +178,7 @@
     }
 
     .news-card-header {
-        padding: 1.5rem 1.5rem 0;
+        padding: 1.5rem 1.5rem 1rem;
         position: relative;
     }
 
@@ -150,18 +203,57 @@
         gap: 5px;
     }
 
-    .news-card-body {
-        padding: 1rem 1.5rem;
+    .news-card-main {
+        display: flex;
+        flex: 1;
+        padding: 0 1.5rem;
+        gap: 1.5rem;
+        min-height: 200px;
+    }
+
+    .news-content-section {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .news-image-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 0;
+    }
+
+    .news-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+    }
+
+    .news-card:hover .news-image {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.2);
     }
 
     .news-content {
         color: #495057;
         line-height: 1.6;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
+  
+        -webkit-line-clamp: 4;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
+        flex: 1;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
     }
 
     .news-actions {
@@ -169,6 +261,7 @@
         display: flex;
         gap: 0.5rem;
         flex-wrap: wrap;
+        margin-top: auto;
     }
 
     .action-btn {
@@ -260,6 +353,21 @@
         padding: 2rem 0;
     }
 
+    .news-card-main {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .news-image-section {
+        order: -1;
+        padding: 0 0 1rem 0;
+    }
+
+    .news-image {
+        max-width: 100%;
+        max-height: 200px;
+    }
+
     }
 
     /* Dark mode compatibility */
@@ -290,7 +398,10 @@
 <div class="news-hero">
     <div class="container">
         <div class="news-hero-content">
-            <h1>🏐 ApexVolley News</h1>
+            <h1 class="headline">
+                <span class="emoji">🏐</span>
+                <span class="gradient-text">ApexVolley News</span>
+            </h1>
             <p>Resta aggiornato con le ultime notizie, risultati e novità dal mondo del volley</p>
 
             @if (canCreate)
@@ -310,7 +421,6 @@
 <div class="container">
     @if (Model != null && Model.Any())
     {
-        <div class="news-grid">
             @foreach (var item in Model)
             {
                 <article class="news-card">
@@ -324,9 +434,20 @@
                         </div>
                     </div>
 
-                    <div class="news-card-body">
-                        <div class="news-content">
-                            @Html.DisplayFor(modelItem => item.Content)
+                    <div class="news-card-main">
+                        <div class="news-content-section">
+                            <div class="news-content">
+                                @{
+                                    var truncatedContent = item.Content?.Length > 50
+                                    ? item.Content.Substring(0, 50) + "..."
+                                    : item.Content;
+                                }
+                                @Html.Raw(truncatedContent)
+                            </div>
+                        </div>
+
+                        <div class="news-image-section">
+                            <img src="/@item.MainImagePath" alt="@item.Title" class="news-image" />
                         </div>
                     </div>
 
@@ -358,7 +479,6 @@
                     </div>
                 </article>
             }
-        </div>
     }
     else
     {

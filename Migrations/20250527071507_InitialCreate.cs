@@ -61,12 +61,12 @@ namespace ApexVolley.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Avversari = table.Column<string>(type: "nvarchar(150)", nullable: true),
-                    Luogo = table.Column<string>(type: "nvarchar(150)", nullable: true),
-                    Risultato = table.Column<string>(type: "nvarchar(15)", nullable: true),
-                    RisultatoSet1 = table.Column<string>(type: "nvarchar(15)", nullable: true),
-                    RisultatoSet2 = table.Column<string>(type: "nvarchar(15)", nullable: true),
-                    RisultatoSet3 = table.Column<string>(type: "nvarchar(15)", nullable: true)
+                    Avversari = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Luogo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Risultato = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RisultatoSet1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RisultatoSet2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RisultatoSet3 = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,9 +79,12 @@ namespace ApexVolley.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MainImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdditionalImagePaths = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttachmentPaths = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,10 +97,10 @@ namespace ApexVolley.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(150)", nullable: true),
-                    Cognome = table.Column<string>(type: "nvarchar(150)", nullable: true),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cognome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DataNascita = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Ruolo = table.Column<string>(type: "nvarchar(100)", nullable: true),
+                    Ruolo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AltezzaCm = table.Column<int>(type: "int", nullable: false),
                     NumeroMaglia = table.Column<int>(type: "int", nullable: false)
                 },
