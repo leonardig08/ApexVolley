@@ -149,9 +149,9 @@
 
         var role = ruolo.ToLower().Trim();
 
-        if (role.Contains("schiacciator") || role.Contains("attaccan"))
+        if (role.Contains("schiacciator") || role.Contains("attaccan") || role.Contains("band"))
             return "role-attacker";
-        else if (role.Contains("alzator") || role.Contains("regist"))
+        else if (role.Contains("alzator") || role.Contains("regist") || role.Contains("pallegg"))
             return "role-setter";
         else if (role.Contains("centrale") || role.Contains("muro"))
             return "role-middle";
@@ -193,64 +193,11 @@
   
     .players-container {
         min-height: 100vh;
-        background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0c0c0c 100%);
+            background: linear-gradient(135deg, #37323E 0%, #6D6A75 50%, #BFBDC1 100%);
         position: relative;
     }
 
-    /* Hero Header */
-    .hero-header {
-        position: relative;
-        text-align: center;
-        padding: 80px 20px 60px;
-        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(13,110,253,0.1) 50%, rgba(0,0,0,0.8) 100%);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        margin-bottom: 40px;
-    }
-
-    .hero-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow: hidden;
-        z-index: 0;
-    }
-
-    .floating-orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(1px);
-        animation: float 6s ease-in-out infinite;
-    }
-
-    .orb-1 {
-        width: 100px;
-        height: 100px;
-        background: linear-gradient(45deg, #007bff, #6f42c1);
-        top: 20%;
-        left: 10%;
-        animation-delay: 0s;
-    }
-
-    .orb-2 {
-        width: 150px;
-        height: 150px;
-        background: linear-gradient(45deg, #20c997, #17a2b8);
-        top: 60%;
-        right: 15%;
-        animation-delay: 2s;
-    }
-
-    .orb-3 {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(45deg, #fd7e14, #dc3545);
-        bottom: 30%;
-        left: 70%;
-        animation-delay: 4s;
-    }
+    
 
     @@keyframes float {
         0%, 100%
@@ -429,10 +376,13 @@
     .players-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 30px;
-        padding: 0 20px 80px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(40,40,40,0.9) 50%, rgba(0,0,0,0.8) 100%);
+            gap: 30px;
+        padding: 80px 20px 80px;
         max-width: 1400px;
         margin: 0 auto;
+        border-radius: 50px;
+
     }
 
     .player-card-wrapper {

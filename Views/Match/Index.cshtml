@@ -4,33 +4,35 @@
     var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
 }
 
-<div class="matches-container">
-    <div class="hero-header">
-        <div class="hero-background">
-            <div class="floating-orb orb-1"></div>
-            <div class="floating-orb orb-2"></div>
-            <div class="floating-orb orb-3"></div>
-            <div class="volleyball-pattern"></div>
-        </div>
-        <h1 class="hero-title">
-            <span class="title-text">Le Nostre</span>
-            <span class="title-accent">Partite</span>
-        </h1>
-        <p class="hero-subtitle">Ogni partita è una storia da raccontare</p>
-
-        @if (canCreate)
-        {
-            <div class="hero-action">
-                <a asp-action="Create" class="btn-premium">
-                    <span class="btn-icon">🏐</span>
-                    <span>Nuova Partita</span>
-                    <div class="btn-shine"></div>
-                </a>
+<div class="matches-container ">
+    <div class="d-flex align-content-center justify-content-center">
+        <div class="hero-header ">
+            <div class="hero-background">
+                <div class="floating-orb orb-1"></div>
+                <div class="floating-orb orb-2"></div>
+                <div class="floating-orb orb-3"></div>
+                <div class="volleyball-pattern"></div>
             </div>
-        }
+            <h1 class="hero-title">
+                <span class="title-text">Le Nostre</span>
+                <span class="title-accent">Partite</span>
+            </h1>
+            <p class="hero-subtitle">Ogni partita è una storia da raccontare</p>
+
+            @if (canCreate)
+            {
+                <div class="hero-action">
+                    <a asp-action="Create" class="btn-premium">
+                        <span class="btn-icon">🏐</span>
+                        <span>Nuova Partita</span>
+                        <div class="btn-shine"></div>
+                    </a>
+                </div>
+            }
+        </div>
     </div>
 
-    <div class="matches-content">
+    <div class=" d-flex align-content-center justify-content-center matches-content">
         @if (Model.Any())
         {
             <div class="desktop-view">
@@ -212,9 +214,9 @@
 
         var result = risultato.ToLower().Trim();
 
-        if (result.Contains("vittoria") || result.Contains("vinto") || result.Contains("win"))
+        if (result.Contains("vittoria") || result.Contains("vint") || result.Contains("win"))
             return "result-victory";
-        else if (result.Contains("sconfitta") || result.Contains("perso") || result.Contains("loss"))
+        else if (result.Contains("sconfitta") || result.Contains("pers") || result.Contains("loss"))
             return "result-defeat";
         else if (result.Contains("pareggio") || result.Contains("pari") || result.Contains("draw"))
             return "result-draw";
@@ -231,7 +233,6 @@
 
     .matches-container {
         min-height: 100vh;
-        background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0c0c0c 100%);
         position: relative;
         overflow-x: hidden;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -239,72 +240,7 @@
     }
 
     /* Hero Header */
-    .hero-header {
-        position: relative;
-        text-align: center;
-        padding: 80px 20px 60px;
-        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(13,110,253,0.1) 50%, rgba(0,0,0,0.8) 100%);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        margin-bottom: 40px;
-    }
-
-    .hero-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow: hidden;
-        z-index: 0;
-    }
-
-    .floating-orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(1px);
-        animation: float 6s ease-in-out infinite;
-    }
-
-    .orb-1 {
-        width: 120px;
-        height: 120px;
-        background: linear-gradient(45deg, #28a745, #20c997);
-        top: 15%;
-        left: 15%;
-        animation-delay: 0s;
-    }
-
-    .orb-2 {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(45deg, #dc3545, #fd7e14);
-        top: 70%;
-        right: 20%;
-        animation-delay: 2s;
-    }
-
-    .orb-3 {
-        width: 100px;
-        height: 100px;
-        background: linear-gradient(45deg, #007bff, #6f42c1);
-        bottom: 20%;
-        left: 70%;
-        animation-delay: 4s;
-    }
-
-    .volleyball-pattern {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 200px;
-        height: 200px;
-        background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 1px, transparent 1px);
-        background-size: 20px 20px;
-        opacity: 0.3;
-        animation: rotate 20s linear infinite;
-    }
+    
 
     @@keyframes float {
         0%, 100%
@@ -494,7 +430,8 @@
 
     /* Contenuto principale */
     .matches-content {
-        padding: 0 20px 80px;
+        /*background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(40,40,40,0.9) 50%, rgba(0,0,0,0.8) 100%)*/
+        padding: 80px 20px 80px;
         max-width: 1600px;
         margin: 0 auto;
     }
@@ -502,22 +439,25 @@
     /* Vista Desktop - Tabella Premium */
     .desktop-view {
         display: block;
+        width: 92%
     }
 
     .table-container {
-        background: rgba(255,255,255,0.05);
+        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(40,40,40,0.9) 50%, rgba(0,0,0,0.8) 100%);
+       
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255,255,255,0.1);
         border-radius: 24px;
         overflow: hidden;
         box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
     }
 
     .table-header {
         display: grid;
         gap: 20px;
         padding: 25px 30px;
-        background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(13,110,253,0.1));
+        background: var(--apex-dark-gray);
         border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
@@ -999,6 +939,9 @@
         text-align: center;
         padding: 80px 20px;
         color: rgba(255,255,255,0.6);
+        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(40,40,40,0.9) 50%, rgba(0,0,0,0.8) 100%);
+        border-radius: 25px;
+        width: 94%;
     }
 
     .empty-icon {
@@ -1178,9 +1121,7 @@
             font-size: 1.2rem;
         }
 
-    .matches-content {
-        padding: 0 15px 60px;
-    }
+
 
     .sets-scores {
         flex-wrap: wrap;

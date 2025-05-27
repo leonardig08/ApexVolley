@@ -60,13 +60,15 @@ namespace ApexVolley.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff,Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,PublishedAt")] NewsPost newsPost,
+        public async Task<IActionResult> Create([Bind("Id,Title,Content")] NewsPost newsPost,
             IFormFile MainImage,
             IFormFile[] AdditionalImages,
             IFormFile[] AttachmentFiles)
         {
             if (ModelState.IsValid)
+                
             {
+                newsPost.PublishedAt = DateTime.Now;
                 // Salva l'immagine principale
                 if (MainImage != null && MainImage.Length > 0)
                 {

@@ -60,16 +60,6 @@ html, body {
     min-height: 100vh;
 }
 
-.hero-header {
-    position: relative;
-    text-align: center;
-    padding: 80px 20px 60px;
-    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(13,110,253,0.1) 50%, rgba(0,0,0,0.8) 100%);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    margin-bottom: 40px;
-}
-
 .hero-background {
     position: absolute;
     top: 0;
@@ -78,6 +68,7 @@ html, body {
     bottom: 0;
     overflow: hidden;
     z-index: 0;
+    border-radius: 30px
 }
 
 .floating-orb {
@@ -227,22 +218,14 @@ html, body {
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255,255,255,0.1);
     margin-bottom: 40px;
-    width: 80%;
+    width: 92%;
     align-self: center;
     border-radius: 50px;
     margin-top: 40px
 
+
 }
 
-.hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    z-index: 0;
-}
 
 .floating-orb {
     position: absolute;
