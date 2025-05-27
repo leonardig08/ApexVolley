@@ -6,29 +6,34 @@
 
 <div class="players-container pb-0">
     <!-- Header con effetto glassmorphism -->
-    <div class="hero-header">
-        <div class="hero-background">
-            <div class="floating-orb orb-1"></div>
-            <div class="floating-orb orb-2"></div>
-            <div class="floating-orb orb-3"></div>
-        </div>
-        <h1 class="hero-title">
-            <span class="title-text">I Nostri</span>
-            <span class="title-accent">Campioni</span>
-        </h1>
-        <p class="hero-subtitle">La squadra che fa la differenza</p>
+    
+    <div>
+        <div class="d-flex align-content-center justify-content-center">
+            <div class="hero-header">
+                <div class="hero-background">
+                    <div class="floating-orb orb-1"></div>
+                    <div class="floating-orb orb-2"></div>
+                    <div class="floating-orb orb-3"></div>
+                    <div class="volleyball-pattern"></div>
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-text">I Nostri</span>
+                    <span class="title-accent">Giocatori</span>
+                </h1>
+                <p class="hero-subtitle">Quelli che vincono le partite!</p>
 
-        @if (canCreate)
-        {
-            <div class="hero-action">
-                <a asp-action="Create" class="btn-premium">
-                    <span class="btn-icon">⚡</span>
-                    <span>Aggiungi Nuovo Giocatore</span>
-                    <div class="btn-shine"></div>
-                </a>
+                @if (canCreate)
+                {
+                    <div class="hero-action">
+                        <a asp-action="Create" class="btn-premium">
+                            <span class="btn-icon">⚡</span>
+                            <span>Aggiungi Nuovo Giocatore</span>
+                            <div class="btn-shine"></div>
+                        </a>
+                    </div>
+                }
             </div>
-        }
-    </div>
+      </div>
 
     <!-- Grid dei giocatori -->
     <div class="players-grid">

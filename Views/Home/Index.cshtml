@@ -41,6 +41,8 @@
             color: var(--apex-light-gray);
             min-height: 100vh;
         }
+
+
         /* Hero Section Adjustments */
         .hero-section {
             position: relative;
@@ -256,24 +258,83 @@
             }
 
         }
+        @@keyframes slideInFromLeft {
+            from
+
+        {
+            transform: translateX(-100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        }
+
+        @@keyframes slideInFromRight {
+            from
+
+        {
+            transform: translateX(100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        }
+
+        @@keyframes fadeInUp {
+            from
+
+        {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        }
+
+        @@keyframes gradientShift {
+            0%, 100%
+
+        {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        }
     </style>
 </head>
 <body>
-    <header>
-        
-
-    <div class="hero-section">
-        <div class="particle particle-1"></div>
-        <div class="particle particle-2"></div>
-        <div class="particle particle-3"></div>
-        <div class="hero-text animate-fade-in">
-            <h1 class="animate-glow">Apex Volley</h1>
-            <p class="lead">Passione, forza e tecnica sulla rete!</p>
-            <div class="hero-buttons mt-4">
-                <a href="#about" class="btn btn-primary me-3">Scopri di più</a>
-                <a href="#contact" class="btn btn-outline-primary">Contattaci</a>
+    <div>
+        <div class="d-flex align-content-center justify-content-center">
+        <div class="hero-header">
+            <div class="hero-background">
+                <div class="floating-orb orb-1"></div>
+                <div class="floating-orb orb-2"></div>
+                <div class="floating-orb orb-3"></div>
+                <div class="volleyball-pattern"></div>
             </div>
-        </div>
+            <h1 class="hero-title">
+                
+                <span class="title-accent">Apex Volley</span>
+            </h1>
+                <p class="hero-subtitle">Passione, forza e tecnica sulla rete!</p>
+
+           
+         </div>
     </div>
 
     <main class="container py-5">
