@@ -1,0 +1,739 @@
+﻿@model ApexVolley.Models.NewsPost
+
+@{
+    ViewData["Title"] = "Dettagli News";
+}
+
+<style>
+    .news-detail-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .news-header {
+        background: linear-gradient(135deg, #212A37 0%, #3A4A5C 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .news-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23FFD100" opacity="0.1"/><circle cx="80" cy="80" r="2" fill="%23FFD100" opacity="0.1"/><circle cx="60" cy="30" r="1" fill="%23FFD100" opacity="0.15"/></svg>');
+            opacity: 0.3;
+        }
+
+    .news-header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .news-category {
+        display: inline-block;
+        background: rgba(255, 209, 0, 0.2);
+        color: #FFD100;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(255, 209, 0, 0.3);
+    }
+
+    .news-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        background: linear-gradient(45deg, #FFD100, #FFA500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .news-meta {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.95rem;
+    }
+
+    /* Main Image Section */
+    .main-image-section {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .main-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .main-image:hover {
+        transform: scale(1.02);
+    }
+
+    .news-content {
+        background: white;
+        padding: 3rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #2d3748;
+        border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+        .news-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .news-content::first-letter {
+            float: left;
+            font-size: 3.5rem;
+            line-height: 3rem;
+            padding-right: 0.5rem;
+            padding-top: 0.2rem;
+            font-weight: 700;
+            color: #FFD100;
+        }
+
+    /* Additional Images Gallery */
+    .additional-images-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .gallery-title {
+        color: #212A37;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .gallery-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .gallery-image:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border-color: #FFD100;
+    }
+
+    /* File Attachments Section */
+    .attachments-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .attachments-title {
+        color: #212A37;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .attachment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .attachment-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 10px;
+        text-decoration: none;
+        color: #212A37;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .attachment-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-color: #FFD100;
+        color: #212A37;
+        text-decoration: none;
+    }
+
+    .file-icon {
+        width: 24px;
+        height: 24px;
+        background: linear-gradient(45deg, #FFD100, #FFA500);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #212A37;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    /* Modal for Image Viewing */
+    .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        cursor: pointer;
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 10px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 1001;
+        transition: opacity 0.3s ease;
+    }
+
+    .close-modal:hover {
+        opacity: 0.7;
+    }
+
+    .action-bar {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        padding: 12px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+    }
+
+    .btn-back {
+        background: linear-gradient(45deg, #4ECDC4, #44A08D);
+        color: white;
+    }
+
+        .btn-back:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+            text-decoration: none;
+        }
+
+    .btn-edit {
+        background: linear-gradient(45deg, #FFD100, #FFA500);
+        color: #212A37;
+    }
+
+        .btn-edit:hover {
+            color: #212A37;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 209, 0, 0.4);
+            text-decoration: none;
+        }
+
+    .share-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .share-title {
+        margin-bottom: 1rem;
+        color: #212A37;
+        font-weight: 600;
+    }
+
+    .share-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .share-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            text-decoration: none;
+        }
+
+    .share-facebook {
+        background: #3b5998;
+        color: white;
+    }
+
+        .share-facebook:hover {
+            box-shadow: 0 8px 25px rgba(59, 89, 152, 0.4);
+            color: white;
+        }
+
+    .share-twitter {
+        background: #1da1f2;
+        color: white;
+    }
+
+        .share-twitter:hover {
+            box-shadow: 0 8px 25px rgba(29, 161, 242, 0.4);
+            color: white;
+        }
+
+    .share-whatsapp {
+        background: #25d366;
+        color: white;
+    }
+
+        .share-whatsapp:hover {
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            color: white;
+        }
+
+    .related-news {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        margin-top: 2rem;
+    }
+
+    .related-title {
+        color: #212A37;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    @@media (max-width: 768px) {
+        .news-detail-container {
+            padding: 1rem;
+        }
+
+        .news-header {
+            padding: 2rem 1.5rem;
+        }
+
+        .news-title {
+            font-size: 2rem;
+        }
+
+        .news-content {
+            padding: 2rem 1.5rem;
+        }
+
+        .action-bar {
+            padding: 1.5rem;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .action-buttons {
+            justify-content: center;
+        }
+
+        .news-meta {
+            gap: 1rem;
+        }
+
+        .main-image {
+            height: 250px;
+        }
+
+        .image-gallery {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+
+        .gallery-image {
+            height: 120px;
+        }
+    }
+
+    /* Dark mode compatibility */
+    @@media (prefers-color-scheme: dark) {
+        .news-content {
+            background: #2d3748;
+            color: #e2e8f0;
+        }
+
+        .action-bar {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+
+        .share-section, .additional-images-section, .attachments-section {
+            background: #2d3748;
+            color: #e2e8f0;
+        }
+
+        .related-news {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: #e2e8f0;
+        }
+
+        .attachment-item {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: #e2e8f0;
+        }
+
+        .attachment-item:hover {
+            color: #e2e8f0;
+        }
+    }
+</style>
+
+<div class="news-detail-container">
+    <!-- News Header -->
+    <div class="news-header">
+        <div class="news-header-content">
+            <div class="news-category">🏐 ApexVolley News</div>
+            <h1 class="news-title">@Html.DisplayFor(model => model.Title)</h1>
+            <div class="news-meta">
+                <div class="meta-item">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z" />
+                        <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z" />
+                    </svg>
+                    Pubblicato da ApexVolley
+                </div>
+                <div class="meta-item">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    </svg>
+                    Categoria: News
+                </div>
+                <div class="meta-item">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                    </svg>
+                    @Html.DisplayFor(model => model.PublishedAt)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Image Section -->
+    @if (!string.IsNullOrEmpty(Model.MainImagePath))
+    {
+        <div class="main-image-section">
+            <img src="@Model.MainImagePath" alt="@Model.Title" class="main-image" onclick="openImageModal(this.src)" />
+        </div>
+    }
+
+    <!-- News Content -->
+    <div class="news-content">
+        @Html.DisplayFor(model => model.Content)
+    </div>
+
+    <!-- Additional Images Gallery -->
+    @if (Model.AdditionalImagePaths != null && Model.AdditionalImagePaths.Any())
+    {
+        <div class="additional-images-section">
+            <h3 class="gallery-title">
+                🖼️ Galleria Immagini
+            </h3>
+            <div class="image-gallery">
+                @foreach (var imagePath in Model.AdditionalImagePaths)
+                {
+                    <img src="@imagePath" alt="Immagine aggiuntiva" class="gallery-image" onclick="openImageModal(this.src)" />
+                }
+            </div>
+        </div>
+    }
+
+    <!-- File Attachments Section -->
+    @if (Model.AttachmentPaths != null && Model.AttachmentPaths.Any())
+    {
+        <div class="attachments-section">
+            <h3 class="attachments-title">
+                📎 File Allegati
+            </h3>
+            <div class="attachment-list">
+                @{
+                    var fileName = System.IO.Path.GetFileName(attachmentPath);
+                    var extension = System.IO.Path.GetExtension(attachmentPath);
+                    var fileExtension = extension != null ? extension.TrimStart('.') : "";
+                    var fileExtensionUpper = fileExtension.ToUpperInvariant();
+                    var displayExtension = fileExtensionUpper.Length > 3 ? fileExtensionUpper.Substring(0, 3) : fileExtensionUpper;
+                }
+
+
+
+                    <a href="@attachmentPath" target="_blank" class="attachment-item">
+                        <div class="file-icon">
+                            @displayExtension
+                        </div>
+                        <div class="file-name">
+                            @fileName
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    }
+
+    <!-- Share Section -->
+    <div class="share-section">
+        <h3 class="share-title">📢 Condividi questa news</h3>
+        <div class="share-buttons">
+            <a href="#" class="share-btn share-facebook" title="Condividi su Facebook">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                </svg>
+            </a>
+            <a href="#" class="share-btn share-twitter" title="Condividi su Twitter">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                </svg>
+            </a>
+            <a href="#" class="share-btn share-whatsapp" title="Condividi su WhatsApp">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+        <div class="action-buttons">
+            <a asp-action="Index" class="action-btn btn-back">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                </svg>
+                Torna alle News
+            </a>
+
+            @{
+                var canEdit = User.IsInRole("Staff") || User.IsInRole("Admin");
+            }
+
+            @if (canEdit)
+            {
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="action-btn btn-edit">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708L10.5 8.207l-3-3L12.146.146zM11.207 9l-3-3L2.5 11.707V14.5a.5.5 0 0 0 .5.5h2.793L11.207 9zM1 13.5A1.5 1.5 0 0 1 2.5 12l8.396-8.396 3 3L5.5 15a1.5 1.5 0 0 1-1.5-1.5v-1z" />
+                    </svg>
+                    Modifica News
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Related News Section -->
+    <div class="related-news">
+        <h3 class="related-title">🔗 Potrebbero interessarti anche</h3>
+        <p style="text-align: center; color: #6c757d; margin: 0;">
+            Scopri altre news e aggiornamenti dal mondo ApexVolley
+        </p>
+    </div>
+</div>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="close-modal" onclick="closeImageModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
+<script>
+    // Image Modal Functions
+    function openImageModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        modal.style.display = 'block';
+        modalImg.src = imageSrc;
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeImageModal();
+        }
+    });
+
+    // Add smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Add copy to clipboard functionality
+    function copyToClipboard() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            // Show success message
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, #4ECDC4, #44A08D);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                font-weight: 600;
+            `;
+            toast.textContent = '✅ Link copiato negli appunti!';
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        });
+    }
+
+    // Update share buttons with actual functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const titleElement = document.querySelector('.news-title');
+        const title = titleElement ? encodeURIComponent(titleElement.textContent) : '';
+        const url = encodeURIComponent(window.location.href);
+
+        // Facebook share
+        const facebookBtn = document.querySelector('.share-facebook');
+        if (facebookBtn) {
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        }
+
+        // Twitter share
+        const twitterBtn = document.querySelector('.share-twitter');
+        if (twitterBtn) {
+            twitterBtn.href = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+        }
+
+        // WhatsApp share
+        const whatsappBtn = document.querySelector('.share-whatsapp');
+        if (whatsappBtn) {
+            whatsappBtn.href = `https://wa.me/?text=${title}%20${url}`;
+        }
+    });
+
+    // Add loading animation for images
+    document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('.main-image, .gallery-image');
+        images.forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '1';
+            });
+
+            img.addEventListener('error', function() {
+                this.style.opacity = '0.5';
+                this.alt = 'Immagine non disponibile';
+            });
+        });
+    });
+</script>

@@ -1,0 +1,70 @@
+﻿@model ApexVolley.Models.NewsPost
+@{
+    ViewData["Title"] = "Modifica News";
+}
+
+<h2 class="mb-4">Modifica News</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label fw-semibold"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Content" class="form-label fw-semibold"></label>
+                <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PublishedAt" class="form-label fw-semibold"></label>
+                <input asp-for="PublishedAt" class="form-control" type="datetime-local" />
+                <span asp-validation-for="PublishedAt" class="text-danger"></span>
+            </div>
+
+            <!-- Sezione per visualizzare file esistenti -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">File attuali</label>
+                <div id="current-files" class="border rounded p-3 bg-light">
+                    <!-- Qui verranno mostrati i file esistenti tramite JavaScript o dal controller -->
+                    <p class="text-muted mb-0">Nessun file caricato</p>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Immagine principale</label>
+                <input type="file" name="MainImage" class="form-control" accept="image/*" />
+                <small class="form-text text-muted">Lascia vuoto per mantenere l'immagine attuale. Formati: JPG, PNG, GIF (max 5MB)</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Immagini aggiuntive</label>
+                <input type="file" name="AdditionalImages" class="form-control" accept="image/*" multiple />
+                <small class="form-text text-muted">Puoi aggiungere nuove immagini. Le esistenti verranno mantenute</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">File allegati</label>
+                <input type="file" name="AttachmentFiles" class="form-control" multiple />
+                <small class="form-text text-muted">Aggiungi nuovi documenti (PDF, Word, Excel, ecc. max 10MB per file)</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salva</button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">Annulla</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_FileUploadScript");
+    }
+}

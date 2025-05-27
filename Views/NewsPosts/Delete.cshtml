@@ -1,0 +1,27 @@
+﻿@model ApexVolley.Models.NewsPost
+@{
+    ViewData["Title"] = "Elimina News";
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h3 class="text-danger mb-3">Sei sicuro di voler eliminare questa news?</h3>
+
+        <dl class="row">
+            <dt class="col-sm-3">Titolo</dt>
+            <dd class="col-sm-9">@Model.Title</dd>
+
+            <dt class="col-sm-3">Contenuto</dt>
+            <dd class="col-sm-9">@Model.Content</dd>
+
+            <dt class="col-sm-3">Data pubblicazione</dt>
+            <dd class="col-sm-9">@Model.PublishedAt.ToString("dd MMMM yyyy")</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Elimina</button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">Annulla</a>
+        </form>
+    </div>
+</div>

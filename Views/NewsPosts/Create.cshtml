@@ -1,0 +1,60 @@
+﻿@model ApexVolley.Models.NewsPost
+@{
+    ViewData["Title"] = "Crea News";
+}
+
+<h2 class="mb-4">Crea una nuova News</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label fw-semibold"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Content" class="form-label fw-semibold"></label>
+                <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PublishedAt" class="form-label fw-semibold"></label>
+                <input asp-for="PublishedAt" class="form-control" type="datetime-local" />
+                <span asp-validation-for="PublishedAt" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Immagine principale</label>
+                <input type="file" name="MainImage" class="form-control" accept="image/*" />
+                <small class="form-text text-muted">Formati supportati: JPG, PNG, GIF (max 5MB)</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Immagini aggiuntive</label>
+                <input type="file" name="AdditionalImages" class="form-control" accept="image/*" multiple />
+                <small class="form-text text-muted">Puoi selezionare più immagini contemporaneamente</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">File allegati</label>
+                <input type="file" name="AttachmentFiles" class="form-control" multiple />
+                <small class="form-text text-muted">Documenti PDF, Word, Excel, ecc. (max 10MB per file)</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salva</button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">Annulla</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_FileUploadScript");
+    }
+}
