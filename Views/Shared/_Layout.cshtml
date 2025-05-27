@@ -19,8 +19,8 @@
 
 </head>
 <body><header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom shadow-sm mb-3">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-custom shadow-sm mb-0">
+            <div class="container-fluid p-0">
                 <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="/css/favicon.png" width="28" height="28" class="d-inline-block align-text-top" alt="Logo">
                     ApexVolley
@@ -96,13 +96,13 @@
     </style>
 </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-fluid p-0 m-0">
+        <main role="main" class="p-0 m-0">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="background-color: #212A37">
         <div class="container">
             &copy; 2025 - ApexVolley - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
