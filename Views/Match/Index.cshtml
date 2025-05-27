@@ -1,143 +1,1260 @@
 ﻿@model IEnumerable<ApexVolley.Models.Match>
-
 @{
     ViewData["Title"] = "Gestione Partite";
     var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
 }
 
-<h1 class="mb-4 text-light fw-bold">Le nostre partite</h1>
+<div class="matches-container">
+    <div class="hero-header">
+        <div class="hero-background">
+            <div class="floating-orb orb-1"></div>
+            <div class="floating-orb orb-2"></div>
+            <div class="floating-orb orb-3"></div>
+            <div class="volleyball-pattern"></div>
+        </div>
+        <h1 class="hero-title">
+            <span class="title-text">Le Nostre</span>
+            <span class="title-accent">Partite</span>
+        </h1>
+        <p class="hero-subtitle">Ogni partita è una storia da raccontare</p>
 
-@if (canCreate)
-{
-    <div class="mb-4">
-        <a class="btn btn-outline-primary px-4 py-2" asp-action="Create">+ Nuova Partita</a>
+        @if (canCreate)
+        {
+            <div class="hero-action">
+                <a asp-action="Create" class="btn-premium">
+                    <span class="btn-icon">🏐</span>
+                    <span>Nuova Partita</span>
+                    <div class="btn-shine"></div>
+                </a>
+            </div>
+        }
     </div>
+
+    <div class="matches-content">
+        @if (Model.Any())
+        {
+            <div class="desktop-view">
+                <div class="table-container @(canCreate ? "has-actions" : "no-actions")">
+                    <div class="table-header">
+                        <div class="header-cell">Data</div>
+                        <div class="header-cell col-avversari">Avversari</div>
+                        <div class="header-cell col-luogo">Luogo</div>
+                        <div class="header-cell set-header">Set 1</div>
+                        <div class="header-cell set-header">Set 2</div>
+                        <div class="header-cell set-header">Set 3</div>
+                        <div class="header-cell">Risultato</div>
+                        @if (canCreate)
+                        {
+                            <div class="header-cell col-azioni">Azioni</div>
+                        }
+                    </div>
+
+                    <div class="table-body">
+                        @{
+                            int index = 0;
+                        }
+                        @foreach (var match in Model)
+                        {
+                            var delay = 0.1 * index;
+                            var resultClass = GetResultClass(match.Risultato);
+
+                            <div class="match-row animated-row" style="animation-delay: @($"{delay:0.1}s")">
+                                <div class="row-glow @resultClass"></div>
+
+                                <div class="match-cell date-cell">
+                                    <div class="cell-content">
+                                        <span class="date-day">@match.Data.ToString("dd")</span>
+                                        <span class="date-month">@match.Data.ToString("MMM")</span>
+                                        <span class="date-year">@match.Data.ToString("yyyy")</span>
+                                    </div>
+                                </div>
+
+                                <div class="match-cell opponent-cell col-avversari">
+                                    <div class="cell-content">
+                                        <span class="opponent-name">@match.Avversari</span>
+                                    </div>
+                                </div>
+
+                                <div class="match-cell location-cell col-luogo">
+                                    <div class="cell-content">
+                                        <span class="location-icon">📍</span>
+                                        <span class="location-name">@match.Luogo</span>
+                                    </div>
+                                </div>
+
+                                <div class="match-cell set-cell">
+                                    <div class="set-score">@match.RisultatoSet1</div>
+                                </div>
+
+                                <div class="match-cell set-cell">
+                                    <div class="set-score">@match.RisultatoSet2</div>
+                                </div>
+
+                                <div class="match-cell set-cell">
+                                    <div class="set-score">@match.RisultatoSet3</div>
+                                </div>
+
+                                <div class="match-cell result-cell">
+                                    <div class="result-badge @resultClass">
+                                        @match.Risultato
+                                    </div>
+                                </div>
+
+                                @if (canCreate)
+                                {
+                                    <div class="match-cell actions-cell col-azioni">
+                                        <div class="action-buttons">
+                                            <a asp-action="Edit" asp-route-id="@match.Id" class="action-btn edit-btn" title="Modifica">
+                                                <span class="btn-icon">✏️</span>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@match.Id" class="action-btn delete-btn" title="Elimina">
+                                                <span class="btn-icon">🗑️</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            index++;
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="mobile-view">
+                @{
+                    index = 0;
+                }
+                @foreach (var match in Model)
+                {
+                    var delay = 0.1 * index;
+                    var resultClass = GetResultClass(match.Risultato);
+
+                    <div class="match-card animated-card" style="animation-delay: @($"{delay:0.1}s")">
+                        <div class="card-glow @resultClass"></div>
+
+                        <div class="card-header">
+                            <div class="match-date">
+                                <span class="date-day">@match.Data.ToString("dd")</span>
+                                <span class="date-month">@match.Data.ToString("MMM")</span>
+                            </div>
+                            <div class="result-badge @resultClass">
+                                @match.Risultato
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="opponent-section">
+                                <h3 class="opponent-name">@match.Avversari</h3>
+                                <p class="match-location">
+                                    <span class="location-icon">📍</span>
+                                    @match.Luogo
+                                </p>
+                            </div>
+
+                            <div class="sets-section">
+                                <div class="sets-title">Punteggi Set</div>
+                                <div class="sets-scores">
+                                    <div class="set-item">
+                                        <span class="set-label">Set 1</span>
+                                        <span class="set-value">@match.RisultatoSet1</span>
+                                    </div>
+                                    <div class="set-item">
+                                        <span class="set-label">Set 2</span>
+                                        <span class="set-value">@match.RisultatoSet2</span>
+                                    </div>
+                                    <div class="set-item">
+                                        <span class="set-label">Set 3</span>
+                                        <span class="set-value">@match.RisultatoSet3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (canCreate)
+                        {
+                            <div class="card-actions">
+                                <a asp-action="Edit" asp-route-id="@match.Id" class="action-btn edit-btn">
+                                    <span class="btn-icon">✏️</span>
+                                    <span>Modifica</span>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@match.Id" class="action-btn delete-btn">
+                                    <span class="btn-icon">🗑️</span>
+                                    <span>Elimina</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    index++;
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <div class="empty-icon">🏐</div>
+                <h3>Nessuna partita programmata</h3>
+                <p>Le prossime sfide appariranno qui</p>
+                @if (canCreate)
+                {
+                    <a asp-action="Create" class="btn-secondary">
+                        Programma la prima partita
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    private string GetResultClass(string risultato)
+    {
+        if (string.IsNullOrEmpty(risultato)) return "result-pending";
+
+        var result = risultato.ToLower().Trim();
+
+        if (result.Contains("vittoria") || result.Contains("vinto") || result.Contains("win"))
+            return "result-victory";
+        else if (result.Contains("sconfitta") || result.Contains("perso") || result.Contains("loss"))
+            return "result-defeat";
+        else if (result.Contains("pareggio") || result.Contains("pari") || result.Contains("draw"))
+            return "result-draw";
+        else
+            return "result-pending";
+    }
 }
 
 <style>
-    body {
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Reset e base */
+    * {
+        box-sizing: border-box;
     }
 
-    .table-wrapper {
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    overflow-x: auto;
+    .matches-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0c0c0c 100%);
+        position: relative;
+        overflow-x: hidden;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #f0f0f0;
     }
 
-    table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 0.75rem;
+    /* Hero Header */
+    .hero-header {
+        position: relative;
+        text-align: center;
+        padding: 80px 20px 60px;
+        background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(13,110,253,0.1) 50%, rgba(0,0,0,0.8) 100%);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 40px;
     }
 
-    thead th {
-    color: #aaaaaa;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid #333;
-    padding-bottom: 0.5rem;
-    text-align: left;
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        z-index: 0;
     }
 
-    tbody tr {
-    background-color: #1a1a1a;
-    transition: background 0.2s ease;
+    .floating-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(1px);
+        animation: float 6s ease-in-out infinite;
     }
 
-    tbody tr:hover {
-    background-color: #2a2a2a;
+    .orb-1 {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(45deg, #28a745, #20c997);
+        top: 15%;
+        left: 15%;
+        animation-delay: 0s;
     }
 
-    tbody td {
-    padding: 0.75rem;
-    border-bottom: 1px solid #2e2e2e;
-    vertical-align: middle;
+    .orb-2 {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(45deg, #dc3545, #fd7e14);
+        top: 70%;
+        right: 20%;
+        animation-delay: 2s;
     }
 
-    td.text-center {
-    text-align: center;
+    .orb-3 {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(45deg, #007bff, #6f42c1);
+        bottom: 20%;
+        left: 70%;
+        animation-delay: 4s;
     }
 
-    .btn-sm {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 6px;
+    .volleyball-pattern {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 200px;
+        background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 1px, transparent 1px);
+        background-size: 20px 20px;
+        opacity: 0.3;
+        animation: rotate 20s linear infinite;
     }
 
-    .btn-action {
-    background-color: transparent;
-    color: #6ea8fe;
-    border: 1px solid #2f3e55;
-    transition: background 0.2s ease;
+    @@keyframes float {
+        0%, 100%
+
+    {
+        transform: translateY(0px) rotate(0deg);
     }
 
-    .btn-action:hover {
-    background-color: #1c2b3f;
-    color: #fff;
+    33% {
+        transform: translateY(-25px) rotate(120deg);
     }
 
-    .btn-danger {
-    color: #f87171;
-    border-color: #f87171;
+    66% {
+        transform: translateY(15px) rotate(240deg);
     }
 
-    .btn-danger:hover {
-    background-color: #3b1d1d;
+    }
+    @@keyframes rotate {
+        from
+
+    {
+        transform: translate(-50%, -50%) rotate(0deg);
     }
 
-    .btn-warning {
-    color: #facc15;
-    border-color: #facc15;
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 
-    .btn-warning:hover {
-    background-color: #3a320b;
+    }
+
+    .hero-title {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 20px;
+    }
+
+    .title-text {
+        display: block;
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 10px;
+        animation: slideInFromLeft 1s ease-out;
+    }
+
+    .title-accent {
+        display: block;
+        font-size: 4rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #28a745, #20c997, #007bff);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 3s ease-in-out infinite, slideInFromRight 1s ease-out;
+    }
+
+    .hero-subtitle {
+        position: relative;
+        z-index: 2;
+        font-size: 1.2rem;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 40px;
+        animation: fadeInUp 1s ease-out 0.5s both;
+    }
+
+    @@keyframes slideInFromLeft {
+        from
+
+    {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    }
+    @@keyframes slideInFromRight {
+        from
+
+    {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    }
+    @@keyframes fadeInUp {
+        from
+
+    {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    }
+    @@keyframes gradientShift {
+        0%, 100%
+
+    {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    }
+
+    /* Bottone Premium */
+    .hero-action {
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-premium {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 32px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(40,167,69,0.3);
+        animation: fadeInUp 1s ease-out 0.8s both;
+    }
+
+        .btn-premium:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(40,167,69,0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-shine {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn-premium:hover .btn-shine {
+        left: 100%;
+    }
+
+    .btn-premium .btn-icon {
+        font-size: 1.3rem;
+        animation: bounce 2s infinite;
+    }
+    @@keyframes bounce {
+        0%, 20%, 50%, 80%, 100%
+
+    {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-5px);
+    }
+
+    60% {
+        transform: translateY(-3px);
+    }
+
+    }
+
+    /* Contenuto principale */
+    .matches-content {
+        padding: 0 20px 80px;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    /* Vista Desktop - Tabella Premium */
+    .desktop-view {
+        display: block;
+    }
+
+    .table-container {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .table-header {
+        display: grid;
+        gap: 20px;
+        padding: 25px 30px;
+        background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(13,110,253,0.1));
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .match-row {
+        position: relative;
+        display: grid;
+        gap: 20px;
+        padding: 20px 30px;
+        margin: 10px 20px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+
+    /* Definizione Colonne Grid con gestione colonna Azioni */
+    .table-container.no-actions .table-header,
+    .table-container.no-actions .match-row {
+        grid-template-columns: 120px minmax(180px, 1.5fr) minmax(150px, 1fr) 80px 80px 80px 120px;
+    }
+
+    .table-container.has-actions .table-header,
+    .table-container.has-actions .match-row {
+        grid-template-columns: 120px minmax(180px, 1.5fr) minmax(150px, 1fr) 80px 80px 80px 120px 110px;
+    }
+
+
+    .header-cell, .match-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #e0e0e0;
+    }
+        /* Allineamento specifico per Avversari e Luogo */
+        .header-cell.col-avversari, .header-cell.col-luogo,
+        .match-cell.col-avversari, .match-cell.col-luogo {
+            justify-content: flex-start;
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .header-cell.col-azioni, .match-cell.col-azioni { /* Assicura centratura colonna azioni */
+            justify-content: center;
+        }
+
+
+    .header-cell {
+        color: rgba(255,255,255,0.8);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .set-header {
+        background: rgba(0,123,255,0.2);
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid rgba(0,123,255,0.3);
+    }
+
+    .table-body {
+        padding: 20px 0;
+    }
+
+    .animated-row {
+        animation: rowEntrance 0.8s ease-out forwards;
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    @@keyframes rowEntrance {
+        to
+
+    {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    }
+
+    .match-row:hover {
+        transform: translateY(-5px) scale(1.01);
+        background: rgba(255,255,255,0.08);
+        border-color: rgba(255,255,255,0.2);
+    }
+
+    .row-glow {
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 16px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .match-row:hover .row-glow {
+        opacity: 0.4;
+    }
+
+
+    .date-cell .cell-content {
+        text-align: center;
+    }
+
+    .date-day {
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: white;
+        line-height: 1;
+    }
+
+    .date-month {
+        display: block;
+        font-size: 0.8rem;
+        color: rgba(255,255,255,0.6);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .date-year {
+        display: block;
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.4);
+    }
+
+    .opponent-cell .cell-content, .location-cell .cell-content {
+        text-align: left;
+        width: 100%;
+    }
+
+    .opponent-name {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: white;
+        margin-bottom: 4px;
+    }
+
+    .vs-label {
+        display: block;
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .location-cell .cell-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .location-icon {
+        font-size: 1.2rem;
+    }
+
+    .location-name {
+        color: rgba(255,255,255,0.8);
+        font-size: 0.9rem;
+    }
+
+    .set-score {
+        background: rgba(0,123,255,0.2);
+        color: #6ea8fe;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border: 1px solid rgba(0,123,255,0.3);
+        min-width: 60px;
+        text-align: center;
+    }
+
+    /* Badge risultati */
+    .result-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: 2px solid;
+        backdrop-filter: blur(10px);
+    }
+
+    .result-victory {
+        background: linear-gradient(135deg, rgba(40,167,69,0.3), rgba(32,201,151,0.3));
+        color: #28a745;
+        border-color: #28a745;
+        box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+    }
+
+    .result-defeat {
+        background: linear-gradient(135deg, rgba(220,53,69,0.3), rgba(253,126,20,0.3));
+        color: #dc3545;
+        border-color: #dc3545;
+        box-shadow: 0 4px 15px rgba(220,53,69,0.3);
+    }
+
+    .result-draw {
+        background: linear-gradient(135deg, rgba(255,193,7,0.3), rgba(253,126,20,0.3));
+        color: #ffc107;
+        border-color: #ffc107;
+        box-shadow: 0 4px 15px rgba(255,193,7,0.3);
+    }
+
+    .result-pending {
+        background: linear-gradient(135deg, rgba(108,117,125,0.3), rgba(73,80,87,0.3));
+        color: #6c757d;
+        border-color: #6c757d;
+        box-shadow: 0 4px 15px rgba(108,117,125,0.3);
+    }
+
+    .row-glow.result-victory {
+        background: linear-gradient(135deg, #28a745, #20c997);
+    }
+
+    .row-glow.result-defeat {
+        background: linear-gradient(135deg, #dc3545, #fd7e14);
+    }
+
+    .row-glow.result-draw {
+        background: linear-gradient(135deg, #ffc107, #fd7e14);
+    }
+
+    .row-glow.result-pending {
+        background: linear-gradient(135deg, #6c757d, #495057);
+    }
+
+    /* Pulsanti azione STILE NUOVO */
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+    }
+    /* Aumentato gap e assicurato centratura */
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+    }
+
+        .action-btn .btn-icon {
+            animation: none;
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+    /* Pulsanti Azione in Tabella (solo icone, circolari) */
+    .actions-cell .action-btn {
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        border-radius: 20%;
+    }
+
+        .actions-cell .action-btn .btn-icon {
+            font-size: 1.1rem;
+        }
+
+    .edit-btn {
+        background-color: rgba(255,193,7,0.15);
+        border-color: rgba(255,193,7,0.5);
+        color: #ffc107;
+    }
+
+        .edit-btn:hover {
+            background-color: rgba(255,193,7,0.35);
+            border-color: #ffc107;
+            color: #ffe083;
+            transform: translateY(-2px) scale(1.05);
+        }
+
+    .delete-btn {
+        background-color: rgba(220,53,69,0.15);
+        border-color: rgba(220,53,69,0.5);
+        color: #dc3545;
+    }
+
+        .delete-btn:hover {
+            background-color: rgba(220,53,69,0.35);
+            border-color: #dc3545;
+            color: #f08080;
+            transform: translateY(-2px) scale(1.05);
+        }
+
+    /* Vista Mobile */
+    .mobile-view {
+        display: none;
+    }
+
+    .animated-card {
+        animation: cardEntrance 0.8s ease-out forwards;
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    @@keyframes cardEntrance {
+        to
+
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .match-card {
+        position: relative;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+    .card-glow {
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 20px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+        .card-glow.result-victory {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .card-glow.result-defeat {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+        }
+
+        .card-glow.result-draw {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+        }
+
+        .card-glow.result-pending {
+            background: linear-gradient(135deg, #6c757d, #495057);
+        }
+
+    .match-card:hover .card-glow {
+        opacity: 0.4;
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .match-date {
+        text-align: center;
+    }
+
+        .match-date .date-day {
+            font-size: 1.6rem;
+        }
+
+        .match-date .date-month {
+            font-size: 0.7rem;
+        }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .opponent-section {
+        margin-bottom: 20px;
+    }
+
+        .opponent-section .opponent-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+    .match-location {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255,255,255,0.7);
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+        .match-location .location-icon {
+            font-size: 1rem;
+        }
+
+    .sets-section {
+        margin-bottom: 20px;
+    }
+
+    .sets-title {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+    }
+
+    .sets-scores {
+        display: flex;
+        gap: 12px;
+    }
+
+    .set-item {
+        flex: 1;
+        text-align: center;
+        background: rgba(0,123,255,0.1);
+        border: 1px solid rgba(0,123,255,0.3);
+        border-radius: 8px;
+        padding: 10px 8px;
+    }
+
+    .set-label {
+        display: block;
+        font-size: 0.7rem;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 4px;
+    }
+
+    .set-value {
+        display: block;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #6ea8fe;
+    }
+
+    /* Pulsanti Azione in Card (con testo) */
+    .card-actions {
+        display: flex;
+        gap: 12px;
+        padding: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        background: rgba(0,0,0,0.2);
+    }
+
+        .card-actions .action-btn {
+            flex: 1;
+            width: auto;
+            height: auto;
+            padding: 10px 15px; /* Padding per icona+testo */
+            border-radius: 10px;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+            .card-actions .action-btn .btn-icon {
+                font-size: 1rem;
+            }
+
+    /* Stato vuoto */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: rgba(255,255,255,0.6);
+    }
+
+    .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+
+    .empty-state h3 {
+        font-size: 1.8rem;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .btn-secondary {
+        display: inline-block;
+        padding: 12px 24px;
+        background: rgba(255,255,255,0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+    /* Responsive */
+    @@media (max-width: 1200px) {
+        .table-container.no-actions .table-header, .table-container.no-actions .match-row
+
+    {
+        grid-template-columns: 100px minmax(150px, 1.5fr) minmax(120px, 1fr) 70px 70px 70px 100px;
+    }
+
+    .table-container.has-actions .table-header,
+    .table-container.has-actions .match-row {
+        grid-template-columns: 100px minmax(150px, 1.5fr) minmax(120px, 1fr) 70px 70px 70px 100px 100px;
+    }
+
+    .table-header, .match-row {
+        gap: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .header-cell, .match-cell {
+        font-size: 0.85rem;
+    }
+
+    .date-day {
+        font-size: 1.6rem;
+    }
+
+    .opponent-name {
+        font-size: 1rem;
+    }
+
+    }
+
+    @@media (max-width: 992px) {
+        .table-container.no-actions .table-header, .table-container.no-actions .match-row
+
+    {
+        grid-template-columns: 80px minmax(120px, 1.5fr) minmax(100px, 1fr) 60px 60px 60px 90px;
+    }
+
+    .table-container.has-actions .table-header,
+    .table-container.has-actions .match-row {
+        grid-template-columns: 80px minmax(120px, 1.5fr) minmax(100px, 1fr) 60px 60px 60px 90px 90px;
+    }
+
+    .table-header, .match-row {
+        gap: 10px;
+        padding: 15px 15px;
+    }
+
+    .header-cell, .match-cell {
+        font-size: 0.8rem;
+    }
+
+    .date-day {
+        font-size: 1.4rem;
+    }
+
+    .date-month {
+        font-size: 0.7rem;
+    }
+
+    .opponent-name {
+        font-size: 0.9rem;
+    }
+
+    .location-name {
+        font-size: 0.8rem;
+    }
+
+    .set-score {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+        min-width: 50px;
+    }
+
+    .result-badge {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+
+    .actions-cell .action-btn {
+        width: 34px;
+        height: 34px;
+    }
+        /* Leggermente più piccolo */
+        .actions-cell .action-btn .btn-icon {
+            font-size: 1rem;
+        }
+
+    .hero-title .title-text {
+        font-size: 2.2rem;
+    }
+
+    .hero-title .title-accent {
+        font-size: 3.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    }
+
+    @@media (max-width: 768px) {
+        .desktop-view
+
+    {
+        display: none;
+    }
+
+    .mobile-view {
+        display: block;
+    }
+
+    .hero-header {
+        padding: 60px 15px 40px;
+    }
+
+    .hero-title .title-text {
+        font-size: 2rem;
+    }
+
+    .hero-title .title-accent {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+    }
+
+    .btn-premium {
+        padding: 14px 28px;
+        font-size: 1rem;
+    }
+
+        .btn-premium .btn-icon {
+            font-size: 1.2rem;
+        }
+
+    .matches-content {
+        padding: 0 15px 60px;
+    }
+
+    .sets-scores {
+        flex-wrap: wrap;
+    }
+
+    .set-item {
+        flex-basis: calc(33.333% - 8px);
+    }
+
+    .empty-state h3 {
+        font-size: 1.5rem;
+    }
+
+    .empty-state p {
+        font-size: 0.9rem;
+    }
+
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    }
+
+    @@media (max-width: 480px) {
+        .hero-title .title-text
+
+    {
+        font-size: 1.8rem;
+    }
+
+    .hero-title .title-accent {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .btn-premium {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        gap: 8px;
+    }
+
+        .btn-premium .btn-icon {
+            font-size: 1rem;
+        }
+
+    .match-card .opponent-section .opponent-name {
+        font-size: 1.1rem;
+    }
+
+    .match-card .match-location {
+        font-size: 0.8rem;
+    }
+
+    .sets-scores {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .set-item {
+        flex-basis: 100%;
+    }
+
+    .card-actions .action-btn {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+        .card-actions .action-btn .btn-icon {
+            font-size: 0.9rem;
+        }
+
     }
 </style>
-
-<div class="table-wrapper">
-    <table>
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Avversari</th>
-                <th>Luogo</th>
-                <th class="text-center">Set 1</th>
-                <th class="text-center">Set 2</th>
-                <th class="text-center">Set 3</th>
-                <th class="text-center">Risultato</th>
-                @if (canCreate)
-                {
-                    <th class="text-center">Azioni</th>
-                }
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var match in Model)
-            {
-                <tr>
-                    <td>@match.Data.ToString("dd/MM/yyyy")</td>
-                    <td>@match.Avversari</td>
-                    <td>@match.Luogo</td>
-                    <td class="text-center">@match.RisultatoSet1</td>
-                    <td class="text-center">@match.RisultatoSet2</td>
-                    <td class="text-center">@match.RisultatoSet3</td>
-                    <td class="text-center">@match.Risultato</td>
-                    @if (canCreate){
-                    <td class="text-center">
-                        <div class="d-flex gap-2 justify-content-center">
-                                <a asp-action="Edit" asp-route-id="@match.Id" class="btn btn-sm btn-warning">Modifica</a>
-                                <a asp-action="Delete" asp-route-id="@match.Id" class="btn btn-sm btn-danger">Elimina</a>
-                        </div>
-                    </td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>

@@ -1,20 +1,6 @@
-/* ===== APEX VOLLEY - GLOBAL STYLES ===== */
-/* Color Palette Variables */
-:root {
-    --apex-light-gray: #BFBDC1;
-    --apex-medium-gray: #6D6A75;
-    --apex-dark-gray: #37323E;
-    --apex-primary-gold: #DEB841;
-    --apex-secondary-gold: #DE9E36;
-    /* Gradient combinations */
-    --apex-gold-gradient: linear-gradient(135deg, #DEB841 0%, #DE9E36 100%);
-    --apex-dark-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 100%);
-    --apex-bg-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 50%, #BFBDC1 100%);
-}
-
-/* Reset and Base Styles */
-* {
-    box-sizing: border-box;
+html {
+    
+  font-size: 14px;
 }
 
 html, body {
@@ -476,6 +462,7 @@ footer {
     border-radius: 4px;
 }
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #DE9E36, #DEB841);
-    }
+.card.dark-mode {
+    background-color: #1e1e1e;
+    color: #ccc;
+}

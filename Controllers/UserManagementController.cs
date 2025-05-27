@@ -16,7 +16,7 @@ public class UserManagementController : Controller
         _userManager = userManager;
         _roleManager = roleManager;
     }
-
+    [Authorize(Roles = "Staff,Admin")]
     public async Task<IActionResult> Index()
     {
         var users = _userManager.Users.ToList();
@@ -43,6 +43,7 @@ public class UserManagementController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Staff,Admin")]
     public async Task<IActionResult> AddRole(string userId, string roleName)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
@@ -67,6 +68,7 @@ public class UserManagementController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Staff,Admin")]
     public async Task<IActionResult> RemoveRole(string userId, string roleName)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
@@ -87,6 +89,7 @@ public class UserManagementController : Controller
 
     [HttpPost]
     [HttpPost]
+    [Authorize(Roles = "Staff,Admin")]
     public async Task<IActionResult> CreateUser(
     string userName,
     string email,

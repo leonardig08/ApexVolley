@@ -18,5 +18,15 @@ namespace ApexVolley.Models
         public int AltezzaCm { get; set; }
         [Display(Name ="Numero di maglia")]
         public int NumeroMaglia { get; set; }
+        public int Eta
+        {
+            get
+            {
+                var oggi = DateTime.Today;
+                var eta = oggi.Year - DataNascita.Year;
+                if (DataNascita.Date > oggi.AddYears(-eta)) eta--;
+                return eta;
+            }
+        }
     }
 }
