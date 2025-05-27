@@ -4,7 +4,7 @@
     var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
 }
 
-<div class="players-container">
+<div class="players-container pb-0">
     <!-- Header con effetto glassmorphism -->
     <div class="hero-header">
         <div class="hero-background">
@@ -160,12 +160,36 @@
 }
 
 <style>
+    :root {
+        --apex-light-gray: #BFBDC1;
+        --apex-medium-gray: #6D6A75;
+        --apex-dark-gray: #37323E;
+        --apex-primary-gold: #DEB841;
+        --apex-secondary-gold: #DE9E36;
+        /* Gradient combinations */
+        --apex-gold-gradient: linear-gradient(135deg, #DEB841 0%, #DE9E36 100%);
+        --apex-dark-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 100%);
+        --apex-bg-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 50%, #BFBDC1 100%);
+    }
+
+    /* Reset and Base Styles */
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--apex-bg-gradient);
+        color: var(--apex-light-gray);
+        min-height: 100vh;
+    }
   
     .players-container {
         min-height: 100vh;
         background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0c0c0c 100%);
         position: relative;
-        overflow-x: hidden;
     }
 
     /* Hero Header */

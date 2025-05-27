@@ -1,16 +1,4 @@
-html {
-    
-  font-size: 14px;
-}
 
-html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--apex-bg-gradient);
-    color: var(--apex-light-gray);
-    min-height: 100vh;
-}
 
 /* Import Inter font */
 @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -145,7 +133,6 @@ html, body {
     position: relative;
     height: 100vh;
     width: 100%;
-    background: linear-gradient(135deg, rgba(55, 50, 62, 0.9) 0%, rgba(109, 106, 117, 0.7) 50%, rgba(191, 189, 193, 0.8) 100%), radial-gradient(circle at 30% 70%, rgba(222, 184, 65, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(222, 158, 54, 0.15) 0%, transparent 50%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -154,7 +141,6 @@ html, body {
 }
 
 .hero-text {
-    background: linear-gradient(135deg, rgba(55, 50, 62, 0.95) 0%, rgba(109, 106, 117, 0.9) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(222, 184, 65, 0.3);
     padding: 4rem;
