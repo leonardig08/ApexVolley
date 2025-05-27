@@ -1,0 +1,809 @@
+﻿@model ApexVolley.Models.NewsPost
+
+@{
+    ViewData["Title"] = "Dettagli News";
+}
+
+<style>
+    /* Stile per il toast di notifica (esempio) */
+    .toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #4ECDC4, #44A08D);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 10000; /* Alto z-index */
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+
+    .toast-notification.active {
+    opacity: 1;
+    transform: translateY(0);
+    }
+
+    .toast-notification.error {
+    background: linear-gradient(45deg, #d9534f, #c9302c); /* Rosso per errore */
+    }
+
+    /* Stile per immagini in caricamento e errore (esempio) */
+    .main-image, .gallery-image {
+    /* opacity: 0; gestito da JS per evitare problemi con img.complete */
+    transition: opacity 0.5s ease-in-out;
+    display: block; /* per evitare spazi sotto l'immagine se inline */
+    max-width: 100%;
+    height: auto;
+    }
+
+    .image-error {
+    /* Esempio: aggiungi un bordo o un'icona di errore */
+    border: 2px dashed #ccc;
+    filter: grayscale(1); /* Rendi grigia l'immagine se non carica */
+    }
+
+    /* Image Modal Stili (già presenti o da migliorare) */
+    .image-modal {
+    /* ... tuoi stili ... */
+    z-index: 9999; /* Assicurati sia sopra gli altri contenuti */
+    }
+
+    .modal-content {
+    max-width: 90%; /* Adatta come preferisci */
+    max-height: 90vh;
+    }
+    .news-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    }
+
+    .news-header {
+    background: linear-gradient(135deg, #212A37 0%, #3A4A5C 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    }
+
+    .news-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23FFD100" opacity="0.1"/><circle cx="80" cy="80" r="2" fill="%23FFD100" opacity="0.1"/><circle cx="60" cy="30" r="1" fill="%23FFD100" opacity="0.15"/></svg>');
+    opacity: 0.3;
+    }
+
+    .news-header-content {
+    position: relative;
+    z-index: 2;
+    }
+
+    .news-category {
+    display: inline-block;
+    background: rgba(255, 209, 0, 0.2);
+    color: #FFD100;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 209, 0, 0.3);
+    }
+
+    .news-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    background: linear-gradient(45deg, #FFD100, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    }
+
+    .news-meta {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    }
+
+    /* Main Image Section */
+    .main-image-section {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    }
+
+    .main-image:hover {
+    transform: scale(1.02);
+    }
+
+    .news-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    font-size: 1.1rem;
+    color: #2d3748;
+    border: 1px solid rgba(255, 209, 0, 0.1);
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
+    }
+
+    .news-content p {
+    margin-bottom: 1.5rem;
+    }
+
+    .news-content::first-letter {
+    float: left;
+    font-size: 3.5rem;
+    line-height: 3rem;
+    padding-right: 0.5rem;
+    padding-top: 0.2rem;
+    font-weight: 700;
+    color: #FFD100;
+    }
+
+    /* Additional Images Gallery */
+    .additional-images-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .gallery-title {
+    color: #212A37;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    }
+
+    .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    }
+
+    .gallery-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    }
+
+    .gallery-image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-color: #FFD100;
+    }
+
+    /* File Attachments Section */
+    .attachments-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .attachments-title {
+    color: #212A37;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    }
+
+    .attachment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    }
+
+    .attachment-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    text-decoration: none;
+    color: #212A37;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .attachment-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: #FFD100;
+    color: #212A37;
+    text-decoration: none;
+    }
+
+    .file-icon {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(45deg, #FFD100, #FFA500);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #212A37;
+    font-size: 12px;
+    font-weight: bold;
+    }
+
+    /* Modal for Image Viewing */
+    .image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+    }
+
+    .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: opacity 0.3s ease;
+    }
+
+    .close-modal:hover {
+    opacity: 0.7;
+    }
+
+    .action-bar {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 2rem;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    }
+
+    .action-btn {
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    }
+
+    .btn-back {
+    background: linear-gradient(45deg, #4ECDC4, #44A08D);
+    color: white;
+    }
+
+    .btn-back:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+    text-decoration: none;
+    }
+
+    .btn-edit {
+    background: linear-gradient(45deg, #FFD100, #FFA500);
+    color: #212A37;
+    }
+
+    .btn-edit:hover {
+    color: #212A37;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 209, 0, 0.4);
+    text-decoration: none;
+    }
+
+    .share-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    border: 1px solid rgba(255, 209, 0, 0.1);
+    }
+
+    .share-title {
+    margin-bottom: 1rem;
+    color: #212A37;
+    font-weight: 600;
+    }
+
+    .share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    }
+
+    .share-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    }
+
+    .share-btn:hover {
+    transform: translateY(-3px);
+    text-decoration: none;
+    }
+
+    .share-facebook {
+    background: #3b5998;
+    color: white;
+    }
+
+    .share-facebook:hover {
+    box-shadow: 0 8px 25px rgba(59, 89, 152, 0.4);
+    color: white;
+    }
+
+    .share-twitter {
+    background: #1da1f2;
+    color: white;
+    }
+
+    .share-twitter:hover {
+    box-shadow: 0 8px 25px rgba(29, 161, 242, 0.4);
+    color: white;
+    }
+
+    .share-whatsapp {
+    background: #25d366;
+    color: white;
+    }
+
+    .share-whatsapp:hover {
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+    color: white;
+    }
+
+    .related-news {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-top: 2rem;
+    }
+
+    .related-title {
+    color: #212A37;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-align: center;
+    }
+
+    @@media (max-width: 768px) {
+    .news-detail-container {
+    padding: 1rem;
+    }
+
+    .news-header {
+    padding: 2rem 1.5rem;
+    }
+
+    .news-title {
+    font-size: 2rem;
+    }
+
+    .news-content {
+    padding: 2rem 1.5rem;
+    }
+
+    .action-bar {
+    padding: 1.5rem;
+    flex-direction: column;
+    align-items: stretch;
+    }
+
+    .action-buttons {
+    justify-content: center;
+    }
+
+    .news-meta {
+    gap: 1rem;
+    }
+
+    .main-image {
+    height: 250px;
+    }
+
+    .image-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .gallery-image {
+    height: 120px;
+    }
+    }
+
+    /* Dark mode compatibility */
+    @@media (prefers-color-scheme: dark) {
+    .news-content {
+    background: #2d3748;
+    color: #e2e8f0;
+    }
+
+    .action-bar {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    }
+
+    .share-section, .additional-images-section, .attachments-section {
+    background: #2d3748;
+    color: #e2e8f0;
+    }
+
+    .related-news {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    color: #e2e8f0;
+    }
+
+    .attachment-item {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: #e2e8f0;
+    }
+
+    .attachment-item:hover {
+    color: #e2e8f0;
+    }
+    }
+</style>
+
+@* Assicurati che il tuo modello (Model) sia correttamente definito in cima al file .cshtml *@
+@* Esempio: @model TuoNamespace.NomeModello *@
+
+
+<div class="news-detail-container">
+    <div class="news-header">
+        <div class="news-header-content">
+            <div class="news-category">🏐 ApexVolley News</div>
+            <h1 class="news-title">@Html.DisplayFor(model => model.Title)</h1>
+            <div class="news-meta">
+                <div class="meta-item">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z" />
+                        <path d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z" />
+                    </svg>
+                    Pubblicato da ApexVolley
+                </div>
+                <div class="meta-item">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    </svg>
+                    Categoria: News
+                </div>
+                <div class="meta-item">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                    </svg>
+                    @Html.DisplayFor(model => model.PublishedAt)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.MainImagePath))
+    {
+        <div class="main-image-section">
+            @{
+                Console.WriteLine(Model.MainImagePath);
+            }
+            <img src="/@Model.MainImagePath" alt="@Model.Title" class="main-image" onclick="openImageModal(this.src)" />
+        </div>
+    }
+
+    <div class="news-content">
+        @Html.Raw(Model.Content)
+    </div>
+
+    @{
+        var additionalImagePaths = Model.AdditionalImagePaths?.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+    }
+    @if (additionalImagePaths != null && additionalImagePaths.Any())
+    {
+        <div class="additional-images-section">
+            <h3 class="gallery-title">
+                🖼️ Galleria Immagini
+            </h3>
+            <div class="image-gallery">
+                @foreach (var imagePath in additionalImagePaths)
+                {
+                    <img src="/@imagePath" alt="Immagine aggiuntiva della news @Model.Title" class="gallery-image" onclick="openImageModal(this.src)" />
+                }
+            </div>
+        </div>
+    }
+
+    @{
+        var attachmentPaths = Model.AttachmentPaths?.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+    }
+    @if (attachmentPaths != null && attachmentPaths.Any())
+    {
+        <div class="attachments-section">
+            <h3 class="attachments-title">
+                📎 File Allegati
+            </h3>
+            <div class="attachment-list">
+                @foreach (var attachmentPath in attachmentPaths)
+                {
+                    var fileName = System.IO.Path.GetFileName(attachmentPath);
+                    var extension = System.IO.Path.GetExtension(attachmentPath);
+                    var fileExtension = !string.IsNullOrEmpty(extension) ? extension.TrimStart('.') : "FILE";
+                    var fileExtensionUpper = fileExtension.ToUpperInvariant();
+                    var displayExtension = fileExtensionUpper.Length > 3 ? fileExtensionUpper.Substring(0, 3) : fileExtensionUpper;
+
+                    <a href="/@Url.Content(attachmentPath)" target="_blank" class="attachment-item" download="@fileName">
+                        <div class="file-icon">
+                            @displayExtension
+                        </div>
+                        <div class="file-name">
+                            @fileName
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="share-section">
+        <h3 class="share-title">📢 Condividi questa news</h3>
+        <div class="share-buttons">
+            <button type="button" class="share-btn share-copy-link" title="Copia link" onclick="copyToClipboard()">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <div class="action-buttons">
+            <a asp-action="Index" asp-controller="News" class="action-btn btn-back">
+                ⚙️Torna alle News
+            </a>
+
+            @{
+                var canEdit = User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Staff") || User.IsInRole("Admin"));
+            }
+
+            @if (canEdit)
+            {
+                <a asp-action="Edit" asp-controller="News" asp-route-id="@Model?.Id" class="action-btn btn-edit">
+                    📰Modifica News
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="related-news">
+        <h3 class="related-title">🔗 Potrebbero interessarti anche</h3>
+        <p style="text-align: center; color: #6c757d; margin: 0;">
+            Scopri altre news e aggiornamenti dal mondo ApexVolley
+        </p>
+    </div>
+</div>
+
+<div id="imageModal" class="image-modal" onclick="closeImageModal(event)">
+    <span class="close-modal" onclick="closeImageModal()">&times;</span>
+    <img class="modal-content" id="modalImage" alt="Visualizzazione immagine ingrandita">
+</div>
+
+<script>
+    // Image Modal Functions
+    function openImageModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        if (modal && modalImg) {
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+            modalImg.alt = 'Immagine ingrandita';
+            modalImg.style = "height: 100%; width: auto"
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeImageModal(event) {
+        const modal = document.getElementById('imageModal');
+        if (event && event.target.id === 'modalImage') {
+            return;
+        }
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            const modal = document.getElementById('imageModal');
+            if (modal && modal.style.display === 'block') {
+                closeImageModal();
+            }
+        }
+    });
+
+    // Add smooth scroll behavior (se hai link interni alla pagina)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            try {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            } catch (error) {
+                console.error("Errore nel selettore per smooth scroll:", targetId, error);
+            }
+        });
+    });
+
+    // Add copy to clipboard functionality
+    function copyToClipboard() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification active';
+            toast.textContent = '✅ Link copiato negli appunti!';
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }).catch(err => {
+            console.error('Errore nel copiare il link: ', err);
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification error active';
+            toast.textContent = '❌ Errore nel copiare il link.';
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('active');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        });
+    }
+
+    // Update share buttons with actual functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const titleElement = document.querySelector('.news-title');
+        const newsTitle = titleElement ? encodeURIComponent(titleElement.innerText.trim()) : 'Notizia ApexVolley';
+        const currentUrl = encodeURIComponent(window.location.href);
+
+        const facebookBtn = document.querySelector('.share-facebook');
+        if (facebookBtn) {
+            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+            facebookBtn.setAttribute('aria-label', 'Condividi su Facebook');
+        }
+
+        const twitterBtn = document.querySelector('.share-twitter');
+        if (twitterBtn) {
+            twitterBtn.href = `https://twitter.com/intent/tweet?text=${newsTitle}&url=${currentUrl}`;
+            twitterBtn.setAttribute('aria-label', 'Condividi su Twitter');
+        }
+
+        const whatsappBtn = document.querySelector('.share-whatsapp');
+        if (whatsappBtn) {
+            whatsappBtn.href = `https://api.whatsapp.com/send?text=${newsTitle}%20${currentUrl}`;
+            whatsappBtn.setAttribute('aria-label', 'Condividi su WhatsApp');
+        }
+
+        const copyLinkBtn = document.querySelector('.share-copy-link');
+        if (copyLinkBtn) {
+            copyLinkBtn.setAttribute('aria-label', 'Copia link alla notizia');
+        }
+
+        // Image loading styling (initial state in CSS, then handle with JS)
+        const images = document.querySelectorAll('.main-image, .gallery-image');
+        images.forEach(img => {
+            if (img.complete) {
+                img.style.opacity = '1';
+            } else {
+                img.style.opacity = '0';
+                img.addEventListener('load', function () {
+                    this.style.transition = 'opacity 0.5s ease-in-out';
+                    this.style.opacity = '1';
+                });
+            }
+            img.addEventListener('error', function () {
+                this.style.opacity = '0.5';
+                this.alt = 'Immagine non disponibile';
+                this.classList.add('image-error');
+            });
+        });
+    });
+</script>

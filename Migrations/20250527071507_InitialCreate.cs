@@ -61,16 +61,34 @@ namespace ApexVolley.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Avversari = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Luogo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Risultato = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RisultatoSet1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RisultatoSet2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RisultatoSet3 = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Avversari = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Luogo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Risultato = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RisultatoSet1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RisultatoSet2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RisultatoSet3 = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Match", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NewsPost",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MainImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AdditionalImagePaths = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AttachmentPaths = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NewsPost", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,8 +155,8 @@ namespace ApexVolley.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -182,8 +200,8 @@ namespace ApexVolley.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -257,6 +275,9 @@ namespace ApexVolley.Migrations
 
             migrationBuilder.DropTable(
                 name: "Match");
+
+            migrationBuilder.DropTable(
+                name: "NewsPost");
 
             migrationBuilder.DropTable(
                 name: "Player");

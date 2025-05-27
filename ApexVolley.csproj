@@ -10,10 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\Nuova cartella\**" />
-    <Content Remove="wwwroot\Nuova cartella\**" />
-    <EmbeddedResource Remove="wwwroot\Nuova cartella\**" />
-    <None Remove="wwwroot\Nuova cartella\**" />
+    <Compile Remove="Views\Nuova cartella1\**" />
+    <Compile Remove="Views\Nuova cartella\**" />
+    <Content Remove="Views\Nuova cartella1\**" />
+    <Content Remove="Views\Nuova cartella\**" />
+    <EmbeddedResource Remove="Views\Nuova cartella1\**" />
+    <EmbeddedResource Remove="Views\Nuova cartella\**" />
+    <None Remove="Views\Nuova cartella1\**" />
+    <None Remove="Views\Nuova cartella\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,8 +38,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Nuova cartella1\" />
-    <Folder Include="Views\Nuova cartella\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\attachments\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\logoApexVolley.png" />
   </ItemGroup>
 
   <ItemGroup>

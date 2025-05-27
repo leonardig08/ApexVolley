@@ -1,0 +1,188 @@
+﻿<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Validazione dimensioni file
+        const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+        const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+        // Gestione anteprima immagine principale
+        const mainImageInput = document.querySelector('input[name="MainImage"]');
+        if (mainImageInput) {
+            mainImageInput.addEventListener('change', function(e) {
+                handleImagePreview(e.target, 'main-image-preview');
+                validateFileSize(e.target, MAX_IMAGE_SIZE);
+            });
+
+            // Crea container per anteprima se non esiste
+            if (!document.getElementById('main-image-preview')) {
+                const previewDiv = document.createElement('div');
+                previewDiv.id = 'main-image-preview';
+                previewDiv.className = 'mt-2';
+                mainImageInput.parentNode.appendChild(previewDiv);
+            }
+        }
+
+        // Gestione anteprima immagini aggiuntive
+        const additionalImagesInput = document.querySelector('input[name="AdditionalImages"]');
+        if (additionalImagesInput) {
+            additionalImagesInput.addEventListener('change', function(e) {
+                handleMultipleImagePreview(e.target, 'additional-images-preview');
+                validateMultipleFileSize(e.target, MAX_IMAGE_SIZE);
+            });
+
+            // Crea container per anteprima se non esiste
+            if (!document.getElementById('additional-images-preview')) {
+                const previewDiv = document.createElement('div');
+                previewDiv.id = 'additional-images-preview';
+                previewDiv.className = 'mt-2';
+                additionalImagesInput.parentNode.appendChild(previewDiv);
+            }
+        }
+
+        // Validazione file allegati
+        const attachmentFilesInput = document.querySelector('input[name="AttachmentFiles"]');
+        if (attachmentFilesInput) {
+            attachmentFilesInput.addEventListener('change', function(e) {
+                validateMultipleFileSize(e.target, MAX_FILE_SIZE);
+                showFileList(e.target, 'attachment-files-list');
+            });
+
+            // Crea container per lista file se non esiste
+            if (!document.getElementById('attachment-files-list')) {
+                const listDiv = document.createElement('div');
+                listDiv.id = 'attachment-files-list';
+                listDiv.className = 'mt-2';
+                attachmentFilesInput.parentNode.appendChild(listDiv);
+            }
+        }
+
+        function handleImagePreview(input, previewId) {
+            const previewContainer = document.getElementById(previewId);
+            previewContainer.innerHTML = '';
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'img-thumbnail';
+                    img.style.maxWidth = '200px';
+                    img.style.maxHeight = '200px';
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function handleMultipleImagePreview(input, previewId) {
+            const previewContainer = document.getElementById(previewId);
+            previewContainer.innerHTML = '';
+
+            if (input.files) {
+                Array.from(input.files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const div = document.createElement('div');
+                            div.className = 'd-inline-block me-2 mb-2';
+
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = 'img-thumbnail';
+                            img.style.width = '100px';
+                            img.style.height = '100px';
+                            img.style.objectFit = 'cover';
+
+                            const caption = document.createElement('small');
+                            caption.className = 'd-block text-center text-muted';
+                            caption.textContent = file.name;
+
+                            div.appendChild(img);
+                            div.appendChild(caption);
+                            previewContainer.appendChild(div);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        }
+
+        function showFileList(input, listId) {
+            const listContainer = document.getElementById(listId);
+            listContainer.innerHTML = '';
+
+            if (input.files && input.files.length > 0) {
+                const ul = document.createElement('ul');
+                ul.className = 'list-group list-group-flush';
+
+                Array.from(input.files).forEach(file => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+                    const fileInfo = document.createElement('div');
+                    fileInfo.innerHTML = `
+                        <strong>${file.name}</strong><br>
+                        <small class="text-muted">${formatFileSize(file.size)}</small>
+                    `;
+
+                    const fileIcon = document.createElement('i');
+                    fileIcon.className = `fas ${getFileIcon(file.name)}`;
+
+                    li.appendChild(fileInfo);
+                    li.appendChild(fileIcon);
+                    ul.appendChild(li);
+                });
+
+                listContainer.appendChild(ul);
+            }
+        }
+
+        function validateFileSize(input, maxSize) {
+            if (input.files && input.files[0]) {
+                if (input.files[0].size > maxSize) {
+                    alert(`Il file è troppo grande. Dimensione massima consentita: ${formatFileSize(maxSize)}`);
+                    input.value = '';
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function validateMultipleFileSize(input, maxSize) {
+            if (input.files) {
+                for (let file of input.files) {
+                    if (file.size > maxSize) {
+                        alert(`Il file "${file.name}" è troppo grande. Dimensione massima consentita: ${formatFileSize(maxSize)}`);
+                        input.value = '';
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function getFileIcon(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            const iconMap = {
+                'pdf': 'fa-file-pdf text-danger',
+                'doc': 'fa-file-word text-primary',
+                'docx': 'fa-file-word text-primary',
+                'xls': 'fa-file-excel text-success',
+                'xlsx': 'fa-file-excel text-success',
+                'ppt': 'fa-file-powerpoint text-warning',
+                'pptx': 'fa-file-powerpoint text-warning',
+                'txt': 'fa-file-alt text-secondary',
+                'zip': 'fa-file-archive text-info',
+                'rar': 'fa-file-archive text-info'
+            };
+            return iconMap[ext] || 'fa-file text-secondary';
+        }
+    });
+</script>
