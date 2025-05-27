@@ -5,8 +5,7 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
 ---
 
 ## Caratteristiche
-
-- Calendario delle partite e allenamenti  
+ 
 - Profilo dei giocatori con statistiche  
 - Sezione news per aggiornamenti della squadra  
 - Galleria foto  
