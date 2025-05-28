@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApexVolley.Migrations
 {
     [DbContext(typeof(ApexVolleyContext))]
-    [Migration("20250527071507_InitialCreate")]
+    [Migration("20250528082702_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
