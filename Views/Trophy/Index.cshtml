@@ -1,0 +1,553 @@
+﻿@model List<ApexVolley.Controllers.TrophyController.Trofeo>
+@{
+    ViewData["Title"] = "Trofei";
+}
+
+<div class="d-flex align-content-center justify-content-center">
+    <div class="hero-header">
+        <div class="hero-background">
+            <div class="floating-orb orb-1"></div>
+            <div class="floating-orb orb-2"></div>
+            <div class="floating-orb orb-3"></div>
+            <div class="volleyball-pattern"></div>
+        </div>
+        <h1 class="hero-title">
+            <span class="title-accent">@ViewData["Title"]</span>
+        </h1>
+        <p class="hero-subtitle">Celebriamo i nostri successi e le vittorie conquistate sul campo. Ogni trofeo racconta una storia di dedizione, passione e spirito di squadra.</p>
+    </div>
+</div>
+
+<div class="container-fluid mt-5 mb-5 align-content-center justify-content-center">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 align-content-center justify-content-center" id="trophiesGrid">
+        @foreach (var t in Model)
+        {
+            <div class="col">
+                <div class="trophy-card h-100" data-aos="fade-up" data-aos-delay="@(Model.IndexOf(t) * 100)">
+                    <!-- Animated border -->
+                    <div class="trophy-border-animation"></div>
+
+                    <!-- Glow effect -->
+                    <div class="trophy-glow-effect"></div>
+
+                    <!-- Main card content -->
+                    <div class="trophy-content">
+                        <!-- Image container with 3D effects -->
+                        <div class="trophy-image-wrapper">
+                            <div class="trophy-image-container">
+                                <img src="@t.ImmagineUrl" class="trophy-image" alt="@t.Nome">
+                                <div class="trophy-image-overlay"></div>
+                                <div class="trophy-shine-effect"></div>
+                            </div>
+
+                            <!-- Floating particles -->
+                            <div class="trophy-particles">
+                                <span class="particle particle-1"></span>
+                                <span class="particle particle-2"></span>
+                                <span class="particle particle-3"></span>
+                                <span class="particle particle-4"></span>
+                                <span class="particle particle-5"></span>
+                                <span class="particle particle-6"></span>
+                            </div>
+                        </div>
+
+                        <!-- Title with special effects -->
+                        <div class="trophy-title-container">
+                            <h5 class="trophy-title">@t.Nome</h5>
+                            <div class="trophy-title-underline"></div>
+                        </div>
+                    </div>
+
+                    <!-- Magic sparkles -->
+                    <div class="trophy-sparkles">
+                        <i class="sparkle sparkle-1">✨</i>
+                        <i class="sparkle sparkle-2">⭐</i>
+                        <i class="sparkle sparkle-3">💫</i>
+                        <i class="sparkle sparkle-4">✨</i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    /* Main trophy card */
+    .trophy-card {
+        position: relative;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05) );
+        border-radius: 25px;
+        padding: 25px;
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+        transform-style: preserve-3d;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* Animated rotating border */
+    .trophy-border-animation {
+        position: absolute;
+        top: -100%;
+        left: -100%;
+        width: 300%;
+        height: 300%;
+        background: conic-gradient( from 0deg, rgba(255, 215, 0, 0.4)), rgba(255, 140, 0, 0.3), rgba(255, 215, 0, 0.4));
+        border-radius: 40px;
+        opacity: 0;
+        animation: rotate-border 2s linear infinite;
+        transition: opacity 0.4s ease;
+        z-index: -1;
+    }
+
+    .trophy-card:hover .trophy-border-animation {
+        opacity: 1;
+    }
+
+    @@keyframes rotate-border {
+        0%
+
+    {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+
+    }
+
+    /* Glow effect */
+    .trophy-glow-effect {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient( circle, rgba(255, 215, 0, 0.4) 0%, rgba(255, 140, 0, 0.2) 30%, transparent 70% );
+        border-radius: 50%;
+        opacity: 0;
+        transition: all 0.5s ease;
+        z-index: -1;
+        filter: blur(20px);
+    }
+
+    .trophy-card:hover .trophy-glow-effect {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.3);
+    }
+
+    /* Main content */
+    .trophy-content {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 3D Image effects */
+    .trophy-image-wrapper {
+        position: relative;
+        flex: 1;
+        margin-bottom: 20px;
+    }
+
+    .trophy-image-container {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        border-radius: 20px;
+        overflow: hidden;
+        perspective: 1000px;
+        background: linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.05));
+    }
+
+    .trophy-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        filter: brightness(0.9) contrast(1.2) saturate(1.3);
+        transform-origin: center center;
+    }
+
+    .trophy-card:hover .trophy-image {
+        transform: scale(1.2) rotateY(5deg) rotateX(2deg);
+        filter: brightness(1.1) contrast(1.4) saturate(1.5);
+    }
+
+    /* Image overlay effects */
+    .trophy-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient( 135deg, rgba(255, 215, 0, 0.3) 0%, transparent 30%, transparent 70%, rgba(255, 140, 0, 0.3) 100% );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        mix-blend-mode: overlay;
+    }
+
+    .trophy-card:hover .trophy-image-overlay {
+        opacity: 1;
+    }
+
+    /* Shine effect */
+    .trophy-shine-effect {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient( 45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70% );
+        transform: translateX(-100%);
+        transition: transform 0.8s ease;
+    }
+
+    .trophy-card:hover .trophy-shine-effect {
+        transform: translateX(100%);
+    }
+
+    /* Floating particles */
+    .trophy-particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .trophy-card:hover .trophy-particles {
+        opacity: 1;
+    }
+
+    .particle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: radial-gradient(circle, #ffd700 0%, rgba(255, 215, 0, 0.5) 50%, transparent 100%);
+        border-radius: 50%;
+        animation: float-particles 4s infinite ease-in-out;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+
+    .particle-1 {
+        top: 15%;
+        left: 20%;
+        animation-delay: 0s;
+    }
+
+    .particle-2 {
+        top: 25%;
+        right: 15%;
+        animation-delay: 0.8s;
+    }
+
+    .particle-3 {
+        top: 60%;
+        left: 15%;
+        animation-delay: 1.6s;
+    }
+
+    .particle-4 {
+        bottom: 20%;
+        right: 25%;
+        animation-delay: 2.4s;
+    }
+
+    .particle-5 {
+        top: 45%;
+        left: 50%;
+        animation-delay: 3.2s;
+    }
+
+    .particle-6 {
+        bottom: 40%;
+        left: 30%;
+        animation-delay: 1.2s;
+    }
+
+    @@keyframes float-particles {
+        0%, 100%
+
+    {
+        transform: translateY(0px) scale(0.8);
+        opacity: 0.6;
+    }
+
+    25% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1);
+        opacity: 0.8;
+    }
+
+    75% {
+        transform: translateY(-25px) scale(1.3);
+        opacity: 1;
+    }
+
+    }
+
+    /* Title effects */
+    .trophy-title-container {
+        text-align: center;
+        position: relative;
+    }
+
+    .trophy-title {
+        color: #ffffff;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+        transition: all 0.4s ease;
+        letter-spacing: 0.5px;
+    }
+
+    .trophy-card:hover .trophy-title {
+        color: #ffd700;
+        transform: translateY(-8px) scale(1.05);
+        text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 215, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .trophy-title-underline {
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        transition: width 0.5s ease;
+        border-radius: 2px;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+
+    .trophy-card:hover .trophy-title-underline {
+        width: 80%;
+    }
+
+    /* Magic sparkles */
+    .trophy-sparkles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .trophy-card:hover .trophy-sparkles {
+        opacity: 1;
+    }
+
+    .sparkle {
+        position: absolute;
+        font-size: 1.2rem;
+        animation: sparkle-twinkle 2s infinite ease-in-out;
+        filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
+    }
+
+    .sparkle-1 {
+        top: 10%;
+        right: 15%;
+        animation-delay: 0s;
+    }
+
+    .sparkle-2 {
+        top: 30%;
+        left: 10%;
+        animation-delay: 0.5s;
+    }
+
+    .sparkle-3 {
+        bottom: 25%;
+        right: 20%;
+        animation-delay: 1s;
+    }
+
+    .sparkle-4 {
+        bottom: 15%;
+        left: 25%;
+        animation-delay: 1.5s;
+    }
+
+    @@keyframes sparkle-twinkle {
+        0%, 100%
+
+    {
+        transform: scale(0.8) rotate(0deg);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.3) rotate(180deg);
+        opacity: 1;
+    }
+
+    }
+
+    /* Main hover effect */
+    .trophy-card:hover {
+        transform: translateY(-20px) rotateX(8deg) rotateY(8deg) scale(1.05);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 60px rgba(255, 215, 0, 0.4), inset 0 0 30px rgba(255, 215, 0, 0.1);
+        border-color: rgba(255, 215, 0, 0.8);
+    }
+
+    /* Mouse tracking 3D effect */
+    .trophy-card {
+        transition: transform 0.1s ease-out;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .trophy-image-container
+
+    {
+        height: 200px;
+    }
+
+    .trophy-card {
+        padding: 20px;
+    }
+
+    .trophy-title {
+        font-size: 1.1rem;
+    }
+
+    }
+
+    @@media (max-width: 576px) {
+        .trophy-image-container
+
+    {
+        height: 180px;
+    }
+
+    .trophy-card {
+        padding: 15px;
+    }
+
+    }
+
+    /* Loading animations */
+    .trophy-card {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: trophy-fade-in 0.8s ease forwards;
+    }
+
+    @@for $ i from 1 through 1 2 {
+        .trophy-card:nth-child(#{$i})
+
+    {
+        animation-delay: #
+
+    {
+        ($i - 1) * 0.1
+    }
+
+    s;
+    }
+    }
+
+    @@keyframes trophy-fade-in {
+        to
+
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Enhanced 3D mouse tracking for each trophy card
+        const trophyCards = document.querySelectorAll('.trophy-card');
+
+        trophyCards.forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (y - centerY) / 8;
+                const rotateY = (centerX - x) / 8;
+
+                card.style.transition = 'transform 0.1s ease-out';
+                card.style.transform = `
+                    translateY(-20px)
+                    rotateX(${rotateX + 8}deg)
+                    rotateY(${rotateY + 8}deg)
+                    scale(1.05)
+                `;
+            });
+
+            card.addEventListener('mouseleave', function() {
+                card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.320, 1)';
+                card.style.transform = '';
+            });
+
+            // Add click ripple effect
+            card.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                ripple.classList.add('ripple-effect');
+
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                ripple.style.cssText = `
+                    position: absolute;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: 0;
+                    height: 0;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, rgba(255, 215, 0, 0.6), transparent);
+                    pointer-events: none;
+                    animation: ripple-animation 0.8s ease-out;
+                `;
+
+                card.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 800);
+            });
+        });
+    });
+
+    // Add ripple animation CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @@keyframes ripple-animation {
+            to {
+                width: 200px;
+                height: 200px;
+                margin-left: -100px;
+                margin-top: -100px;
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
