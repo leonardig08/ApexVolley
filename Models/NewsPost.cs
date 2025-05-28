@@ -15,9 +15,10 @@ namespace ApexVolley.Models
         [Display(Name = "Contenuto")]
         public string Content { get; set; }
 
+
         [Display(Name = "Data di pubblicazione")]
         [DataType(DataType.Date)]
-        public DateTime PublishedAt { get; set; }
+        public DateTime? PublishedAt { get; set; }
 
         public string? MainImagePath { get; set; }
         public string? AdditionalImagePaths { get; set; } // Separati da ";"

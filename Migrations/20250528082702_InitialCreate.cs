@@ -81,7 +81,7 @@ namespace ApexVolley.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PublishedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     MainImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AdditionalImagePaths = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AttachmentPaths = table.Column<string>(type: "nvarchar(max)", nullable: true)

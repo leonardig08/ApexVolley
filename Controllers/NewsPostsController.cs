@@ -60,38 +60,44 @@ namespace ApexVolley.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff,Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content,PublishedAt")] NewsPost newsPost,
-            IFormFile MainImage,
-            IFormFile[] AdditionalImages,
-            IFormFile[] AttachmentFiles)
+        public async Task<IActionResult> Create([Bind("Id,Title,Content, PublishedAt")] NewsPost newsPost , IFormFile MainImage, IFormFile[] AdditionalImages, IFormFile[] AttachmentFiles)
+
         {
+            // Logica per la data di pubblicazione:
+            // Se l'utente non ha specificato una data (PublishedAt è il valore di default DateTime.MinValue),
+            // allora impostiamo la data di pubblicazione a oggi (solo la data, senza l'ora).
+            // Altrimenti, se l'utente ha specificato una data, usiamo quella, assicurandoci
+            // di prendere solo la parte della data.
             if (newsPost.PublishedAt == DateTime.MinValue)
             {
-                // Recupera la data esistente per non sovrascriverla con "today" se era già impostata
-                var existingPostForDate = await _context.NewsPost.AsNoTracking().FirstOrDefaultAsync(n => n.Id == id);
-                if (existingPostForDate != null && existingPostForDate.PublishedAt != DateTime.MinValue)
-                {
-                    newsPost.PublishedAt = existingPostForDate.PublishedAt.Date;
-                }
-                else
-                {
-                    newsPost.PublishedAt = DateTime.Today;
-                }
+                newsPost.PublishedAt = DateTime.Today; // Imposta alla data odierna (00:00:00)
             }
             else
             {
-                // Rimuovi l'ora se presente, mantenendo solo la data
-                newsPost.PublishedAt = newsPost.PublishedAt.Date;
+                // Assicura che venga salvata solo la parte della data, rimuovendo l'eventuale componente oraria
+                newsPost.PublishedAt = (newsPost.PublishedAt ?? DateTime.Now).Date;
             }
 
+            // Rimuoviamo esplicitamente l'errore di validazione per l'ID se presente,
+            // poiché per la creazione l'ID non è fornito dall'utente ma generato dal DB.
+            // Questo è utile se il modello ha qualche validazione sull'ID che non si applica qui.
+            ModelState.Remove("Id");
+
             if (ModelState.IsValid)
-                
             {
-                newsPost.PublishedAt = DateTime.Now;
+                // Non c'è bisogno di impostare nuovamente newsPost.PublishedAt qui,
+                // è già stato gestito sopra.
+
                 // Salva l'immagine principale
                 if (MainImage != null && MainImage.Length > 0)
                 {
-                    newsPost.MainImagePath = await SaveFileAsync(MainImage, "images");
+                    // Valida la dimensione e il tipo del file se necessario
+                    // Esempio: if (MainImage.Length > 5 * 1024 * 1024) { ModelState.AddModelError("MainImage", "L'immagine principale supera i 5MB."); }
+                    // Esempio: if (!new[] { ".jpg", ".jpeg", ".png", ".gif" }.Contains(Path.GetExtension(MainImage.FileName).ToLowerInvariant())) { ModelState.AddModelError("MainImage", "Formato immagine non supportato."); }
+                    if (ModelState.IsValid) // Ricontrolla dopo validazioni aggiuntive sui file
+                    {
+                        newsPost.MainImagePath = await SaveFileAsync(MainImage, "images");
+                    }
                 }
 
                 // Salva immagini aggiuntive
@@ -102,11 +108,15 @@ namespace ApexVolley.Controllers
                     {
                         if (image.Length > 0)
                         {
+                            // Aggiungere validazioni simili a MainImage se necessario
                             var imagePath = await SaveFileAsync(image, "images");
                             imagePaths.Add(imagePath);
                         }
                     }
-                    newsPost.AdditionalImagePaths = string.Join(";", imagePaths);
+                    if (imagePaths.Any()) // Solo se sono state aggiunte immagini valide
+                    {
+                        newsPost.AdditionalImagePaths = string.Join(";", imagePaths);
+                    }
                 }
 
                 // Salva file allegati
@@ -117,17 +127,31 @@ namespace ApexVolley.Controllers
                     {
                         if (file.Length > 0)
                         {
+                            // Aggiungere validazioni simili a MainImage se necessario (es. dimensione max 10MB)
                             var filePath = await SaveFileAsync(file, "attachments");
-                            attachmentPaths.Add($"{file.FileName}|{filePath}");
+                            attachmentPaths.Add($"{file.FileName}|{filePath}"); // Salva nome originale e percorso
                         }
                     }
-                    newsPost.AttachmentPaths = string.Join(";", attachmentPaths);
+                    if (attachmentPaths.Any()) // Solo se sono stati aggiunti allegati validi
+                    {
+                        newsPost.AttachmentPaths = string.Join(";", attachmentPaths);
+                    }
+                }
+
+                // Ricontrolla ModelState.IsValid nel caso in cui le validazioni dei file abbiano aggiunto errori
+                if (!ModelState.IsValid)
+                {
+                    return View(newsPost); // Ritorna alla view con i messaggi di errore
                 }
 
                 _context.Add(newsPost);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "News creata con successo!"; // Messaggio di successo opzionale
                 return RedirectToAction(nameof(Index));
             }
+
+            // Se il ModelState non è valido (es. campi obbligatori mancanti per Title o Content),
+            // ritorna alla view con i dati inseriti e i messaggi di errore.
             return View(newsPost);
         }
 
