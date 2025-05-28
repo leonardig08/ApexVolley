@@ -60,11 +60,30 @@ namespace ApexVolley.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff,Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Title,Content")] NewsPost newsPost,
+        public async Task<IActionResult> Create([Bind("Id,Title,Content,PublishedAt")] NewsPost newsPost,
             IFormFile MainImage,
             IFormFile[] AdditionalImages,
             IFormFile[] AttachmentFiles)
         {
+            if (newsPost.PublishedAt == DateTime.MinValue)
+            {
+                // Recupera la data esistente per non sovrascriverla con "today" se era già impostata
+                var existingPostForDate = await _context.NewsPost.AsNoTracking().FirstOrDefaultAsync(n => n.Id == id);
+                if (existingPostForDate != null && existingPostForDate.PublishedAt != DateTime.MinValue)
+                {
+                    newsPost.PublishedAt = existingPostForDate.PublishedAt.Date;
+                }
+                else
+                {
+                    newsPost.PublishedAt = DateTime.Today;
+                }
+            }
+            else
+            {
+                // Rimuovi l'ora se presente, mantenendo solo la data
+                newsPost.PublishedAt = newsPost.PublishedAt.Date;
+            }
+
             if (ModelState.IsValid)
                 
             {

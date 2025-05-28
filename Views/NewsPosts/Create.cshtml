@@ -22,6 +22,13 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
+            <div class="mb-3">
+                <label asp-for="PublishedAt" class="form-label fw-semibold">Data di Pubblicazione (opzionale)</label>
+                <input asp-for="PublishedAt" type="date" class="form-control" />
+                <span asp-validation-for="PublishedAt" class="text-danger"></span>
+                <small class="form-text text-muted">Se non specificata, verrà usata la data odierna.</small>
+            </div>
+
 
 
             <div class="mb-3">
@@ -35,6 +42,8 @@
                 <input type="file" name="AdditionalImages" class="form-control" accept="image/*" multiple />
                 <small class="form-text text-muted">Puoi selezionare più immagini contemporaneamente</small>
             </div>
+
+
 
             <div class="mb-3">
                 <label class="form-label fw-semibold">File allegati</label>
