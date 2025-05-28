@@ -2238,7 +2238,9 @@ html, body {
     box-shadow: 0 8px 32px rgba(55, 50, 62, 0.3);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    overflow: hidden !important
+    overflow: hidden !important;
+    margin-bottom: 30px
+
 }
 
     .card:hover {
