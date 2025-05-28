@@ -43,7 +43,7 @@
         @foreach (var player in Model)
         {
             var imagePath = $"/images/players/{player.NumeroMaglia}.jpg";
-            var delay = 0.1 * index;
+            var delay = 0.1;
             var roleClass = GetRoleClass(player.Ruolo);
 
             <div class="player-card-wrapper" style="animation-delay: @($"{delay:0.1}s")">
