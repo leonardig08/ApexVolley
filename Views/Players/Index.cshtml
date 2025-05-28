@@ -9,7 +9,7 @@
     
     <div>
         <div class="d-flex align-content-center justify-content-center">
-            <div class="hero-header">
+            <div class="hero-header h-auto">
                 <div class="hero-background">
                     <div class="floating-orb orb-1"></div>
                     <div class="floating-orb orb-2"></div>
@@ -165,37 +165,7 @@
 }
 
 <style>
-    :root {
-        --apex-light-gray: #BFBDC1;
-        --apex-medium-gray: #6D6A75;
-        --apex-dark-gray: #37323E;
-        --apex-primary-gold: #DEB841;
-        --apex-secondary-gold: #DE9E36;
-        /* Gradient combinations */
-        --apex-gold-gradient: linear-gradient(135deg, #DEB841 0%, #DE9E36 100%);
-        --apex-dark-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 100%);
-        --apex-bg-gradient: linear-gradient(135deg, #37323E 0%, #6D6A75 50%, #BFBDC1 100%);
-    }
-
-    /* Reset and Base Styles */
-    * {
-        box-sizing: border-box;
-    }
-
-    html, body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: var(--apex-bg-gradient);
-        color: var(--apex-light-gray);
-        min-height: 100vh;
-    }
-  
-    .players-container {
-        min-height: 100vh;
-            background: linear-gradient(135deg, #37323E 0%, #6D6A75 50%, #BFBDC1 100%);
-        position: relative;
-    }
+    
 
     
 
@@ -214,42 +184,6 @@
         transform: translateY(10px) rotate(240deg);
     }
 
-    }
-
-    .hero-title {
-        position: relative;
-        z-index: 2;
-        margin-bottom: 20px;
-    }
-
-    .title-text {
-        display: block;
-        font-size: 2.5rem;
-        font-weight: 300;
-        color: rgba(255,255,255,0.8);
-        margin-bottom: 10px;
-        animation: slideInFromLeft 1s ease-out;
-    }
-
-    .title-accent {
-        display: block;
-        font-size: 4rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #007bff, #6f42c1, #20c997);
-        background-size: 300% 300%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: gradientShift 3s ease-in-out infinite, slideInFromRight 1s ease-out;
-    }
-
-    .hero-subtitle {
-        position: relative;
-        z-index: 2;
-        font-size: 1.2rem;
-        color: rgba(255,255,255,0.6);
-        margin-bottom: 40px;
-        animation: fadeInUp 1s ease-out 0.5s both;
     }
 
     @@keyframes slideInFromLeft {
@@ -310,51 +244,6 @@
 
     }
 
-    /* Bottone Premium */
-    .btn-premium {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        padding: 16px 32px;
-        background: linear-gradient(135deg, #007bff, #6f42c1);
-        color: white;
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 25px rgba(0,123,255,0.3);
-        animation: fadeInUp 1s ease-out 0.8s both;
-    }
-
-        .btn-premium:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(0,123,255,0.4);
-            color: white;
-            text-decoration: none;
-        }
-
-    .btn-shine {
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-        transition: left 0.5s ease;
-    }
-
-    .btn-premium:hover .btn-shine {
-        left: 100%;
-    }
-
-    .btn-icon {
-        font-size: 1.3rem;
-        animation: bounce 2s infinite;
-    }
-
     @@keyframes bounce {
         0%, 20%, 50%, 80%, 100%
 
@@ -372,25 +261,6 @@
 
     }
 
-    /* Grid dei giocatori */
-    .players-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(40,40,40,0.9) 50%, rgba(0,0,0,0.8) 100%);
-            gap: 30px;
-        padding: 80px 20px 80px;
-        max-width: 1400px;
-        margin: 0 auto;
-        border-radius: 50px;
-
-    }
-
-    .player-card-wrapper {
-        animation: cardEntrance 0.8s ease-out forwards;
-        opacity: 0;
-        transform: translateY(50px);
-    }
-
     @@keyframes cardEntrance {
         to
 
@@ -399,44 +269,6 @@
         transform: translateY(0);
     }
 
-    }
-
-    .player-card {
-        position: relative;
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 24px;
-        overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-        .player-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(0,123,255,0.5);
-        }
-
-    .card-glow {
-        position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
-        background: linear-gradient(135deg, #007bff, #6f42c1, #20c997, #fd7e14);
-        background-size: 400% 400%;
-        border-radius: 24px;
-        z-index: -1;
-        opacity: 0;
-        animation: gradientMove 3s ease infinite;
-        transition: opacity 0.3s ease;
-    }
-
-    .player-card:hover .card-glow {
-        opacity: 0.6;
     }
 
     @@keyframes gradientMove {
@@ -452,36 +284,6 @@
 
     }
 
-    /* Header della card */
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        padding: 20px 20px 0;
-        position: relative;
-        z-index: 2;
-    }
-
-    .jersey-number {
-        font-size: 3rem;
-        font-weight: 900;
-        color: rgba(255,255,255,0.3);
-        line-height: 1;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-
-    /* Badge ruoli */
-    .role-badge {
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.2);
-        animation: badgePulse 2s ease-in-out infinite;
-    }
 
     @@keyframes badgePulse {
         0%, 100%
@@ -495,255 +297,6 @@
     }
 
     }
-
-    .role-attacker {
-        background: linear-gradient(135deg, rgba(220,53,69,0.8), rgba(253,126,20,0.8));
-        color: white;
-        box-shadow: 0 4px 15px rgba(220,53,69,0.3);
-    }
-
-    .role-setter {
-        background: linear-gradient(135deg, rgba(0,123,255,0.8), rgba(111,66,193,0.8));
-        color: white;
-        box-shadow: 0 4px 15px rgba(0,123,255,0.3);
-    }
-
-    .role-middle {
-        background: linear-gradient(135deg, rgba(40,167,69,0.8), rgba(32,201,151,0.8));
-        color: white;
-        box-shadow: 0 4px 15px rgba(40,167,69,0.3);
-    }
-
-    .role-libero {
-        background: linear-gradient(135deg, rgba(255,193,7,0.8), rgba(253,126,20,0.8));
-        color: #212529;
-        box-shadow: 0 4px 15px rgba(255,193,7,0.3);
-    }
-
-    .role-opposite {
-        background: linear-gradient(135deg, rgba(111,66,193,0.8), rgba(232,62,140,0.8));
-        color: white;
-        box-shadow: 0 4px 15px rgba(111,66,193,0.3);
-    }
-
-    .role-default {
-        background: linear-gradient(135deg, rgba(108,117,125,0.8), rgba(73,80,87,0.8));
-        color: white;
-        box-shadow: 0 4px 15px rgba(108,117,125,0.3);
-    }
-
-    /* Immagine del giocatore */
-    .player-image-container {
-        position: relative;
-        width: 100%;
-        height: 250px;
-        overflow: hidden;
-        margin: 20px 0;
-    }
-
-    .player-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: all 0.4s ease;
-        filter: brightness(0.9) saturate(1.1);
-    }
-
-    .player-card:hover .player-image {
-        transform: scale(1.08);
-        filter: brightness(1) saturate(1.2);
-    }
-
-    .image-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        padding: 20px;
-        opacity: 0;
-        transition: all 0.3s ease;
-    }
-
-    .player-card:hover .image-overlay {
-        opacity: 1;
-    }
-
-    .details-btn {
-        background: rgba(255,255,255,0.2);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.3);
-        color: white;
-        padding: 12px 24px;
-        border-radius: 25px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-        .details-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-
-    .btn-arrow {
-        transition: transform 0.3s ease;
-    }
-
-    .details-btn:hover .btn-arrow {
-        transform: translateX(5px);
-    }
-
-    /* Contenuto della card */
-    .card-content {
-        padding: 0 20px 20px;
-        flex-grow: 1;
-    }
-
-    .player-name {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 16px;
-        text-align: center;
-    }
-
-    .player-stats-preview {
-        display: flex;
-        justify-content: space-around;
-        gap: 20px;
-    }
-
-    .stat-item {
-        text-align: center;
-        flex: 1;
-    }
-
-    .stat-label {
-        display: block;
-        font-size: 0.8rem;
-        color: rgba(255,255,255,0.6);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 4px;
-    }
-
-    .stat-value {
-        display: block;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #007bff;
-    }
-
-    /* Dettagli espandibili */
-    .player-details {
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        background: rgba(0,0,0,0.3);
-        backdrop-filter: blur(10px);
-    }
-
-        .player-details.active {
-            max-height: 400px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-    .details-content {
-        padding: 30px 20px;
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 15px;
-        margin-bottom: 25px;
-    }
-
-    .stat-card {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 12px;
-        padding: 15px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .stat-card:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-2px);
-        }
-
-    .stat-icon {
-        font-size: 1.5rem;
-        margin-bottom: 8px;
-    }
-
-    .stat-title {
-        display: block;
-        font-size: 0.7rem;
-        color: rgba(255,255,255,0.6);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 4px;
-    }
-
-    .stat-data {
-        display: block;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: white;
-    }
-
-    /* Azioni admin */
-    .admin-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-    }
-
-    .action-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border-radius: 20px;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .edit-btn {
-        background: rgba(255,193,7,0.2);
-        color: #ffc107;
-    }
-
-        .edit-btn:hover {
-            background: rgba(255,193,7,0.3);
-            color: #ffc107;
-            transform: translateY(-2px);
-        }
-
-    .delete-btn {
-        background: rgba(220,53,69,0.2);
-        color: #dc3545;
-    }
-
-        .delete-btn:hover {
-            background: rgba(220,53,69,0.3);
-            color: #dc3545;
-            transform: translateY(-2px);
-        }
 
     /* Responsive */
     @@media (max-width: 768px) {
