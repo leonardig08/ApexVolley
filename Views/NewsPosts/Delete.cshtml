@@ -15,7 +15,7 @@
             <dd class="col-sm-9">@Model.Content</dd>
 
             <dt class="col-sm-3">Data pubblicazione</dt>
-            <dd class="col-sm-9">@Model.PublishedAt.ToString("dd MMMM yyyy")</dd>
+            <dd class="col-sm-9">@(Model.PublishedAt ?? DateTime.Now).ToString("dd MMMM yyyy")</dd>
         </dl>
 
         <form asp-action="Delete">
