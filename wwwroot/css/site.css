@@ -69,39 +69,7 @@ html, body {
     border-radius: 30px
 }
 
-.floating-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(1px);
-    animation: float 6s ease-in-out infinite;
-}
 
-.orb-1 {
-    width: 120px;
-    height: 120px;
-    background: linear-gradient(45deg, #28a745, #20c997);
-    top: 15%;
-    left: 15%;
-    animation-delay: 0s;
-}
-
-.orb-2 {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(45deg, #dc3545, #fd7e14);
-    top: 70%;
-    right: 20%;
-    animation-delay: 2s;
-}
-
-.orb-3 {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(45deg, #007bff, #6f42c1);
-    bottom: 20%;
-    left: 70%;
-    animation-delay: 4s;
-}
 
 .volleyball-pattern {
     position: absolute;
@@ -242,21 +210,21 @@ html, body {
 }
 
 .orb-2 {
-    width: 80px;
-    height: 80px;
+    width: 140px;
+    height: 140px;
     background: linear-gradient(45deg, #dc3545, #fd7e14);
-    top: 70%;
-    right: 20%;
-    animation-delay: 2s;
+    top: -25%;
+    left: 70%;
+    animation-delay: 1s;
 }
 
 .orb-3 {
     width: 100px;
     height: 100px;
     background: linear-gradient(45deg, #007bff, #6f42c1);
-    bottom: 20%;
+    bottom: 40%;
     left: 70%;
-    animation-delay: 4s;
+    animation-delay: 2s;
 }
 
 .volleyball-pattern {
@@ -411,21 +379,7 @@ html, body {
             transform: translateY(-1px);
         }
 /* ===== CARDS ===== */
-.card {
-    background: var(--apex-dark-gradient);
-    border: none;
-    border-radius: 32px; /* Molto più arrotondato - era 16px */
-    box-shadow: 0 8px 32px rgba(55, 50, 62, 0.3), 0 0 0 2px var(--apex-primary-gold); /* Outline giallo con box-shadow */
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    outline: none !important;
-    overflow: hidden;
-}
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 45px rgba(55, 50, 62, 0.4), 0 0 0 3px var(--apex-primary-gold); /* Outline più spesso al hover */
-    }
 
 .card-header {
     background: var(--apex-gold-gradient);
@@ -2280,10 +2234,11 @@ html, body {
 .card {
     background: var(--apex-dark-gradient);
     border: 1px solid var(--apex-medium-gray);
-    border-radius: 16px;
+    border-radius: 20px !important;
     box-shadow: 0 8px 32px rgba(55, 50, 62, 0.3);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    overflow: hidden !important
 }
 
     .card:hover {
@@ -2376,21 +2331,6 @@ html, body {
     }
 
 /* ===== CARDS ===== */
-.card {
-    background: var(--apex-dark-gradient);
-    border: 1px solid var(--apex-medium-gray);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(55, 50, 62, 0.3);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    margin-bottom: 2rem;
-}
-
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 45px rgba(55, 50, 62, 0.4);
-        border-color: var(--apex-primary-gold);
-    }
 
 .card-header {
     background: var(--apex-gold-gradient);
@@ -2399,6 +2339,7 @@ html, body {
     border-bottom: none;
     border-radius: 16px 16px 0 0 !important;
     padding: 1.5rem;
+
 }
 
 .card-body {
@@ -2466,12 +2407,6 @@ html, body {
         color: var(--apex-dark-gray);
         text-decoration: none;
     }
-.card {
-    outline: none !important;
-    border: none !important;
-    background-color: rgba(255, 0, 0, 0.1) !important; /* Rosso temporaneo per debug */
-}
-
 
 
 /* Footer */
