@@ -11,17 +11,12 @@
 
   <ItemGroup>
     <Compile Remove="Views\Nuova cartella1\**" />
-    <Compile Remove="Views\Nuova cartella\**" />
-    <Compile Remove="wwwroot\attachments\**" />
     <Content Remove="Views\Nuova cartella1\**" />
     <Content Remove="Views\Nuova cartella\**" />
-    <Content Remove="wwwroot\attachments\**" />
     <EmbeddedResource Remove="Views\Nuova cartella1\**" />
     <EmbeddedResource Remove="Views\Nuova cartella\**" />
-    <EmbeddedResource Remove="wwwroot\attachments\**" />
     <None Remove="Views\Nuova cartella1\**" />
     <None Remove="Views\Nuova cartella\**" />
-    <None Remove="wwwroot\attachments\**" />
   </ItemGroup>
 
   <ItemGroup>
