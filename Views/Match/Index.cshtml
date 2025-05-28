@@ -57,7 +57,7 @@
                         }
                         @foreach (var match in Model)
                         {
-                            var delay = 0.1 * index;
+                            var delay = 0.1;
                             var resultClass = GetResultClass(match.Risultato);
 
                             <div class="match-row animated-row" style="animation-delay: @($"{delay:0.1}s")">
