@@ -171,15 +171,7 @@
     margin-bottom: 1.5rem;
     }
 
-    .news-content::first-letter {
-    float: left;
-    font-size: 3.5rem;
-    line-height: 3rem;
-    padding-right: 0.5rem;
-    padding-top: 0.2rem;
-    font-weight: 700;
-    color: #FFD100;
-    }
+   
 
     /* Additional Images Gallery */
     .additional-images-section {
@@ -645,7 +637,7 @@
 
     <div class="action-bar">
         <div class="action-buttons">
-            <a asp-action="Index" asp-controller="News" class="action-btn btn-back">
+            <a asp-action="Index" asp-controller="NewsPosts" class="action-btn btn-back">
                 ⚙️Torna alle News
             </a>
 
@@ -764,23 +756,6 @@
         const newsTitle = titleElement ? encodeURIComponent(titleElement.innerText.trim()) : 'Notizia ApexVolley';
         const currentUrl = encodeURIComponent(window.location.href);
 
-        const facebookBtn = document.querySelector('.share-facebook');
-        if (facebookBtn) {
-            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
-            facebookBtn.setAttribute('aria-label', 'Condividi su Facebook');
-        }
-
-        const twitterBtn = document.querySelector('.share-twitter');
-        if (twitterBtn) {
-            twitterBtn.href = `https://twitter.com/intent/tweet?text=${newsTitle}&url=${currentUrl}`;
-            twitterBtn.setAttribute('aria-label', 'Condividi su Twitter');
-        }
-
-        const whatsappBtn = document.querySelector('.share-whatsapp');
-        if (whatsappBtn) {
-            whatsappBtn.href = `https://api.whatsapp.com/send?text=${newsTitle}%20${currentUrl}`;
-            whatsappBtn.setAttribute('aria-label', 'Condividi su WhatsApp');
-        }
 
         const copyLinkBtn = document.querySelector('.share-copy-link');
         if (copyLinkBtn) {
@@ -807,3 +782,15 @@
         });
     });
 </script>
+
+
+<footer class="border-top footer text-muted">
+    <div class="container text-center">
+        <p>
+            &copy; 2025 - ApexVolley -
+            <a href="/" class="text-apex-gold">Home</a> |
+            <a href="mailto:info@apexvolley.it" class="text-apex-gold">Contatti</a> |
+            <a asp-controller="Home" asp-action="Privacy" class="text-apex-gold">Privacy</a>
+        </p>
+    </div>
+</footer>
