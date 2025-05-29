@@ -1,6 +1,6 @@
 # ApexVolley 🏐
 
-Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **ASP.NET Core MVC**.
+Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **ASP.NET Core MVC**, completamente dockerizzato.
 
 ---
 
@@ -8,8 +8,8 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
  
 - Profilo dei giocatori con statistiche  
 - Sezione news per aggiornamenti della squadra  
-- Galleria foto  
-- Classifiche e risultati aggiornati  
+- Risultati aggiornati
+- Palmares trofei
 - Area riservata per staff e giocatori  
 
 ---
@@ -22,11 +22,15 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
 - SQL Server / SQLite  
 - Bootstrap 5 (per lo stile)  
 - Identity (autenticazione)  
+- Docker
+- Docker-compose
 
 ---
 
-## Setup Database
+## Come Avviare il sito web
 
-dotnet tool install --global dotnet-ef
+Andare nella root del progetto
 
-dotnet ef database update
+docker-compose up
+
+Aprire nel browser sulla porta 8080
