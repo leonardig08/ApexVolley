@@ -266,6 +266,11 @@ ServiceFabricBackup/
 *.ldf
 *.ndf
 
+!apexvolleydb.mdf
+!apexvolleydb_log.ldf
+
+Entropy.bin
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout

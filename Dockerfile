@@ -26,5 +26,8 @@ RUN dotnet publish "./ApexVolley.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 # Questa fase viene usata nell'ambiente di produzione o durante l'esecuzione da Visual Studio in modalità normale (impostazione predefinita quando non si usa la configurazione di debug)
 FROM base AS final
 WORKDIR /app
+
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ApexVolley.dll"]

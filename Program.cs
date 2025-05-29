@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApexVolleyContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ApexVolleyContext") ?? throw new InvalidOperationException("Connection string 'ApexVolleyContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ApexVolleyContext") ?? throw new InvalidOperationException("Connection string 'ApexVolleyContext' not found.")
+    , sqlOptions =>  sqlOptions.EnableRetryOnFailure( maxRetryCount: 30, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null)
+    ));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApexVolleyContext>();
 
