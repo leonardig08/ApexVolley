@@ -196,8 +196,8 @@
                         <div class="news-content-section">
                             <div class="news-content">
                                 @{
-                                    var truncatedContent = item.Content?.Length > 50
-                                    ? item.Content.Substring(0, 50) + "..."
+                                    var truncatedContent = item.Content?.Length > 5000
+                                    ? item.Content.Substring(0, 5000) + "..."
                                     : item.Content;
                                 }
                                 @Html.Raw(truncatedContent)
