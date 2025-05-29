@@ -10,7 +10,7 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
 - Sezione news per aggiornamenti della squadra  
 - Galleria foto  
 - Classifiche e risultati aggiornati  
-- Area riservata per staff e giocatori  
+- Area riservata per staff 
 
 ---
 
