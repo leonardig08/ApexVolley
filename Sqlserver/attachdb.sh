@@ -46,7 +46,7 @@ BEGIN
     PRINT '🧩 Attach del database ApexVolleyDb...';
     BEGIN TRY
         CREATE DATABASE ApexVolleyDb
-        ON 
+        ON
             (FILENAME = '/var/opt/mssql/data/ApexVolleyDb.mdf'),
             (FILENAME = '/var/opt/mssql/data/ApexVolleyDb_log.ldf')
         FOR ATTACH;
