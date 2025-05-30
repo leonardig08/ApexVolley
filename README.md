@@ -29,6 +29,8 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
 
 ## Come Avviare il sito web
 
+## ATTENZIONE LO SCRIPT BASH PER ATTACCARE IL DB DEVE ESSERE PRIMA CONFIGURATO CON TERMINAZIONI DI RIGA UNIX
+
 Andare nella root del progetto
 
 docker-compose up
