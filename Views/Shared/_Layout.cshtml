@@ -1,5 +1,7 @@
 ﻿<!DOCTYPE html>
-
+@using ApexVolley.Models
+@inject ApexVolley.Data.ApexVolleyContext _context
+@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> UserManager
 
 @{
     var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
@@ -52,14 +54,56 @@
                         <li class="nav-item">
                             <a class="nav-link px-3" asp-area="" asp-controller="Trophy" asp-action="Index">Trofei</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" asp-area="" asp-controller="Products" asp-action="Index">Negozio</a>
+                        </li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link px-3" asp-area="" asp-controller="Register" asp-action="Index">Diventa Tesserato</a>
+                            </li>
+                        }
+
                     @if(canCreate) {
                         <li class="nav-item">
                             <a class="nav-link px-3" asp-area="" asp-controller="UserManagement" asp-action="Index">Gestione utenti</a>
                         </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3" asp-area="" asp-controller="OrdersAdmin" asp-action="Index">Gestione ordini</a>
+                            </li>
                     }
+
+                        
+
+                        
+
+
                     
                 </ul>
                 <partial name="_LoginPartial" />
+                    @{
+                        int cartCount = 0;
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            var user = await UserManager.GetUserAsync(User);
+                            if (user != null)
+                            {
+                                cartCount = _context.CartItems.Count(c => c.UserId == user.Id);
+                            }
+                        }
+                    }
+
+                    <!-- Pulsante Carrello -->
+                    <a class="btn btn-outline-light position-relative" asp-controller="Cart" asp-action="Index">
+                        🛒
+                        @if (cartCount > 0)
+                        {
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                @cartCount
+                                <span class="visually-hidden">prodotti nel carrello</span>
+                            </span>
+                        }
+                    </a>
             </div>
         </div>
     </nav>

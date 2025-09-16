@@ -94,59 +94,62 @@ namespace ApexVolley.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+           public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // Determina se l'input è un'email o uno username
-                IdentityUser user = null;
-
-                if (new EmailAddressAttribute().IsValid(Input.Login))
-                {
-                    user = await _userManager.FindByEmailAsync(Input.Login);
-                }
-                else
-                {
-                    user = await _userManager.FindByNameAsync(Input.Login);
-                }
-
-                if (user == null)
-                {
-                    ModelState.AddModelError(string.Empty, "Tentativo di accesso non valido.");
-                    return Page();
-                }
-
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Tentativo di accesso non valido.");
-                    return Page();
-                }
+                // Se ModelState non è valido, ritorna la pagina con errori
+                return Page();
             }
 
-            // Se siamo arrivati qui, qualcosa è andato storto
-            return Page();
+            // Determina se l'input è un'email o uno username
+            ApplicationUser user = null;
+
+            if (new EmailAddressAttribute().IsValid(Input.Login))
+            {
+                user = await _userManager.FindByEmailAsync(Input.Login);
+            }
+            else
+            {
+                user = await _userManager.FindByNameAsync(Input.Login);
+            }
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Tentativo di accesso non valido.");
+                return Page();
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User logged in.");
+                return LocalRedirect(returnUrl);
+            }
+            else if (result.RequiresTwoFactor)
+            {
+                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+            }
+            else if (result.IsLockedOut)
+            {
+                _logger.LogWarning("User account locked out.");
+                return RedirectToPage("./Lockout");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Tentativo di accesso non valido.");
+                return Page();
+            }
+
+            // NON serve un ulteriore return qui perché tutti i percorsi ritornano già un IActionResult
         }
 
     }
+
 
 }

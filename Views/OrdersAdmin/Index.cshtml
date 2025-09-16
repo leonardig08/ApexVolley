@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ApexVolley.Models.Order>
+@{
+    ViewData["Title"] = "Gestione ordini";
+}
+
+<h2>Gestione ordini</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<table class="table table-hover align-middle mt-3">
+    <thead>
+        <tr>
+            <th>Ordine</th>
+            <th>Utente</th>
+            <th>Data</th>
+            <th>Totale</th>
+            <th>Stato</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>#@order.Id</td>
+                <td>@order.User?.UserName</td>
+                <td>@order.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@order.TotalAmount €</td>
+                <td>@order.Status</td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post" class="d-inline">
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                        <select name="newStatus" class="form-select form-select-sm d-inline w-auto">
+                            <option value="In attesa" selected="@((order.Status == "In attesa") ? "selected" : null)">In attesa</option>
+                            <option value="In consegna" selected="@((order.Status == "In consegna") ? "selected" : null)">In consegna</option>
+                            <option value="Consegnato" selected="@((order.Status == "Consegnato") ? "selected" : null)">Consegnato</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-success">Aggiorna</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
