@@ -24,6 +24,8 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
 - Identity (autenticazione)  
 - Docker
 - Docker-compose
+- Stripe
+- Stripe CLI
 
 ---
 
@@ -31,8 +33,30 @@ Sito web per la squadra di pallavolo **ApexVolley**, sviluppato in **C#** con **
 
 ## ATTENZIONE LO SCRIPT BASH PER ATTACCARE IL DB DEVE ESSERE PRIMA CONFIGURATO CON TERMINAZIONI DI RIGA UNIX
 
-Andare nella root del progetto
+### E NECESSARIO INSTALLARE STRIPE CLI
 
+1. Andare nella root del progetto
+```batch
 docker-compose up
+```
+
+
+2. Aprire un altro cmd e con Stripe CLI installato eseguire
+```batch
+stripe listen --forward-to http://localhost:8080/api/stripe/webhook
+```
+
+3. Per far funzionare correttamente il pagamento fittizio mettere in appsettings.json il proprio codice webhook che è univoco per l'account
+
+```json
+"Stripe": {
+  "SecretKey": "sk_test_...",
+  "PublishableKey": "pk_test_...",
+  "WebhookSecret": "whsec_..."
+}
+```
+
+
+
 
 Aprire nel browser sulla porta 8080
