@@ -16,7 +16,7 @@ namespace ApexVolley.Models {
         [Required]
         public decimal TotalAmount { get; set; }
 
-        public string Status { get; set; } = "In attesa";
+        public string Status { get; set; } = "Non pagato";
 
         public string FullName { get; set; }
         public string Address { get; set; }
@@ -24,6 +24,7 @@ namespace ApexVolley.Models {
         public string ZipCode { get; set; }
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
+        public string ?StripeSessionId { get; set; }
 
         public ICollection<OrderItem> OrderItems { get; set; }
     }

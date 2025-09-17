@@ -83,12 +83,16 @@
                 <partial name="_LoginPartial" />
                     @{
                         int cartCount = 0;
+
                         if (User.Identity.IsAuthenticated)
                         {
                             var user = await UserManager.GetUserAsync(User);
                             if (user != null)
                             {
-                                cartCount = _context.CartItems.Count(c => c.UserId == user.Id);
+                                // Somma le quantità dei prodotti nel carrello
+                                cartCount = _context.CartItems
+                                .Where(c => c.UserId == user.Id)
+                                .Sum(c => (int?)c.Quantity) ?? 0;
                             }
                         }
                     }

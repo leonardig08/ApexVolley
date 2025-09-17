@@ -20,7 +20,6 @@ public class OrdersAdminController : Controller
         var orders = await _context.Orders
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
-            .Include(o => o.User)
             .OrderByDescending(o => o.CreatedAt)
             .ToListAsync();
 
@@ -29,6 +28,7 @@ public class OrdersAdminController : Controller
 
     // Modifica stato ordine
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateStatus(int orderId, string newStatus)
     {
         var order = await _context.Orders.FindAsync(orderId);

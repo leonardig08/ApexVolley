@@ -8,9 +8,15 @@ services:
     depends_on:
       sqlserver:
         condition: service_healthy
+    volumes:
+       - ./uploads:/app/wwwroot/uploads
+
     environment:
       - ConnectionStrings__ApexVolleyContext=Server=sqlserver;User Id=sa;password=myPassword1!;Database=ApexVolleyDb;TrustServerCertificate=True
-  
+      - Stripe__SecretKey=sk_test_51S7uz0FYGZPhV7GgT3gRlGojQGwKGgkeYrmWQSA0zPD15Yeh2r4KtDdTaWOr5WLCMCVzRVEQzgnGJajU7zu84v5T00VS53a3TH
+      - Stripe__PublishableKey=pk_test_51S7uz0FYGZPhV7GgFewUUlSBYYv72e54yLhgismR0bBXKuq7RNEEADB71zkDJ5JLCwwWf6fpa0YtzKuI226LLQZk00fY5pm1DA
+      - Stripe__WebhookSecret=whsec_89df1aa97618f6f849e663c27ca08791352d6b3677ef4ca184bd00f0c4d356d2
+
   sqlserver:
     build:
       context: ./Sqlserver

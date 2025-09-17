@@ -1,32 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApexVolley.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace ApexVolley.Models
+public class CheckoutViewModel
 {
-    public class CheckoutViewModel
-    {
-        [Required]
-        [Display(Name = "Nome e Cognome")]
-        public string FullName { get; set; }
+    [ValidateNever]
+    public List<CartItem> CartItems { get; set; }
 
-        [Required]
-        [Display(Name = "Indirizzo")]
-        public string Address { get; set; }
+    [Required, Display(Name = "Nome e Cognome")]
+    public string FullName { get; set; }
 
-        [Required]
-        [Display(Name = "Città")]
-        public string City { get; set; }
+    [Required]
+    public string Address { get; set; }
 
-        [Required]
-        [Display(Name = "CAP")]
-        public string ZipCode { get; set; }
+    [Required]
+    public string City { get; set; }    
 
-        [Required]
-        [Display(Name = "Paese")]
-        public string Country { get; set; }
+    [Required, RegularExpression(@"^\d{5}$", ErrorMessage = "Inserisci un CAP valido (5 cifre).")]
+    public string ZipCode { get; set; }
 
-        [Required]
-        [Phone]
-        [Display(Name = "Telefono")]
-        public string PhoneNumber { get; set; }
-    }
+    [Required]
+    public string Country { get; set; }
+
+    [Required, Phone]
+    public string PhoneNumber { get; set; }
+
 }

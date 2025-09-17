@@ -19,9 +19,15 @@
         <tr>
             <th>Ordine</th>
             <th>Utente</th>
-            <th>Data</th>
+            <th>Nome</th>
+            <th>Indirizzo</th>
+            <th>Città</th>
+            <th>CAP</th>
+            <th>Paese</th>
+            <th>Telefono</th>
             <th>Totale</th>
             <th>Stato</th>
+            <th>Dettagli prodotti</th>
             <th>Azioni</th>
         </tr>
     </thead>
@@ -30,15 +36,30 @@
         {
             <tr>
                 <td>#@order.Id</td>
-                <td>@order.User?.UserName</td>
-                <td>@order.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@order.UserId</td>
+                <td>@order.FullName</td>
+                <td>@order.Address</td>
+                <td>@order.City</td>
+                <td>@order.ZipCode</td>
+                <td>@order.Country</td>
+                <td>@order.PhoneNumber</td>
                 <td>@order.TotalAmount €</td>
                 <td>@order.Status</td>
+                <td>
+                    <ul>
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li>@item.Product.Name x @item.Quantity (@item.UnitPrice € ciascuno)</li>
+                        }
+                    </ul>
+                </td>
                 <td>
                     <form asp-action="UpdateStatus" method="post" class="d-inline">
                         <input type="hidden" name="orderId" value="@order.Id" />
                         <select name="newStatus" class="form-select form-select-sm d-inline w-auto">
-                            <option value="In attesa" selected="@((order.Status == "In attesa") ? "selected" : null)">In attesa</option>
+                            <option value="Non pagato" selected="@((order.Status == "Non pagato") ? "selected" : null)">Non pagato</option>
+                            <option value="Pagato" selected="@((order.Status == "Pagato") ? "selected" : null)">Pagato</option>
+                            <option value="Pagato" selected="@((order.Status == "Pagato") ? "selected" : null)">Spedito</option>
                             <option value="In consegna" selected="@((order.Status == "In consegna") ? "selected" : null)">In consegna</option>
                             <option value="Consegnato" selected="@((order.Status == "Consegnato") ? "selected" : null)">Consegnato</option>
                         </select>
