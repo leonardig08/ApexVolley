@@ -5,18 +5,18 @@ namespace ApexVolley.Models
     {
         public int Id { get; set; }
 
-        
+
         public string? Nome { get; set; }
         public string? Cognome { get; set; }
 
-        [DataType(DataType.Date), Display(Name ="Data di Nascita")]
+        [DataType(DataType.Date), Display(Name = "Data di Nascita")]
         public DateTime DataNascita { get; set; }
 
         public string? Ruolo { get; set; }
 
-        [Display(Name ="Altezza (cm)")]
+        [Display(Name = "Altezza (cm)")]
         public int AltezzaCm { get; set; }
-        [Display(Name ="Numero di maglia")]
+        [Display(Name = "Numero di maglia")]
         public int NumeroMaglia { get; set; }
         public int Eta
         {

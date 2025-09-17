@@ -5,6 +5,7 @@ using ApexVolley.Data;
 using ApexVolley.Models;
 
 [Authorize(Roles = "Staff,Admin")]
+[ValidateAntiForgeryToken]
 public class OrdersAdminController : Controller
 {
     private readonly ApexVolleyContext _context;

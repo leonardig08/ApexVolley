@@ -30,6 +30,7 @@ else
                     <td>@item.Product.Price €</td>
                     <td>
                         <form asp-action="Update" method="post" class="d-flex">
+                            @Html.AntiForgeryToken();
                             <input type="hidden" name="id" value="@item.Id" />
                             <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control form-control-sm me-2" style="width:70px;" />
                             <button type="submit" class="btn btn-sm btn-primary">Aggiorna</button>
@@ -38,6 +39,7 @@ else
                     <td>@(item.Product.Price* item.Quantity) €</td>
                     <td>
                         <form asp-action="Remove" method="post" onsubmit="return confirm('Vuoi rimuovere questo prodotto?');">
+                            @Html.AntiForgeryToken();
                             <input type="hidden" name="id" value="@item.Id" />
                             <button type="submit" class="btn btn-sm btn-danger">Elimina</button>
                         </form>

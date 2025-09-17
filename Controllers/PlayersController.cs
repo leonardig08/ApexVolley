@@ -21,12 +21,14 @@ namespace ApexVolley.Controllers
         }
 
         // GET: Players
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Player.ToListAsync());
         }
 
         // GET: Players/Details/5
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +48,7 @@ namespace ApexVolley.Controllers
 
         // GET: Players/Create
         [Authorize(Roles = "Staff,Admin")]
+        [ValidateAntiForgeryToken]
         public IActionResult Create()
         {
             return View();
@@ -70,6 +73,7 @@ namespace ApexVolley.Controllers
 
         // GET: Players/Edit/5
         [Authorize(Roles = "Staff,Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -123,6 +127,7 @@ namespace ApexVolley.Controllers
 
         // GET: Players/Delete/5
         [Authorize(Roles = "Staff,Admin")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

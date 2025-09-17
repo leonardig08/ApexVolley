@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 [Authorize(Roles = "Admin")]
+[ValidateAntiForgeryToken]
 public class UserManagementController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -17,6 +18,7 @@ public class UserManagementController : Controller
         _roleManager = roleManager;
     }
     [Authorize(Roles = "Staff,Admin")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index()
     {
         var users = _userManager.Users.ToList();
@@ -44,6 +46,7 @@ public class UserManagementController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Staff,Admin")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddRole(string userId, string roleName)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
@@ -69,6 +72,7 @@ public class UserManagementController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Staff,Admin")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> RemoveRole(string userId, string roleName)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
@@ -90,6 +94,7 @@ public class UserManagementController : Controller
     [HttpPost]
     [HttpPost]
     [Authorize(Roles = "Staff,Admin")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateUser(
     string userName,
     string email,

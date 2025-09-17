@@ -6,6 +6,7 @@ using ApexVolley.Models;
 using System.Security.Claims;
 
 [Authorize]
+[ValidateAntiForgeryToken]
 public class OrdersController : Controller
 {
     private readonly ApexVolleyContext _context;
