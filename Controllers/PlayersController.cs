@@ -21,14 +21,12 @@ namespace ApexVolley.Controllers
         }
 
         // GET: Players
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Player.ToListAsync());
         }
 
         // GET: Players/Details/5
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

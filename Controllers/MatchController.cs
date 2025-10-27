@@ -21,7 +21,6 @@ namespace ApexVolley.Controllers
         }
 
         // GET: Match
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Match.ToListAsync());

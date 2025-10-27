@@ -30,4 +30,4 @@ WORKDIR /app
 ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ApexVolley.dll"]
+ENTRYPOINT ["sh", "-c", "sleep 15 && dotnet ApexVolley.dll"]

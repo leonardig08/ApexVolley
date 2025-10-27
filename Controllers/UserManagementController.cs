@@ -18,7 +18,6 @@ public class UserManagementController : Controller
         _roleManager = roleManager;
     }
     [Authorize(Roles = "Staff,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index()
     {
         var users = _userManager.Users.ToList();

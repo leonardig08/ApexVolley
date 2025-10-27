@@ -26,7 +26,7 @@ trap cleanup SIGTERM SIGINT
 
 # Attendi che SQL Server sia pronto
 echo "⏳ Attesa di SQL Server..."
-sleep 45
+sleep 20
 
 # Imposta permessi e proprietà corretti
 # Test di connessione

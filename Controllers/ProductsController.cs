@@ -17,7 +17,7 @@ public class ProductsController : Controller
     }
 
     [AllowAnonymous]
-    [ValidateAntiForgeryToken]
+
     public async Task<IActionResult> Index()
     {
         var products = await _context.Products.ToListAsync();
