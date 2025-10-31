@@ -555,32 +555,7 @@
             });
 
             // Add click ripple effect
-            card.addEventListener('click', function(e) {
-                const ripple = document.createElement('div');
-                ripple.classList.add('ripple-effect');
-
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                ripple.style.cssText = `
-                    position: absolute;
-                    left: ${x}px;
-                    top: ${y}px;
-                    width: 0;
-                    height: 0;
-                    border-radius: 50%;
-                    background: radial-gradient(circle, rgba(255, 215, 0, 0.6), transparent);
-                    pointer-events: none;
-                    animation: ripple-animation 0.8s ease-out;
-                `;
-
-                card.appendChild(ripple);
-
-                setTimeout(() => {
-                    ripple.remove();
-                }, 800);
-            });
+           
         });
     });
 

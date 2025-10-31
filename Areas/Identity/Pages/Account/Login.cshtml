@@ -1,108 +1,89 @@
 ﻿@page
-
 @model LoginModel
 
-<style>
-  
-    
+<div class="login-wrapper">
+    <div class="login-container-premium">
+        <div class="login-header">
+            <div class="login-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                    <polyline points="10 17 15 12 10 7"></polyline>
+                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+            </div>
+            <h1 class="login-title">Bentornato!</h1>
+            <p class="login-subtitle">Accedi al tuo account</p>
+        </div>
 
-    .login-container {
-        min-width: 35%;
-        margin-top: 6rem;
-        padding: 2rem;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
+        <div asp-validation-summary="ModelOnly" class="alert-premium alert-danger-premium mb-4" role="alert"></div>
 
-    h1 {
-        text-align: center;
-        font-weight: 700;
-        margin-bottom: 2rem;
-        color: #212A37;
-    }
-
-    h2 {
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        color: #212A37;
-    }
-
-    .btn-primary {
-        background-color: #212A37;
-        border-color: #212A37;
-        font-weight: 600;
-        transition: background-color 0.3s ease;
-    }
-
-        .btn-primary:hover, .btn-primary:focus {
-            background-color: #1a2230;
-            border-color: #1a2230;
-            box-shadow: 0 0 8px rgba(33,42,55,0.6);
-        }
-
-    a {
-        color: #212A37;
-        font-weight: 500;
-    }
-
-        a:hover, a:focus {
-            color: #FFD100;
-            text-decoration: none;
-        }
-
-    .form-label {
-        font-weight: 600;
-        color: #212A37;
-    }
-</style>
-
-<h1>@ViewData["Title"]</h1>
-
-<div class="d-flex justify-content-center">
-    <div class="login-container">
-        <form id="account" method="post" novalidate>
-            <h2>Accedi</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Login" class="form-control" autocomplete="username" placeholder="name@example.com" aria-required="true" />
-                <label asp-for="Input.Login">Email o Username</label>
-                <span asp-validation-for="Input.Login" class="text-danger"></span>
+        <form id="account" method="post" novalidate class="login-form-premium">
+            <div class="form-group-premium mb-4">
+                <label asp-for="Input.Login" class="form-label-premium">
+                    <span class="label-icon">👤</span>
+                    Email o Username
+                </label>
+                <div class="input-wrapper">
+                    <input asp-for="Input.Login" class="form-control-premium" autocomplete="username" placeholder="Inserisci email o username" aria-required="true" />
+                    <span class="input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </span>
+                </div>
+                <span asp-validation-for="Input.Login" class="validation-message"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" type="password" class="form-control" autocomplete="current-password" placeholder="Password" aria-required="true" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="form-group-premium mb-4">
+                <label asp-for="Input.Password" class="form-label-premium">
+                    <span class="label-icon">🔒</span>
+                    Password
+                </label>
+                <div class="input-wrapper">
+                    <input asp-for="Input.Password" type="password" class="form-control-premium" autocomplete="current-password" placeholder="Inserisci la password" aria-required="true" />
+                    <span class="input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </span>
+                </div>
+                <span asp-validation-for="Input.Password" class="validation-message"></span>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="d-flex align-items-center">
-                    <input class="form-check-input" asp-for="Input.RememberMe" type="checkbox" id="rememberMeCheck" />
-                    <label class="form-check-label ms-2" for="rememberMeCheck" style="color: #212A37">
+            <div class="login-options">
+                <div class="remember-me">
+                    <input class="form-check-input-premium" asp-for="Input.RememberMe" type="checkbox" id="rememberMeCheck" />
+                    <label class="form-check-label-premium" for="rememberMeCheck">
                         Ricordami
                     </label>
                 </div>
-                <a id="forgot-password" asp-page="./ForgotPassword">Password dimenticata?</a>
-            </div>
-
-
-            <button id="login-submit" type="submit" class="btn btn-primary w-100 btn-lg mb-3">Accedi</button>
-            <div class="flex-column align-items-center">
-
-
-                <a asp-controller="Register" asp-action="Index" asp-route-returnUrl="@Model.ReturnUrl">
-                    Registrati
+                <a id="forgot-password" asp-page="./ForgotPassword" class="link-premium-small">
+                    Password dimenticata?
                 </a>
             </div>
 
-
-
+            <button id="login-submit" type="submit" class="btn-premium-login">
+                <span class="btn-text">Accedi</span>
+                <span class="btn-icon">→</span>
+            </button>
         </form>
+
+        <div class="login-footer">
+            <div class="divider">
+                <span>oppure</span>
+            </div>
+            <p class="register-link">
+                Non hai un account?
+                <a asp-controller="Register" asp-action="Index" asp-route-returnUrl="@Model.ReturnUrl" class="link-premium">
+                    Registrati ora
+                </a>
+            </p>
+        </div>
     </div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

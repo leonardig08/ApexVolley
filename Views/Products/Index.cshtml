@@ -1,137 +1,144 @@
 ﻿@model IEnumerable<ApexVolley.Models.Product>
-@{
+    @{
     ViewData["Title"] = "Shop";
     var canManage = User.IsInRole("Staff") || User.IsInRole("Admin");
+    }
+
+
+    <div class="players-container pb-0">
+        <!-- Header con effetto glassmorphism -->
+
+        <div>
+            <div class="d-flex align-content-center justify-content-center">
+                <div class="hero-header h-auto">
+                    <div class="hero-background">
+                        <div class="floating-orb orb-1"></div>
+                        <div class="floating-orb orb-2"></div>
+                        <div class="floating-orb orb-3"></div>
+                        <div class="volleyball-pattern"></div>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="title-text">I Nostri</span>
+                        <span class="title-accent">Prodotti</span>
+                    </h1>
+                    <p class="hero-subtitle">Vesti i colori. Vivi la squadra.</p>
+                    @if (canManage)
+{
+                    <div class="hero-action" style="margin: 30px 0px 30px 0px">
+                        <a asp-action="Create" class="btn-premium" >
+                            <span class="btn-icon">⚡</span>
+                            <span>🛒Aggiungi Nuovo Prodotto</span>
+                            <div class="btn-shine"></div>
+                        </a>
+                    </div>
 }
 
-<div class="container py-4">
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-    }
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-    }
+                </div>
+            </div>
+            
 
-    @if (canManage)
-    {
-        <div class="mb-4 text-end">
-            <a asp-action="Create" class="btn btn-primary">🛒 Aggiungi Prodotto</a>
-        </div>
-    }
-
-    <div class="row g-4">
-        @foreach (var p in Model)
+            <div class="row g-4" style="margin: 10px 40px 10px 40px">
+                @foreach (var p in Model)
         {
-            <div class="col-md-3">
-                <div class="card product-card shadow-sm h-100">
-                    <img src="@p.ImageUrl" class="card-img-top product-image" alt="@p.Name" />
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">@p.Name</h5>
-                        <p class="card-subtitle text-muted mb-2">Descrizione</p>
-                        <div class="card-text mb-2 text-truncate" style="max-height: 60px;">@p.Description</div>
-                        <p class="card-text fw-bold">@p.Price €</p>
+                <div class="col-md-3">
+                    <div class="card product-card shadow-sm h-100">
+                        <img src="@p.ImageUrl" class="card-img-top product-image" alt="@p.Name" />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@p.Name</h5>
+                            <p class="card-subtitle text-muted mb-2">Descrizione</p>
+                            <div class="card-text mb-2 text-truncate" style="max-height: 60px;">@p.Description</div>
+                            <p class="card-text fw-bold">@p.Price €</p>
 
-                        <div class="mt-auto d-flex justify-content-between flex-wrap">
-                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal@p.Id">Info</button>
+                            <div class="mt-auto d-flex justify-content-between flex-wrap">
+                                <button class="btn-premium-info btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal@p.Id">ℹ️ Info</button>
 
-                            <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
-                                <input type="hidden" name="productId" value="@p.Id" />
-                                <button type="submit" class="btn btn-success btn-sm">Aggiungi</button>
-                            </form>
+                                <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
+                                    <input type="hidden" name="productId" value="@p.Id" />
+                                    <button type="submit" class="btn-premium-add btn-success btn-sm">🛒 Aggiungi</button>
+                                </form>
 
-                            @if (canManage)
+                                @if (canManage)
                             {
                                 <div class="d-flex mt-2 mt-md-0">
-                                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-warning btn-sm me-1">Modifica</a>
+                                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn-premium-edit btn-warning btn-sm me-1">✍️ Modifica</a>
                                     <form asp-action="Delete" asp-route-id="@p.Id" method="post" onsubmit="return confirm('Sei sicuro di voler eliminare questo prodotto?');">
-                                        @Html.AntiForgeryToken();
-                                        <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+
+                                        <button type="submit" class="btn-premium-delete btn-danger btn-sm">🗑️ Elimina</button>
                                     </form>
                                 </div>
                             }
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="infoModal@p.Id" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">@p.Name</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-                            <div class="modal-body">@p.Description</div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="infoModal@p.Id" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">@p.Name</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">@p.Description</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+        }
             </div>
-        }
-    </div>
-</div>
+        </div>
 
-<style>
-    .product-card {
-        background: linear-gradient(145deg,#f8fafc,#e2e8f0);
-        border-radius: .5rem;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        transition: transform .3s, box-shadow .3s;
-        animation: fadeInUp .6s ease;
-    }
+            <style>
+                .product-card {
+                    background: linear-gradient(145deg,#f8fafc,#e2e8f0);
+                    border-radius: .5rem;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    transition: transform .3s, box-shadow .3s;
+                    animation: fadeInUp .6s ease;
+                }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
+                    .product-card:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+                    }
 
-    .product-image {
-        max-height: 200px;
-        object-fit: cover;
-        width: 100%;
-    }
+                .product-image {
+                    max-height: 200px;
+                    object-fit: cover;
+                    width: 100%;
+                }
 
-    .text-truncate {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+                .text-truncate {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
 
-    @@keyframes fadeInUp {
-        from
+                @@keyframes fadeInUp {
+                    from {
+                        transform: translateY(30px);
+                        opacity: 0;
+                    }
 
-    {
-        transform: translateY(30px);
-        opacity: 0;
-    }
+                    to {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
 
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+                @@media (prefers-color-scheme: dark) {
+                    .product-card {
+                        background: linear-gradient(145deg,#2d3748,#1a202c);
+                        color: #e2e8f0;
+                    }
+                }
 
-    }
-
-    @@media (prefers-color-scheme: dark) {
-        .product-card
-
-    {
-        background: linear-gradient(145deg,#2d3748,#1a202c);
-        color: #e2e8f0;
-    }
-
-    }
-
-    @@media (max-width: 768px) {
-        .row.g-4
-
-    {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    }
-</style>
+                @@media (max-width: 768px) {
+                    .row.g-4 {
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        gap: 1.5rem;
+                    }
+                }
+            </style>

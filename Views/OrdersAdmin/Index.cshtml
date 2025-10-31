@@ -55,7 +55,7 @@
                 </td>
                 <td>
                     <form asp-action="UpdateStatus" method="post" class="d-inline">
-                        @Html.AntiForgeryToken();
+                        
                         <input type="hidden" name="orderId" value="@order.Id" />
                         <select name="newStatus" class="form-select form-select-sm d-inline w-auto">
                             <option value="Non pagato" selected="@((order.Status == "Non pagato") ? "selected" : null)">Non pagato</option>

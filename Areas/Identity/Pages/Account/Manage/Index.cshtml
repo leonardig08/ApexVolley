@@ -1,27 +1,145 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Profilo";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+<div class="profile-wrapper d-flex  justify-content-center align-self-center">
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            <h1 class="profile-title">Il Tuo Profilo</h1>
+            <p class="profile-subtitle">Gestisci le informazioni del tuo account</p>
+        </div>
+
+        <partial name="_StatusMessage" for="StatusMessage" />
+
+        <div class="profile-content">
+            <form id="profile-form" method="post" class="profile-form">
+                <div asp-validation-summary="ModelOnly" class="alert-premium alert-danger-premium mb-4" role="alert"></div>
+
+                <div class="form-section-profile">
+                    <h3 class="section-title-profile">
+                        <span class="section-icon">📋</span>
+                        Informazioni Account
+                    </h3>
+
+                    <div class="form-group-premium mb-4">
+                        <label asp-for="Username" class="form-label-premium">
+                            <span class="label-icon">👤</span>
+                            Nome Utente
+                        </label>
+                        <div class="input-wrapper">
+                            <input asp-for="Username" class="form-control-premium disabled-input" placeholder="Nome utente" disabled />
+                            <span class="input-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <small class="input-help disabled-help">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            Il nome utente non può essere modificato
+                        </small>
+                    </div>
+
+                    <div class="form-group-premium mb-4">
+                        <label asp-for="Input.PhoneNumber" class="form-label-premium">
+                            <span class="label-icon">📱</span>
+                            Numero di Telefono
+                        </label>
+                        <div class="input-wrapper">
+                            <input asp-for="Input.PhoneNumber" class="form-control-premium" placeholder="Inserisci il tuo numero di telefono" />
+                            <span class="input-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <span asp-validation-for="Input.PhoneNumber" class="validation-message"></span>
+                        <small class="input-help">Formato: +39 123 456 7890</small>
+                    </div>
+                </div>
+
+                <div class="info-box-profile">
+                    <div class="info-icon-profile">💡</div>
+                    <div class="info-content-profile">
+                        <strong>Suggerimento</strong>
+                        <p>Mantieni aggiornate le tue informazioni di contatto per ricevere notifiche importanti sui tuoi ordini.</p>
+                    </div>
+                </div>
+
+                <div class="form-actions-profile">
+                    <button id="update-profile-button" type="submit" class="btn-premium-save">
+                        <span class="btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                        </span>
+                        <span class="btn-text">Salva Modifiche</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="additional-actions">
+                <h3 class="actions-title">Gestisci Account</h3>
+                <div class="action-cards">
+                    <a asp-page="./Email" class="action-card">
+                        <div class="action-icon email-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <div class="action-content">
+                            <h4>Modifica Email</h4>
+                            <p>Cambia l'indirizzo email associato al tuo account</p>
+                        </div>
+                        <div class="action-arrow">→</div>
+                    </a>
+
+                    <a asp-page="./ChangePassword" class="action-card">
+                        <div class="action-icon password-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <div class="action-content">
+                            <h4>Cambia Password</h4>
+                            <p>Aggiorna la tua password per maggiore sicurezza</p>
+                        </div>
+                        <div class="action-arrow">→</div>
+                    </a>
+
+                    <a asp-page="./PersonalData" class="action-card">
+                        <div class="action-icon data-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div class="action-content">
+                            <h4>Dati Personali</h4>
+                            <p>Scarica o elimina i tuoi dati personali</p>
+                        </div>
+                        <div class="action-arrow">→</div>
+                    </a>
+                </div>
             </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
+        </div>
     </div>
 </div>
 

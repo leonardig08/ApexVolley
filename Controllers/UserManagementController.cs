@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 [Authorize(Roles = "Admin")]
-[ValidateAntiForgeryToken]
+
 public class UserManagementController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
