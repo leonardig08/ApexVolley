@@ -4791,6 +4791,10 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    position: sticky;
+    top: 10px;
+    height: 635px;
+    overflow: hidden;
 }
 
 .steps-container {
@@ -4798,8 +4802,6 @@ footer {
     border-radius: 20px;
     padding: 24px;
     box-shadow: 0 4px 12px rgba(55, 50, 62, 0.1);
-    position: sticky;
-    top: 100px;
 }
 
 .step-item {
