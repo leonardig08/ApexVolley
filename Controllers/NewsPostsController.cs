@@ -54,7 +54,6 @@ namespace ApexVolley.Controllers
 
         // GET: NewsPosts/Create
         [Authorize(Roles = "Staff,Admin")]
-        [ValidateAntiForgeryToken]
         public IActionResult Create()
         {
             return View();
@@ -62,7 +61,6 @@ namespace ApexVolley.Controllers
 
         // POST: NewsPosts/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff,Admin")]
         public async Task<IActionResult> Create([Bind("Id,Title,Content, PublishedAt")] NewsPost newsPost , IFormFile MainImage, IFormFile[] AdditionalImages, IFormFile[] AttachmentFiles)
 
@@ -161,7 +159,6 @@ namespace ApexVolley.Controllers
 
         // GET: NewsPosts/Edit/5
         [Authorize(Roles = "Staff,Admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -179,7 +176,6 @@ namespace ApexVolley.Controllers
 
         // POST: NewsPosts/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff,Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,PublishedAt,MainImagePath,AdditionalImagePaths,AttachmentPaths")] NewsPost newsPost,
             IFormFile MainImage,
@@ -291,7 +287,6 @@ namespace ApexVolley.Controllers
 
         // GET: NewsPosts/Delete/5
         [Authorize(Roles = "Staff,Admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -311,7 +306,6 @@ namespace ApexVolley.Controllers
 
         // POST: NewsPosts/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff,Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

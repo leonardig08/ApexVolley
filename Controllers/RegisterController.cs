@@ -27,7 +27,6 @@ namespace ApexVolley.Controllers
 
         // POST: /Register
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(RegisterViewModel model)
         {
             if (!ModelState.IsValid)

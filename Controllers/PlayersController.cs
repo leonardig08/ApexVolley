@@ -46,7 +46,6 @@ namespace ApexVolley.Controllers
 
         // GET: Players/Create
         [Authorize(Roles = "Staff,Admin")]
-        [ValidateAntiForgeryToken]
         public IActionResult Create()
         {
             return View();
@@ -57,7 +56,6 @@ namespace ApexVolley.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Staff,Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Cognome,DataNascita,Ruolo,AltezzaCm,NumeroMaglia")] Player player)
         {
             if (ModelState.IsValid)
@@ -71,7 +69,6 @@ namespace ApexVolley.Controllers
 
         // GET: Players/Edit/5
         [Authorize(Roles = "Staff,Admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,7 +89,6 @@ namespace ApexVolley.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Staff,Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cognome,DataNascita,Ruolo,AltezzaCm,NumeroMaglia")] Player player)
         {
             if (id != player.Id)
@@ -125,7 +121,6 @@ namespace ApexVolley.Controllers
 
         // GET: Players/Delete/5
         [Authorize(Roles = "Staff,Admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,7 +141,6 @@ namespace ApexVolley.Controllers
         // POST: Players/Delete/5
         [Authorize(Roles = "Staff,Admin")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var player = await _context.Player.FindAsync(id);

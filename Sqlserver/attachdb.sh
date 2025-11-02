@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# ===============================
+# Script: attachdb.sh
+# Scopo: Avvia SQL Server, attende che sia pronto e allega il database ApexVolleyDb
+# ===============================
+
 # Trova il percorso corretto di sqlcmd
 if [ -d "/opt/mssql-tools18" ]; then
     SQLCMD_PATH="/opt/mssql-tools18/bin/sqlcmd"
@@ -16,29 +21,47 @@ echo "🚀 Avvio di SQL Server..."
 /opt/mssql/bin/sqlservr &
 sqlserver_pid=$!
 
+# Gestione della chiusura pulita
 cleanup() {
-    echo "Interruzione di SQL Server..."
+    echo "🧹 Interruzione di SQL Server..."
     kill -TERM $sqlserver_pid 2>/dev/null
     wait $sqlserver_pid 2>/dev/null
     exit 0
 }
 trap cleanup SIGTERM SIGINT
 
-# Attendi che SQL Server sia pronto
-echo "⏳ Attesa di SQL Server..."
-sleep 20
+# Attesa dinamica che SQL Server accetti connessioni
+echo "⏳ Attesa che SQL Server accetti connessioni..."
 
-# Imposta permessi e proprietà corretti
-# Test di connessione
+for i in {1..30}; do
+    $SQLCMD_PATH -S localhost,1433 -U SA -P "${SA_PASSWORD}" -C -Q "SELECT 1" &>/dev/null
+    if [ $? -eq 0 ]; then
+        echo "✅ SQL Server è pronto (tentativo $i)."
+        break
+    fi
+    echo "⏳ Tentativo $i/30: SQL Server non ancora pronto..."
+    sleep 2
+done
+
+if [ $i -eq 30 ]; then
+    echo "❌ SQL Server non si è avviato in tempo (timeout 60s)."
+    kill -TERM $sqlserver_pid 2>/dev/null
+    wait $sqlserver_pid 2>/dev/null
+    exit 1
+fi
+
+# Test di connessione finale
 echo "🔍 Test connessione SQL Server..."
-$SQLCMD_PATH -S localhost -U SA -P "${SA_PASSWORD}" -C -Q "SELECT GETDATE();" || {
+$SQLCMD_PATH -S localhost,1433 -U SA -P "${SA_PASSWORD}" -C -Q "SELECT GETDATE();" || {
     echo "❌ Connessione fallita. Verifica la password e lo stato del server."
+    kill -TERM $sqlserver_pid 2>/dev/null
+    wait $sqlserver_pid 2>/dev/null
     exit 1
 }
 
-# Attach del database
+# Attach del database se non esiste già
 echo "🔗 Verifica se ApexVolleyDb è già presente..."
-$SQLCMD_PATH -S localhost -U SA -P "${SA_PASSWORD}" -C -Q "
+$SQLCMD_PATH -S localhost,1433 -U SA -P "${SA_PASSWORD}" -C -Q "
 USE master;
 
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'ApexVolleyDb')

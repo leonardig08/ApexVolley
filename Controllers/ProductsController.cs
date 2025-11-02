@@ -25,12 +25,10 @@ public class ProductsController : Controller
     }
 
     [Authorize(Roles = "Admin,Staff")]
-    [ValidateAntiForgeryToken]
     public IActionResult Create() => View();
 
     [HttpPost]
     [Authorize(Roles = "Admin,Staff")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Product model, IFormFile MainImage)
     {
         if (!ModelState.IsValid)
@@ -66,7 +64,6 @@ public class ProductsController : Controller
     }
 
     [Authorize(Roles = "Admin,Staff")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id)
     {
         var product = await _context.Products.FindAsync(id);
@@ -80,7 +77,6 @@ public class ProductsController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Admin,Staff")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, Product model, IFormFile MainImage)
     {
         if (id != model.Id)
@@ -125,7 +121,6 @@ public class ProductsController : Controller
     }
 
     [Authorize(Roles = "Admin,Staff")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
     {
         try

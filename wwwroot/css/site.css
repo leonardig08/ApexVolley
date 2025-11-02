@@ -4787,6 +4787,7 @@ footer {
 
 /* Sidebar */
 .checkout-sidebar {
+    position: sticky;
     display: flex;
     flex-direction: column;
     gap: 24px;

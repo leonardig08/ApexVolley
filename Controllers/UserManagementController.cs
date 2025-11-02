@@ -45,7 +45,6 @@ public class UserManagementController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Staff,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddRole(string userId, string roleName)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
@@ -71,7 +70,6 @@ public class UserManagementController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Staff,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> RemoveRole(string userId, string roleName)
     {
         if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(roleName))
@@ -93,7 +91,6 @@ public class UserManagementController : Controller
     [HttpPost]
     [HttpPost]
     [Authorize(Roles = "Staff,Admin")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateUser(
     string userName,
     string email,

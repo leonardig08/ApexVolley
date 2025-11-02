@@ -38,7 +38,6 @@ public class CheckoutController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateCheckoutSession(CheckoutViewModel model)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

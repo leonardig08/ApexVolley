@@ -29,7 +29,7 @@
             </div>
             <h3 class="empty-title">Il carrello è vuoto</h3>
             <p class="empty-text">Non hai ancora aggiunto nessun prodotto al carrello</p>
-            <a asp-controller="Product" asp-action="Index" class="btn-premium-shop">
+            <a asp-controller="Products" asp-action="Index" class="btn-premium-shop">
                 <span class="btn-icon">🛍️</span>
                 <span class="btn-text">Vai allo Shop</span>
             </a>
@@ -135,3 +135,13 @@
         </div>
     }
     </div>
+<footer class="border-top footer text-muted">
+    <div class="container text-center">
+        <p>
+            &copy; 2025 - ApexVolley -
+            <a href="/" class="text-apex-gold">Home</a> |
+            <a href="mailto:info@apexvolley.it" class="text-apex-gold">Contatti</a> |
+            <a asp-controller="Home" asp-action="Privacy" class="text-apex-gold">Privacy</a>
+        </p>
+    </div>
+</footer>

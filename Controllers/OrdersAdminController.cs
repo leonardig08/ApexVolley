@@ -29,7 +29,6 @@ public class OrdersAdminController : Controller
 
     // Modifica stato ordine
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateStatus(int orderId, string newStatus)
     {
         var order = await _context.Orders.FindAsync(orderId);
