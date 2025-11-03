@@ -51,7 +51,7 @@
                             <p class="card-text fw-bold">@p.Price €</p>
 
                             <div class="mt-auto d-flex justify-content-between flex-wrap">
-                                <button class="btn-premium-info btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal@p.Id">ℹ️ Info</button>
+                                <button class="btn-premium-info btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal@(p.Id)">ℹ️ Info</button>
 
                                 <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
                                     <input type="hidden" name="productId" value="@p.Id" />
@@ -72,7 +72,7 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="infoModal@p.Id" tabindex="-1" aria-hidden="true">
+                    <div class="modal fade" id="infoModal@(p.Id)" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
