@@ -1,10 +1,40 @@
 ﻿@page
 @model AccessDeniedModel
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = "Accesso Negato";
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="mb-4 text-danger">
+                <i class="bi bi-shield-x"></i> Accesso Negato
+            </h1>
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Non sei autorizzato!</h4>
+                <p>Non hai i permessi necessari per accedere a questa risorsa.</p>
+                <hr>
+                <p class="mb-0">Se ritieni di dover avere accesso a questa sezione, contatta l'amministratore del sistema.</p>
+            </div>
+            <div class="mt-4 d-flex justify-content-center">
+                <a href="/" class="btn btn-primary me-2">
+                    <i class="bi bi-house"></i> Torna alla Home
+                </a>
+                <a href="mailto:info@apexvolley.it" class="btn btn-outline-secondary">
+                    <i class="bi bi-envelope"></i> Contatta il Supporto
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="border-top footer text-muted mt-5">
+    <div class="container text-center">
+        <p>
+            &copy; 2025 - ApexVolley -
+            <a href="/" class="text-apex-gold">Home</a> |
+            <a href="mailto:info@apexvolley.it" class="text-apex-gold">Contatti</a> |
+            <a asp-controller="Home" asp-action="Privacy" class="text-apex-gold">Privacy</a>
+        </p>
+    </div>
+</footer>
