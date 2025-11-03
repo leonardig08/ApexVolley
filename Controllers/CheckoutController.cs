@@ -154,7 +154,7 @@ public class StripeWebhookController : ControllerBase
         try
         {
             _logger.LogInformation("➡️ Webhook Stripe chiamato");
-            var stripeEvent = EventUtility.ConstructEvent(json, signature, _config["Stripe:WebhookSecret"]);
+            var stripeEvent = EventUtility.ConstructEvent(json, signature, _config["Stripe:WebhookSecret"], throwOnApiVersionMismatch: false);
             _logger.LogInformation("Evento Stripe ricevuto: {EventType}", stripeEvent.Type);
 
             if (stripeEvent.Type == "checkout.session.completed")
