@@ -5015,6 +5015,7 @@ footer {
         outline: none;
         border-color: var(--apex-primary-gold);
         box-shadow: 0 0 0 4px rgba(222, 184, 65, 0.1);
+        color: black;
     }
 
 /* Payment Info */

@@ -4,103 +4,470 @@
     var allRoles = ViewBag.AllRoles as List<string>;
     var canCreate = User.IsInRole("Staff") || User.IsInRole("Admin");
 }
+
+<style>
+    .admin-wrapper {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 3rem 0;
+    }
+
+    .admin-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .admin-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #1a1a1a;
+    }
+
+        .admin-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .admin-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+    /* Alert Messages */
+    .alert-custom {
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 2rem;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert-success-custom {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        color: #155724;
+    }
+
+    .alert-danger-custom {
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+        color: #721c24;
+    }
+
+    .alert-icon {
+        font-size: 1.5rem;
+    }
+
+    /* Create User Section */
+    .create-user-section {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .section-icon {
+        font-size: 1.75rem;
+    }
+
+    /* Form Styles */
+    .form-group-admin {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label-admin {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .form-control-admin {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fafafa;
+    }
+
+        .form-control-admin:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+    .btn-create-user {
+        padding: 1rem 2.5rem;
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        color: #1a1a1a;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        margin-top: 1rem;
+    }
+
+        .btn-create-user:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+        }
+
+    /* Users Table Section */
+    .users-table-section {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+    }
+
+    .table-admin {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 1.5rem;
+    }
+
+        .table-admin thead {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+
+            .table-admin thead th {
+                padding: 1.25rem 1rem;
+                text-align: left;
+                font-weight: 600;
+                font-size: 0.95rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+                .table-admin thead th:first-child {
+                    border-radius: 12px 0 0 0;
+                }
+
+                .table-admin thead th:last-child {
+                    border-radius: 0 12px 0 0;
+                }
+
+        .table-admin tbody tr {
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+            .table-admin tbody tr:nth-child(even) {
+                background: #f5f5f5;
+            }
+
+            .table-admin tbody tr:hover {
+                background: #fff8e1;
+                transform: scale(1.01);
+            }
+
+        .table-admin tbody td {
+            padding: 1.25rem 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+    /* Role Badges */
+    .role-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #ef5350 0%, #d32f2f 100%);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .role-badge:hover {
+            background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+            transform: scale(1.05);
+        }
+
+    /* Add Role Form */
+    .add-role-form {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .form-select-admin {
+        padding: 0.625rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        background: white;
+        min-width: 180px;
+        transition: all 0.3s ease;
+    }
+
+        .form-select-admin:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+    .btn-add-role {
+        padding: 0.625rem 1.5rem;
+        background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+        .btn-add-role:hover {
+            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+            transform: translateY(-1px);
+        }
+
+    /* Unauthorized Message */
+    .unauthorized-message {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+        .unauthorized-message h1 {
+            font-size: 3rem;
+            color: #ef5350;
+            margin-bottom: 1rem;
+        }
+
+    .unauthorized-icon {
+        font-size: 5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .admin-header h1
+
+    {
+        font-size: 2rem;
+    }
+
+    .create-user-section,
+    .users-table-section {
+        padding: 1.5rem;
+    }
+
+    .add-role-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-select-admin {
+        width: 100%;
+    }
+
+    .btn-add-role {
+        width: 100%;
+    }
+
+    .table-admin {
+        font-size: 0.85rem;
+    }
+
+        .table-admin thead th,
+        .table-admin tbody td {
+            padding: 0.75rem 0.5rem;
+        }
+
+    }
+</style>
+
 @if (canCreate)
 {
-    <h1 class="mb-4">Gestione Utenti e Ruoli</h1>
+    <div class="admin-wrapper">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1>Gestione Utenti e Ruoli</h1>
+                <p>Amministra utenti e assegna i ruoli appropriati</p>
+            </div>
 
-    @if (TempData["Errors"] != null)
-    {
-        <div class="alert alert-danger">@TempData["Errors"]</div>
-    }
+            @if (TempData["Errors"] != null)
+            {
+                <div class="alert-custom alert-danger-custom">
+                    <span class="alert-icon">⚠️</span>
+                    <span>@TempData["Errors"]</span>
+                </div>
+            }
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">@TempData["Success"]</div>
-    }
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert-custom alert-success-custom">
+                    <span class="alert-icon">✓</span>
+                    <span>@TempData["Success"]</span>
+                </div>
+            }
 
-    <h2 class="mb-3">Crea nuovo utente</h2>
+            <div class="create-user-section">
+                <h2 class="section-title">
+                    <span class="section-icon">👤➕</span>
+                    Crea Nuovo Utente
+                </h2>
 
-    <form method="post" asp-action="CreateUser" class="mb-5">
-        <div class="row g-3">
-            <div class="col-md-4">
-                <label for="userName" class="form-label">Username</label>
-                <input type="text" id="userName" name="userName" class="form-control" required />
+                <form method="post" asp-action="CreateUser">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="form-group-admin">
+                                <label for="userName" class="form-label-admin">Username</label>
+                                <input type="text" id="userName" name="userName" class="form-control-admin" placeholder="Inserisci username" required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group-admin">
+                                <label for="email" class="form-label-admin">Email</label>
+                                <input type="email" id="email" name="email" class="form-control-admin" placeholder="email@esempio.com" required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group-admin">
+                                <label for="password" class="form-label-admin">Password</label>
+                                <input type="password" id="password" name="password" class="form-control-admin" placeholder="Password sicura" required />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group-admin">
+                                <label for="nome" class="form-label-admin">Nome</label>
+                                <input type="text" id="nome" name="nome" class="form-control-admin" placeholder="Nome" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group-admin">
+                                <label for="cognome" class="form-label-admin">Cognome</label>
+                                <input type="text" id="cognome" name="cognome" class="form-control-admin" placeholder="Cognome" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group-admin">
+                                <label for="ruoloCompleto" class="form-label-admin">Ruolo Completo</label>
+                                <input type="text" id="ruoloCompleto" name="ruoloCompleto" class="form-control-admin" placeholder="Es. Allenatore" />
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-create-user">
+                        <span>✓ Crea Utente</span>
+                    </button>
+                </form>
             </div>
-            <div class="col-md-4">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-control" required />
-            </div>
-            <div class="col-md-4">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" name="password" class="form-control" required />
-            </div>
-            <div class="col-md-4">
-                <label for="nome" class="form-label">Nome</label>
-                <input type="text" id="nome" name="nome" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label for="cognome" class="form-label">Cognome</label>
-                <input type="text" id="cognome" name="cognome" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <label for="ruoloCompleto" class="form-label">Ruolo Completo</label>
-                <input type="text" id="ruoloCompleto" name="ruoloCompleto" class="form-control" />
+
+            <div class="users-table-section">
+                <h2 class="section-title">
+                    <span class="section-icon">👥</span>
+                    Utenti Registrati
+                </h2>
+
+                <table class="table-admin">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Ruoli</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td><strong>@user.UserName</strong></td>
+                                <td>@user.Email</td>
+                                <td>
+                                    @if (user.Roles.Any())
+                                    {
+                                        foreach (var role in user.Roles)
+                                        {
+                                            <form method="post" asp-action="RemoveRole" style="display:inline-block;">
+                                                <input type="hidden" name="userId" value="@user.UserId" />
+                                                <input type="hidden" name="roleName" value="@role" />
+                                                <button type="submit" class="role-badge" title="Rimuovi ruolo @role">
+                                                    @role <span>×</span>
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span style="color: #999; font-style: italic;">Nessun ruolo assegnato</span>
+                                    }
+                                </td>
+                                <td>
+                                    <form method="post" asp-action="AddRole" class="add-role-form">
+                                        <input type="hidden" name="userId" value="@user.UserId" />
+                                        <select name="roleName" class="form-select-admin" required>
+                                            <option value="">Seleziona ruolo</option>
+                                            @foreach (var role in allRoles)
+                                            {
+                                                if (!user.Roles.Contains(role))
+                                                {
+                                                    <option value="@role">@role</option>
+                                                }
+                                            }
+                                        </select>
+                                        <button type="submit" class="btn-add-role">Aggiungi</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-4">Crea utente</button>
-    </form>
-
-    <h2 class="mb-3">Utenti registrati</h2>
-
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Ruoli</th>
-                <th>Azione</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.UserName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        @foreach (var role in user.Roles)
-                        {
-                            <form method="post" asp-action="RemoveRole" style="display:inline-block; margin-right:5px;">
-                                <input type="hidden" name="userId" value="@user.UserId" />
-                                <input type="hidden" name="roleName" value="@role" />
-                                <button type="submit" class="btn btn-sm btn-danger" title="Rimuovi ruolo">@role &times;</button>
-                            </form>
-                        }
-                    </td>
-                    <td>
-                        <form method="post" asp-action="AddRole" class="d-flex align-items-center">
-                            <input type="hidden" name="userId" value="@user.UserId" />
-                            <select name="roleName" class="form-select form-select-sm me-2" required>
-                                <option value="">Seleziona ruolo</option>
-                                @foreach (var role in allRoles)
-                                {
-                                    if (!user.Roles.Contains(role))
-                                    {
-                                        <option value="@role">@role</option>
-                                    }
-                                }
-                            </select>
-                            <button type="submit" class="btn btn-sm btn-success">Aggiungi</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    </div>
 }
 else
 {
-    <h1>NON AUTORIZZATO</h1>
+    <div class="admin-wrapper">
+        <div class="admin-container">
+            <div class="unauthorized-message">
+                <div class="unauthorized-icon">🚫</div>
+                <h1>NON AUTORIZZATO</h1>
+                <p style="color: #666; font-size: 1.1rem;">Non hai i permessi necessari per accedere a questa pagina.</p>
+            </div>
+        </div>
+    </div>
 }
 
 <footer class="border-top footer text-muted">
