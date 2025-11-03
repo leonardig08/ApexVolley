@@ -1894,13 +1894,13 @@ html, body {
     border-color: var(--apex-primary-gold) !important;
 }
 
-/* ===== FOOTER ===== */
+/* ===== 
+    ===== */
 footer {
     background: var(--apex-dark-gradient);
     color: var(--apex-light-gray);
     border-top: 2px solid var(--apex-primary-gold);
     padding: 2rem 0;
-    margin-top: 4rem;
     box-shadow: 0 -5px 20px rgba(55, 50, 62, 0.3);
 }
 
@@ -4716,13 +4716,13 @@ footer {
     color: white;
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--apex-dark-gray);
+    color: white;
     margin-bottom: 8px;
 }
 
 .checkout-subtitle {
    
-    color: grey;
+    color: white;
     font-size: 1.1rem;
     margin: 0;
 }
@@ -5009,6 +5009,7 @@ footer {
     font-size: 1rem;
     transition: all 0.3s ease;
     background: white;
+    color:black;
 }
 
     .form-control-checkout:focus {
@@ -5158,6 +5159,7 @@ footer {
 
     .checkout-title {
         font-size: 2rem;
+        color: white;
     }
 
     .payment-info {
