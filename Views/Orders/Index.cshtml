@@ -1,26 +1,439 @@
 ﻿@model IEnumerable<ApexVolley.Models.Order>
 @{
-    ViewData["Title"] = "I tuoi ordini";
+    ViewData["Title"] = "I Tuoi Ordini";
 }
 
-<h2>I tuoi ordini</h2>
+<style>
+    .user-orders-wrapper {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 3rem 0;
+    }
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">Non hai ancora effettuato ordini.</div>
-}
-else
-{
-    <div class="list-group">
-        @foreach (var order in Model)
+    .user-orders-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .user-orders-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+        .user-orders-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-orders-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+    /* Empty State */
+    .empty-orders {
+        background: white;
+        border-radius: 16px;
+        padding: 4rem 2rem;
+        text-align: center;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .empty-icon {
+        font-size: 5rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.8;
+    }
+
+    .empty-orders h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.75rem;
+    }
+
+    .empty-orders p {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn-start-shopping {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        color: #1a1a1a;
+        text-decoration: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+        .btn-start-shopping:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+            color: #1a1a1a;
+        }
+
+    /* Orders Summary */
+    .orders-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .summary-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+        .summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+    .summary-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .summary-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 0.25rem;
+    }
+
+    .summary-label {
+        color: #666;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Orders List */
+    .orders-list {
+        display: grid;
+        gap: 1.25rem;
+    }
+
+    .order-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.75rem;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            text-decoration: none;
+            color: inherit;
+        }
+
+    .order-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .order-number {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .order-id {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .order-status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-non-pagato {
+        background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+        color: #7d5b00;
+    }
+
+    .status-pagato {
+        background: linear-gradient(135deg, #81ecec 0%, #00cec9 100%);
+        color: #004d4d;
+    }
+
+    .status-spedito {
+        background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+        color: #2d1f5e;
+    }
+
+    .status-in-consegna {
+        background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        color: #003d6b;
+    }
+
+    .status-consegnato {
+        background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+        color: #004d3f;
+    }
+
+    .order-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .order-info {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .info-icon {
+        font-size: 1.25rem;
+    }
+
+    .order-total {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
+        border-radius: 12px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #d4af37;
+    }
+
+    .view-details-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0.875rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 10px;
+        color: #495057;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .order-card:hover .view-details-btn {
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        color: #1a1a1a;
+    }
+
+    /* Filters */
+    .filters-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .filters-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+    }
+
+    .filter-chips {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-chip {
+        padding: 0.5rem 1.25rem;
+        background: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            border-color: #d4af37;
+            color: #1a1a1a;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .user-orders-container
+
+    {
+        padding: 0 1rem;
+    }
+
+    .user-orders-header h1 {
+        font-size: 2rem;
+    }
+
+    .orders-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .order-card {
+        padding: 1.25rem;
+    }
+
+    .order-card-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .order-details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-info {
+        width: 100%;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .order-total {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+</style>
+
+<div class="user-orders-wrapper">
+    <div class="user-orders-container">
+        <div class="user-orders-header">
+            <h1>📦 I Tuoi Ordini</h1>
+            <p>Traccia e gestisci tutti i tuoi ordini</p>
+        </div>
+
+        @if (!Model.Any())
         {
-            <a asp-action="Details" asp-route-id="@order.Id" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <span>Ordine #@order.Id - @order.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
-                <span class="badge bg-primary rounded-pill">@order.TotalAmount €</span>
-            </a>
+            <div class="empty-orders">
+                <div class="empty-icon">🛒</div>
+                <h3>Non hai ancora effettuato ordini</h3>
+                <p>Inizia a fare shopping e i tuoi ordini appariranno qui!</p>
+                <a href="/" class="btn-start-shopping">
+                    🛍️ Inizia a fare Shopping
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="orders-summary">
+                <div class="summary-card">
+                    <div class="summary-icon">📊</div>
+                    <div class="summary-value">@Model.Count()</div>
+                    <div class="summary-label">Ordini Totali</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">⏳</div>
+                    <div class="summary-value">@Model.Count(o => o.Status != "Consegnato")</div>
+                    <div class="summary-label">In Corso</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">✅</div>
+                    <div class="summary-value">@Model.Count(o => o.Status == "Consegnato")</div>
+                    <div class="summary-label">Consegnati</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">💰</div>
+                    <div class="summary-value">@Model.Sum(o => o.TotalAmount).ToString("F0")€</div>
+                    <div class="summary-label">Totale Speso</div>
+                </div>
+            </div>
+
+            <div class="orders-list">
+                @foreach (var order in Model.OrderByDescending(o => o.CreatedAt))
+                {
+                    <a asp-action="Details" asp-route-id="@order.Id" class="order-card">
+                        <div class="order-card-header">
+                            <div class="order-number">
+                                <span class="order-id">Ordine #@order.Id</span>
+                            </div>
+                            <div class="order-status-badge @($"status-{order.Status.ToLower().Replace(" ", "-")}")">
+                                @order.Status
+                            </div>
+                        </div>
+
+                        <div class="order-details">
+                            <div class="order-info">
+                                <div class="info-item">
+                                    <span class="info-icon">📅</span>
+                                    <span>@order.CreatedAt.ToString("dd/MM/yyyy")</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-icon">🕐</span>
+                                    <span>@order.CreatedAt.ToString("HH:mm")</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-icon">📦</span>
+                                    <span>@order.OrderItems.Count() @(order.OrderItems.Count() == 1 ? "prodotto" : "prodotti")</span>
+                                </div>
+                            </div>
+
+                            <div class="order-total">
+                                <span>💵</span>
+                                <span>@order.TotalAmount.ToString("F2")€</span>
+                            </div>
+                        </div>
+
+                        <div class="view-details-btn">
+                            <span>Visualizza Dettagli</span>
+                            <span>→</span>
+                        </div>
+                    </a>
+                }
+            </div>
         }
     </div>
-}
+</div>
+
 <footer class="border-top footer text-muted">
     <div class="container text-center">
         <p>
